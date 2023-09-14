@@ -31,12 +31,5 @@ async function createscan(qrId, ip, count) {
   const result = await scaninfo.save();
   console.log(result);
 }
-const scan = new ScanInfo.save(function (err, result) {
-  if (err) {
-    throw err;
-  }
-  if (result) {
-    result.json(result);
-  }
-});
+
 module.exports = Qr;

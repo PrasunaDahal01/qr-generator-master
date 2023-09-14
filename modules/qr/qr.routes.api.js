@@ -8,7 +8,6 @@ router.get("/:code/scan", async (req, res, next) => {
   const qrScan = await QrController.scanQR(ip, code);
   res.send("Working");
 });
-router.post("/:code/scan", async (req, res, next) => {});
 
 router.post("/", async (req, res, next) => {
   try {
