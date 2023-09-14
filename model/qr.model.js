@@ -1,13 +1,42 @@
 const mongoose = require("mongoose");
 const QrCode = require("../modules/qr/qr.controller");
+const { Schema } = mongoose;
 
-const Qr = new mongoose.model("QrCode", {
+const qrSchema = new Schema({
   code: String,
 });
+const Qr = new mongoose.model("QrCode", qrSchema);
+// const qr = mongoose.model("qr", Qr);
+async function createQr(code) {
+  const qr = new Qr({
+    code,
+  });
+  const result = await qr.save();
+  console.log(result);
+}
 
-const ScanInfo = new mongoose.model("QRScanInfo", {
+const scanSchema = new Schema({
   qrId: mongoose.Schema.ObjectId,
-  ipAddresses: Array, //array of strings
+  ip: [String], //array of strings
   count: Number,
+});
+const ScanInfo = new mongoose.model("QRScanInfo", scanSchema);
+
+async function createscan(qrId, ip, count) {
+  const scaninfo = new ScanInfo({
+    qrId,
+    ip,
+    count,
+  });
+  const result = await scaninfo.save();
+  console.log(result);
+}
+const scan = new ScanInfo.save(function (err, result) {
+  if (err) {
+    throw err;
+  }
+  if (result) {
+    result.json(result);
+  }
 });
 module.exports = Qr;

@@ -5,7 +5,7 @@ const port = 3000;
 const ejs = require("ejs");
 const path = require("path");
 const bp = require("body-parser"); //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
-const User = require("./model/user");
+const User = require("./model/qr.model");
 var routeManager = require("./routes");
 
 main().catch((err) => console.log(err));
