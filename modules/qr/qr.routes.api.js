@@ -1,17 +1,24 @@
 //routes for fetching data from controller
 const router = require("express").Router();
+const scanner = require("./qr.model");
 const QrController = require("./qr.controller");
 
 router.get("/:code/scan", async (req, res, next) => {
-  const ip = req.socket.remoteAddress;
-  const code = req.params.code;
-  const qrScan = await QrController.scanQR(ip, code);
-  res.send("Working");
+  try {
+    const ip = req.socket.remoteAddress;
+    const code = req.params.code;
+    const qrScan = await QrController.scanQR(ip, code);
+    const scanners = await scanner.find();
+    res.json(scanners);
+    res.send("Working");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 /*
 router.post("/:code/scan", async(req, res, next) =>{
   try{
-    const scan = await
+    const scan = await QrController.scanQR(ip,code)
   }
 })
 */

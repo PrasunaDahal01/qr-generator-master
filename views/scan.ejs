@@ -30,12 +30,12 @@
       h1 {
         color: #102c57;
       }
-      #startBtn {
+      #startBtn, #switchButton{
         background-color: #e25e3e;
         padding: 10px 20px;
         border-radius: 18px;;
       }
-      #photoBtn{
+      #photoBtn {
         color:#e25e3e;
         background-color: #f2e8c6;
       }
@@ -54,51 +54,61 @@
         <button id="photoBtn" class="border-0 " onclick="takePhoto()" style="display: none;">
           <i class="fa-solid fa-camera-retro fa-4x"></i>
         </button>
+        <button id="switchButton" class="border border-dark" style="display: none;">Switch Camera</button>
         </div>
         
         <br /><br />
-        <video id="videoCam"></video>
+        <video id="videoCam" autoplay></video>
       </div>
     </div>
     <script>
       function openCam() {
+        let videoElement = document.getElementById('videoCam');
         const photobutton = document.getElementById("photoBtn");
-        let All_mediaDevices = navigator.mediaDevices;
-        if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
-          console.log("getUserMedia() not supported.");
-          return;
+        let switchButton = document.getElementById('switchButton');
+
+        let currentCamera = 'user'; // 'user' for front camera, 'environment' for back camera
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Get user media with the current camera
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: currentCamera }, audio: false })
+                .then(function (stream) {
+                    videoElement.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.error('Error accessing camera:', error);
+                });
+
+            // Switch between front and back cameras
+            switchButton.addEventListener('click', function () {
+                if (currentCamera === 'user') {
+                    currentCamera = 'environment';
+                } else {
+                    currentCamera = 'user';
+                }
+
+                // Stop the current stream
+                videoElement.srcObject.getTracks().forEach(function (track) {
+                    track.stop();
+                });
+
+                // Get user media with the new camera
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: currentCamera }, audio: false })
+                    .then(function (stream) {
+                        videoElement.srcObject = stream;
+                    })
+                    .catch(function (error) {
+                        console.error('Error switching camera:', error);
+                    });
+            });
+            switchButton.style.display= "block";
+            photobutton.style.display ="block";
+        } else {
+            console.error('getUserMedia is not supported in this browser');
         }
-        All_mediaDevices.getUserMedia({
-          audio: true,
-          video: true,
-        })
-          .then(function (vidStream) {
-            var video = document.getElementById("videoCam");
-            if ("srcObject" in video) {
-              video.srcObject = vidStream;
-            } else {
-              video.src = window.URL.createObjectURL(vidStream);
-            }
-            video.onloadedmetadata = function (e) {
-              video.play();
-            };
-            photobutton.style.display="block";
-          })
-          .catch(function (e) {
-            console.log(e.name + ": " + e.message);
-          });
       }
-    async function takePhoto(){
+          
+
     
-      const res = await fetch("/api/v1/:code/scan", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ data}),
-    });
-    const data = await res.json();
-      }
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

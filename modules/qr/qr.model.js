@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const QrCode = require("./qr.controller");
 const { Schema } = mongoose;
 
-const qrSchema = new Schema({
+const qrSchema = new mongoose.Schema({
   code: String,
 });
-const Qr = new mongoose.model("QrCode", qrSchema);
+const Qr = mongoose.model("QrCode", qrSchema);
 // const qr = mongoose.model("qr", Qr);
 async function createQr(code) {
   const qr = new Qr({
