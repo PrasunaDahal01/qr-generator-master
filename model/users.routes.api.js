@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const QrCode = require("./qr.model");
+const QrCode = require("../modules/qr/qr.model");
 
 module.exports = router;
 /* const router = require("express").Router();

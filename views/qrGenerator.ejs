@@ -32,8 +32,6 @@
             <option value="100">100 x 100</option>
             <option value="200">200 x 200</option>
             <option value="300">300 x 300</option> 
-            <option value="400">400 x 400</option> 
-            <option value="500">500 x 500</option> 
           </select>
         </div>
         <input type="email", name="email" placeholder="Type your Email ID" id="mail" style="display: none;" >
@@ -53,6 +51,8 @@
     <div class="qrBody">
       <img id='base64image' src='' style="display:none"/>
     </div>
+
+    
     <script>
       async function getQrData() {
   const qrText = document.getElementById("qrText").value;

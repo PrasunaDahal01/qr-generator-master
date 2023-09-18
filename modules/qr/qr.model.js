@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const QrCode = require("../modules/qr/qr.controller");
+const QrCode = require("./qr.controller");
 const { Schema } = mongoose;
 
 const qrSchema = new Schema({
@@ -33,3 +33,4 @@ async function createscan(qrId, ip, count) {
 }
 
 module.exports = Qr;
+module.exports = ScanInfo;
