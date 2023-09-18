@@ -88,6 +88,17 @@
             console.log(e.name + ": " + e.message);
           });
       }
+    async function takePhoto(){
+    
+      const res = await fetch("/api/v1/:code/scan", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ data}),
+    });
+    const data = await res.json();
+      }
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
