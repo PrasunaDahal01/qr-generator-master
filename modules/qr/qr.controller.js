@@ -17,10 +17,10 @@ class Qr {
     return code;
   }
 
-  async scanQR(ip, code) {
+  /*  async scanQR(ip, code) {
     // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
     console.log("{ip,code}", { ip, code });
-  }
+  } */
 }
 
 module.exports = new Qr();

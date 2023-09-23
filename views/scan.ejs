@@ -106,7 +106,19 @@
             console.error('getUserMedia is not supported in this browser');
         }
       }
-          
+      
+    async function takePhoto(){
+        if(videoElement) {
+          const res = await fetch("/api/v1/scan",{
+            method:'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ip, count}),
+          })
+          const data = await res.json();
+        }
+      }
 
     
     </script>
