@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Open webcam using JavaScript.</title>
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
@@ -18,110 +19,56 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+
     <style>
-      body {
-        background-color: #102c57;
-        
-      }
-      .container {
-        background-color: #f2e8c6;
-        height:auto;
-      }
       h1 {
         color: #102c57;
       }
-      #startBtn, #switchButton{
-        background-color: #e25e3e;
-        padding: 10px 20px;
-        border-radius: 18px;;
+      #reader {
+        width: 600px;
       }
-      #photoBtn {
-        color:#e25e3e;
-        background-color: #f2e8c6;
+      #result {
+        font-size: 1.5rem;
       }
     </style>
+    <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
   </head>
-  </head>
-  <body class="d-flex justify-content-center align-items-center">
-    <div class="container w-auto rounded-3">
-      <div class="d-flex flex-column justify-content-center align-items-center">
-        <h1 class="text-center p-4">Scan your QrCode</h1>
-        <br />
-        <div class="d-flex gap-md-5">
-          <button id="startBtn" class="border border-dark  " onclick="openCam()">
-          Scan QR
-        </button>
-        <button id="photoBtn" class="border-0 " onclick="takePhoto()" style="display: none;">
-          <i class="fa-solid fa-camera-retro fa-4x"></i>
-        </button>
-        <button id="switchButton" class="border border-dark" style="display: none;">Switch Camera</button>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <br />
+          <div
+            id="qr-reader"
+            class="qr-reader-custom"
+            style="width: 600px"
+          ></div>
         </div>
-        
-        <br /><br />
-        <video id="videoCam" autoplay></video>
       </div>
     </div>
+
     <script>
-      function openCam() {
-        let videoElement = document.getElementById('videoCam');
-        const photobutton = document.getElementById("photoBtn");
-        let switchButton = document.getElementById('switchButton');
-
-        let currentCamera = 'user'; // 'user' for front camera, 'environment' for back camera
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            // Get user media with the current camera
-            navigator.mediaDevices.getUserMedia({ video: { facingMode: currentCamera }, audio: false })
-                .then(function (stream) {
-                    videoElement.srcObject = stream;
-                })
-                .catch(function (error) {
-                    console.error('Error accessing camera:', error);
-                });
-
-            // Switch between front and back cameras
-            switchButton.addEventListener('click', function () {
-                if (currentCamera === 'user') {
-                    currentCamera = 'environment';
-                } else {
-                    currentCamera = 'user';
-                }
-
-                // Stop the current stream
-                videoElement.srcObject.getTracks().forEach(function (track) {
-                    track.stop();
-                });
-
-                // Get user media with the new camera
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: currentCamera }, audio: false })
-                    .then(function (stream) {
-                        videoElement.srcObject = stream;
-                    })
-                    .catch(function (error) {
-                        console.error('Error switching camera:', error);
-                    });
-            });
-            switchButton.style.display= "block";
-            photobutton.style.display ="block";
-        } else {
-            console.error('getUserMedia is not supported in this browser');
-        }
-      }
-      
-    async function takePhoto(){
-        if(videoElement) {
-          const res = await fetch("/api/v1/scan",{
-            method:'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ip, count}),
-          })
-          const data = await res.json();
-        }
+      async function onScanSuccess(decodedText, decodedResult) {
+        console.log(`Code scanned = ${decodedText}`, decodedResult);
+        const code = document.getElementById("qr-reader").value;
+        const res = await fetch("/api/v1/scan", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ code: code }),
+        });
+        const data = await res.json();
       }
 
-    
+      var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
+        fps: 10,
+        qrbox: 250,
+      });
+      html5QrcodeScanner.render(onScanSuccess);
     </script>
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
