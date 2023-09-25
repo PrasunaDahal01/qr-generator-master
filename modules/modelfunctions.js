@@ -1,4 +1,5 @@
-const { Qr, ScanInfo } = require("./qr/qr.model");
+const Qr = require("./qr/qr.model");
+const ScanInfo = require("./scan/scan.model");
 
 async function createQr(code) {
   const qr = new Qr({

@@ -3,6 +3,7 @@
 //controller functions to get the requested data from the models, create an HTML page displaying the data, and return it to the user to view in the browser.
 const path = require("path");
 const qrcode = require("qrcode");
+const qrmodel = require("./qr.model");
 
 class Qr {
   async generateQr(body) {
@@ -16,11 +17,6 @@ class Qr {
     console.log("Hello", code);
     return code;
   }
-
-  /*  async scanQR(ip, code) {
-    // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
-    console.log("{ip,code}", { ip, code });
-  } */
 }
 
 module.exports = new Qr();

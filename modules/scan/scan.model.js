@@ -3,9 +3,13 @@ const { Schema } = mongoose;
 
 const scanSchema = new Schema({
   qrId: mongoose.Schema.ObjectId,
-  ip: [String], //array of strings
-  count: { type: Number, default: 1 },
+  IpAddress: {
+    type: [String], //array of strings
+    required: true,
+  },
+  count: {
+    type: Number,
+    default: 1,
+  },
 });
-const ScanInfo = mongoose.model("QRScanInfo", scanSchema);
-
-module.exports = ScanInfo;
+module.exports = mongoose.model("QRScanInfo", scanSchema);
