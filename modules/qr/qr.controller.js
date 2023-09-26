@@ -17,6 +17,14 @@ class Qr {
     console.log("Hello", code);
     return code;
   }
+
+  async createQr(code) {
+    const qr = new Qr({
+      code,
+    });
+    const result = await qr.save();
+    console.log(result);
+  }
 }
 
 module.exports = new Qr();
