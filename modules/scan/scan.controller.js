@@ -1,26 +1,26 @@
 const path = require("path");
-const scanmodel = require("../scan/scan.model");
+const scanModel = require("../scan/scan.model");
 
 class Scan {
-  async scanQR(IpAddress) {
+  async scanQR(ipAddress) {
+    let response;
     // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
-    const existingIp = await scanmodel.ScanInfo.findOne({ ip: IpAddress });
+    const existingIp = await scanModel.findOne({ IpAddress: ipAddress });
+    console.log({ existingIp, ipAddress });
     if (existingIp) {
       //if the IP address exists, increment the count
-      existingIp.count += 1;
-      await existingIp.save();
+      response = await scanModel.findByIdAndUpdate(existingIp, {
+        $inc: { count: 1 },
+      });
+      response = await existingIp.save();
     } else {
-      const newIp = new IpAddress({ ip: IpAddress });
-      await newIp.save();
+      const payload = { IpAddress: ipAddress };
+      response = await scanModel.create(payload);
     }
-
-    return {
-      ip: IpAddress,
-      count: count,
-    };
+    return response;
   }
 }
-async function createscan(qrId, ip, count) {
+/*async function createscan(qrId, ip, count) {
   try {
     const qr = await qr.findById(qrId);
     if (!qr) {
@@ -38,5 +38,5 @@ async function createscan(qrId, ip, count) {
     console.error("Error creating ScanInfo:", error);
   }
 }
-
+*/
 module.exports = new Scan();
