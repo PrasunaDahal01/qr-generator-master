@@ -49,24 +49,6 @@
     </div>
 
     <script>
-      async function getIpAddress() {
-        const qrId = {
-          qrId: qrId,
-        };
-        const res = await fetch("/api/v1/scan", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(qrId),
-        });
-        const data = await res.json();
-        const ipAddress = data.ipAddress;
-        const qruserId = data.qrId;
-        console.log("IP Address:", ipAddress);
-        console.log("Qr Id:", qruserId);
-      }
-
       async function onScanSuccess(decodedText, decodedResult) {
         console.log(`Code scanned = ${decodedText}`, decodedResult);
 
