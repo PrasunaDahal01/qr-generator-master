@@ -49,18 +49,6 @@
     </div>
 
     <script>
-      async function getIpAddress() {
-        const res = await fetch("/api/v1/scan", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const data = await res.json();
-        const ipAddress = data.ipAddress;
-        console.log("IP Address:", ipAddress);
-      }
-
       async function onScanSuccess(decodedText, decodedResult) {
         console.log(`Code scanned = ${decodedText}`, decodedResult);
 
