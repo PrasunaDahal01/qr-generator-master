@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { ObjectId } = mongoose.Schema;
 
 const scanSchema = new Schema({
-  qrId: mongoose.Schema.ObjectId,
+  qrId: {
+    type: ObjectId,
+    ref: "QrCode",
+  },
   IpAddress: String,
   count: {
     type: Number,

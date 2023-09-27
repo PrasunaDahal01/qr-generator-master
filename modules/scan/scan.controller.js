@@ -2,7 +2,7 @@ const path = require("path");
 const scanModel = require("../scan/scan.model");
 
 class Scan {
-  async scanQR(ipAddress) {
+  async scanQR(ipAddress, qrId) {
     let response;
     // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
     const existingIp = await scanModel.findOne({ IpAddress: ipAddress });
@@ -14,7 +14,7 @@ class Scan {
       });
       response = await existingIp.save();
     } else {
-      const payload = { IpAddress: ipAddress };
+      const payload = { IpAddress: ipAddress, qrId: qrId };
       response = await scanModel.create(payload);
     }
     return response;
