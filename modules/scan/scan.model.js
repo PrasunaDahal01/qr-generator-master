@@ -3,10 +3,7 @@ const { Schema } = mongoose;
 
 const scanSchema = new Schema({
   qrId: mongoose.Schema.ObjectId,
-  IpAddress: {
-    type: [String], //array of strings
-    required: true,
-  },
+  IpAddress: String,
   count: {
     type: Number,
     default: 1,
