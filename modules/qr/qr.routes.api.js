@@ -1,21 +1,14 @@
 //routes for fetching data from controller
 const router = require("express").Router();
-const QrCode = require("./qr.model");
 
 const QrController = require("./qr.controller");
 
 router.post("/", async (req, res, next) => {
   try {
-    const qr = await QrController.generateQr(req.body);
-    res.json({ qr });
-
     const qrTextValue = req.body.name;
+    const qr = await QrController.generateQr(qrTextValue);
 
-    console.log("qrtext:", qrTextValue);
-    const qrText = new QrCode({ qrtext: qrTextValue });
-    await qrText.save();
-    //res.status(200).json(qrText);
-    //res.json(qr, qrText);
+    res.json({ qr });
   } catch (error) {
     next(error);
   }

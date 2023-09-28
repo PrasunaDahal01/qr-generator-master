@@ -3,29 +3,29 @@
 //controller functions to get the requested data from the models, create an HTML page displaying the data, and return it to the user to view in the browser.
 const path = require("path");
 const qrcode = require("qrcode");
-const qrmodel = require("./qr.model");
+const QrCode = require("./qr.model");
+const { v4: uuidv4 } = require("uuid");
 
 class Qr {
-  async generateQr(body) {
-    //function to generate QR npm package
-    const code = await qrcode.toDataURL(body.name);
+  async generateQr(qrTextValue) {
+    try {
+      //generating a UUIdv4
+      const uuid = uuidv4();
+      //function to generate QR npm package
 
-    // create qr in db
+      const code = await qrcode.toDataURL(qrTextValue, uuid);
 
-    // save the qr id in scan info
-
-    console.log("Hello", code);
-    return code;
+      //const qrText = new QrCode({ qrtext: qrTextValue });
+      const qrcodefield = new QrCode({
+        qrtext: qrTextValue,
+        qrId: uuid,
+      });
+      await qrcodefield.save();
+      return code;
+    } catch (error) {
+      throw error;
+    }
   }
-
-  /* async createQr(code) {
-    const qr = new Qr({
-      code,
-    });
-    const result = await qr.save();
-    console.log(result);
-  }
-  */
 }
 
 module.exports = new Qr();
