@@ -12,8 +12,7 @@ class Qr {
       //generating a UUIdv4
       const uuid = uuidv4();
       //function to generate QR npm package
-
-      const code = await qrcode.toDataURL(qrTextValue, uuid);
+      const code = qrcode.toDataURL(uuid);
 
       //const qrText = new QrCode({ qrtext: qrTextValue });
       const qrcodefield = new QrCode({
