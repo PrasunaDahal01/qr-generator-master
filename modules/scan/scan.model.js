@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 const { ObjectId } = mongoose.Schema;
 
 const scanSchema = new Schema({
-  qrId: {
+  QrId: {
     type: ObjectId,
     ref: "QrCode",
   },
