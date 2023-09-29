@@ -2,11 +2,11 @@ const scanModel = require("../scan/scan.model");
 const qrModel = require("../qr/qr.model");
 
 class Scan {
-  async scanQR(ipAddress) {
+  async scanQR(ipAddress, qrId) {
     let response;
-    // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
-    const qrDocument = await qrModel.findOne({ QrId: qrId });
 
+    const qrDocument = await qrModel.findOne({ QrId: qrId });
+    // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
     if (qrDocument) {
       const existingIp = await scanModel.findOne({
         IpAddress: ipAddress,
