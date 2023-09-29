@@ -13,8 +13,8 @@ class Qr {
       const uuid = uuidv4();
       //function to generate QR npm package
 
-      const combinedText = `${uuid}-${qrTextValue}`;
-      const code = qrcode.toDataURL(combinedText);
+      //const combinedText = `${uuid}-${qrTextValue}`;
+      const code = qrcode.toDataURL(uuid);
 
       const qrText = new QrCode({ qrtext: qrTextValue, uuid: uuid });
 
