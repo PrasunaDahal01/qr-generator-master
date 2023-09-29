@@ -19,9 +19,14 @@ class Scan {
           $inc: { count: 1 },
         });
       } else {
-        const payload = { IpAddress: ipAddress, QrId: qrId };
+        const payload = {
+          IpAddress: ipAddress,
+          QrId: qrId,
+          qrDocumentId: qrDocument._id,
+        };
         response = await scanModel.create(payload);
       }
+      //await qrDocument.save();
 
       //commenting it out as it may not require.......response = await existingIp.save();
     } else {
