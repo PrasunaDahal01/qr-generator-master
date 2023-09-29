@@ -12,14 +12,13 @@ class Qr {
       //generating a UUIdv4
       const uuid = uuidv4();
       //function to generate QR npm package
-      const code = qrcode.toDataURL(uuid);
 
-      //const qrText = new QrCode({ qrtext: qrTextValue });
-      const qrcodefield = new QrCode({
-        qrtext: qrTextValue,
-        qrId: uuid,
-      });
-      await qrcodefield.save();
+      // const combinedText = `${uuid}-${qrTextValue}`;
+      const code = qrcode.toDataURL(qrTextValue);
+
+      const qrText = new QrCode({ qrtext: qrTextValue, uuid: uuid });
+
+      await qrText.save();
       return code;
     } catch (error) {
       throw error;

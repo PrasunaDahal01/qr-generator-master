@@ -1,9 +1,8 @@
-const path = require("path");
 const scanModel = require("../scan/scan.model");
 const qrModel = require("../qr/qr.model");
 
 class Scan {
-  async scanQR(ipAddress, qrId) {
+  async scanQR(ipAddress) {
     let response;
     // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
     const qrDocument = await qrModel.findOne({ QrId: qrId });
@@ -13,7 +12,7 @@ class Scan {
         IpAddress: ipAddress,
         QrId: qrId,
       });
-      //console.log({ existingIp, ipAddress });
+
       if (existingIp) {
         //if the IP address exists, increment the count
         response = await scanModel.findByIdAndUpdate(existingIp, {
