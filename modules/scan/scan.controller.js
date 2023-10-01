@@ -6,27 +6,26 @@ class Scan {
     let response;
 
     const qrDocument = await qrModel.findOne({ QrId: qrId });
+
     // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
     if (qrDocument) {
       const existingIp = await scanModel.findOne({
         IpAddress: ipAddress,
-        QrId: qrId,
+        QrId: qrDocument._id,
       });
 
       if (existingIp) {
         //if the IP address exists, increment the count
-        response = await scanModel.findByIdAndUpdate(existingIp, {
+        response = await scanModel.findByIdAndUpdate(existingIp._id, {
           $inc: { count: 1 },
         });
       } else {
         const payload = {
           IpAddress: ipAddress,
-          QrId: qrId,
           qrDocumentId: qrDocument._id,
         };
         response = await scanModel.create(payload);
       }
-      //await qrDocument.save();
 
       //commenting it out as it may not require.......response = await existingIp.save();
     } else {
