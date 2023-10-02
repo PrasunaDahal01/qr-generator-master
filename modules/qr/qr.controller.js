@@ -16,7 +16,7 @@ class Qr {
       //const combinedText = `${uuid}-${qrTextValue}`;
       const code = qrcode.toDataURL(uuid);
 
-      const qrText = new QrCode({ qrtext: qrTextValue, uuid: uuid });
+      const qrText = new QrCode({ qrtext: qrTextValue, qrId: uuid });
 
       await qrText.save();
       return code;

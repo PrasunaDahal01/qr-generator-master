@@ -4,7 +4,8 @@ const ScanController = require("./scan.controller");
 router.post("/", async (req, res, next) => {
   try {
     const ipAddress = req.socket.remoteAddress;
-    //const { qrId } = req.body.uuid;
+    const qrId = req.body.qrtext;
+
     const Scan = await ScanController.scanQR(ipAddress, qrId);
     res.json(Scan); //sending the IP address in the response.
   } catch (err) {

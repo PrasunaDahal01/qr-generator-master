@@ -51,14 +51,14 @@
     <script>
       async function onScanSuccess(decodedText, decodedResult) {
         console.log(`Code scanned = ${decodedText}`, decodedResult);
-
-        const qrTextValue = { qrtext: decodedText };
+        html5QrcodeScanner.clear();
+        const qrText = { qrtext: decodedText };
         const res = await fetch("/api/v1/scan", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(qrTextValue),
+          body: JSON.stringify(qrText),
         });
         const data = await res.json();
       }
