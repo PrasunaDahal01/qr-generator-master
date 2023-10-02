@@ -4,8 +4,9 @@ const qrModel = require("../qr/qr.model");
 class Scan {
   async scanQR(ipAddress, qrId) {
     let response;
-
-    const qrDocument = await qrModel.findOne({ QrId: qrId });
+    console.log("recieved", qrId);
+    const qrDocument = await qrModel.findOne({ qrId });
+    console.log("qrDocument:", qrDocument);
 
     // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
     if (qrDocument) {
@@ -13,6 +14,7 @@ class Scan {
         IpAddress: ipAddress,
         qrDocumentId: qrDocument._id,
       });
+      console.log("existingDocument", existingDocument);
 
       if (existingDocument) {
         //if the IP address exists, increment the count
