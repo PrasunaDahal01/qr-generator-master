@@ -11,12 +11,12 @@ class Scan {
     if (qrDocument) {
       const existingIp = await scanModel.findOne({
         IpAddress: ipAddress,
-        QrId: qrDocument._id,
+        qrDocumentId: qrDocument._id,
       });
 
       if (existingIp) {
         //if the IP address exists, increment the count
-        response = await scanModel.findByIdAndUpdate(existingIp._id, {
+        response = await scanModel.findByIdAndUpdate(existingIp, {
           $inc: { count: 1 },
         });
       } else {
