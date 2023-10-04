@@ -5,7 +5,6 @@ const scanModel = require("../scan/scan.model");
 class Report {
   async getQrCodes() {
     try {
-      const qrCodes = await qrModel.find();
       const pipeline = [
         {
           $lookup: {
@@ -36,12 +35,8 @@ class Report {
           },
         },
       ];
-      const result = await qrModel.aggregate(pipeline); //result is an array of documents that match the aggregation criteria.
-      if (result.length > 0) {
-        return result;
-      }
-
-      return qrCodes;
+      const result = await qrModel.aggregate(pipeline);
+      return result;
     } catch (error) {
       throw error;
     }
@@ -49,7 +44,6 @@ class Report {
 
   async getQrDetails(uuid) {
     try {
-      //const qrDetails = await scanModel.findOne({ qrDocumentId: uuid });
       const pipeline = [
         {
           $match: { qrId: uuid },
@@ -84,11 +78,7 @@ class Report {
         },
       ];
       const result = await qrModel.aggregate(pipeline); //result is an array of documents that match the aggregation criteria.
-      if (result.length > 0) {
-        return result;
-      }
-
-      // return qrDetails;
+      return result;
     } catch (error) {
       throw error;
     }
