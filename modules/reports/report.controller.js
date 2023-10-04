@@ -1,5 +1,7 @@
+const { default: mongoose } = require("mongoose");
 const qrModel = require("../qr/qr.model");
 const scanModel = require("../scan/scan.model");
+
 class Report {
   async getQrCodes() {
     try {
@@ -13,6 +15,34 @@ class Report {
   async getQrDetails(uuid) {
     try {
       const qrDetails = await scanModel.findOne({ qrDocumentId: uuid });
+      const pipeline = [
+        {
+          $match: { _id: mongoose.Types.ObjectId(_id) },
+        },
+        {
+          $lookup: {
+            from: "qrscaninfos",
+            localField: "_id",
+            foreignField: "qrDocumentId",
+            as: "ScanDetails",
+          },
+        },
+        {
+          $group: {
+            _id: "$qrDocumentId",
+            TextUrl: "$qrtext",
+            IpAddress: "$IpAddress",
+            UniqueScans: { $sum: { $size: "$ScanDetails" } },
+            TotalScans: { $sum: "$count" },
+          },
+        },
+      ];
+      const result = await scanModel.aggregate(pipeline); //result is an array of documents that match the aggregation criteria.
+      let response;
+      if (result.length > 0) {
+        response = result;
+      }
+
       return qrDetails;
     } catch (error) {
       throw error;

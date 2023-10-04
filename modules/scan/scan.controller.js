@@ -28,24 +28,6 @@ class Scan {
         };
         response = await scanModel.create(payload);
       }
-      const pipeline = [
-        {
-          $match: { qrDocumentId: qrDocument._id },
-        },
-        {
-          $group: {
-            _id: "$qrDocumentId",
-            TextUrl: "$qrDocument.qrtext",
-            IpAddress: "$IpAddress",
-            UniqueScans: { $sum: 1 },
-            TotalScans: { $sum: "$count" },
-          },
-        },
-      ];
-      const result = await scanModel.aggregate(pipeline); //result is an array of documents that match the aggregation criteria.
-      if (result.length > 0) {
-        response = result[0];
-      }
     } else {
       response = { error: "QR code not found" };
     }

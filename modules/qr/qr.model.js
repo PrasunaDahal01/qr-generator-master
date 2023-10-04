@@ -7,7 +7,7 @@ const qrSchema = new Schema({
   qrId: {
     type: String,
     default: uuidv4,
-    unique: true,
+    //unique: true,
   },
 });
 
