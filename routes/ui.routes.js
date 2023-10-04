@@ -9,6 +9,7 @@ router.use("/mail", mailRouting);
 router.use("/scan", scanRouting);
 
 router.get("/", (req, res) => {
-  res.redirect("/qr");
+  res.render("homepage");
+  //res.redirect("/qr");
 });
 module.exports = router;
