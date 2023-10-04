@@ -1,6 +1,5 @@
 const { default: mongoose } = require("mongoose");
 const qrModel = require("../qr/qr.model");
-const scanModel = require("../scan/scan.model");
 
 class Report {
   async getQrCodes() {
