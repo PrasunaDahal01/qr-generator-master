@@ -17,7 +17,7 @@ class Report {
       const qrDetails = await scanModel.findOne({ qrDocumentId: uuid });
       const pipeline = [
         {
-          $match: { _id: mongoose.Types.ObjectId(_id) },
+          $match: { qrDocumentId: mongoose.Types.ObjectId(_id) },
         },
         {
           $lookup: {
@@ -38,9 +38,8 @@ class Report {
         },
       ];
       const result = await scanModel.aggregate(pipeline); //result is an array of documents that match the aggregation criteria.
-      let response;
       if (result.length > 0) {
-        response = result;
+        return result;
       }
 
       return qrDetails;
