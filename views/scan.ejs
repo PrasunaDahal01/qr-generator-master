@@ -61,6 +61,8 @@
           body: JSON.stringify(qrText),
         });
         const data = await res.json();
+
+        window.location.href = "/";
       }
 
       var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", {
