@@ -28,8 +28,6 @@ class Scan {
         };
         response = await scanModel.create(payload);
       }
-
-      //commenting it out as it may not require.......response = await existingIp.save();
     } else {
       response = { error: "QR code not found" };
     }
