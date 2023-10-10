@@ -1,6 +1,5 @@
 const scanModel = require("../scan/scan.model");
 const qrModel = require("../qr/qr.model");
-const splitContent = require("../../utils/splitcontent");
 
 class Scan {
   async handleScan(uuid) {
@@ -17,10 +16,10 @@ class Scan {
         scannedContent.startsWith("https://")
       ) {
         // If original content is a URL, you can redirect
-        return { url: originalContent };
+        return { url: scannedContent };
       } else {
         // If original content is text, send it as a response
-        return { text: originalContent };
+        return { text: scannedContent };
       }
     } catch (err) {
       throw err;
