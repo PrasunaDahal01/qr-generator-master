@@ -23,6 +23,7 @@ router.get("/", async (req, res, next) => {
 });
 router.get("/:uuid", async (req, res, next) => {
   try {
+    console.log("scan route called");
     const uuid = req.params.uuid;
     const result = await ScanController.handleScan(uuid);
 

@@ -10,6 +10,7 @@ class Scan {
         return { message: "QR code not found" };
       }
       const scannedContent = qrData.qrtext;
+      console.log("scannedContent", scannedContent);
 
       if (
         scannedContent.startsWith("http://") ||
