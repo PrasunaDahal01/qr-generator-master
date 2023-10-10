@@ -1,7 +1,33 @@
 const scanModel = require("../scan/scan.model");
 const qrModel = require("../qr/qr.model");
+const splitContent = require("../../utils/splitcontent");
 
 class Scan {
+  async handleScan(uuid) {
+    try {
+      const qrData = await qrModel.findOne({ qrId: uuid });
+
+      if (!qrData) {
+        return { message: "QR code not found" };
+      }
+      const scannedContent = qrData.qrtext;
+
+      const [qUuid, originalContent] = scannedContent.split("-");
+
+      if (
+        originalContent.startsWith("http://") ||
+        originalContent.startsWith("https://")
+      ) {
+        // If original content is a URL, you can redirect
+        return { url: originalContent };
+      } else {
+        // If original content is text, send it as a response
+        return { text: originalContent };
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
   async scanQR(ipAddress, qrId) {
     let response;
 
