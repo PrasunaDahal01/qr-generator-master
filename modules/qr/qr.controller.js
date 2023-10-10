@@ -5,15 +5,15 @@ const path = require("path");
 const qrcode = require("qrcode");
 const QrCode = require("./qr.model");
 const { v4: uuidv4 } = require("uuid");
-
+require("dotenv").config();
 class Qr {
   async generateQr(qrTextValue) {
     try {
       //generating a UUIdv4
       const uuid = uuidv4();
-      const code = qrcode.toDataURL(
-        "https://04fg5pcv-3000.inc1.devtunnels.ms/scans/" + uuid
-      );
+
+      const hostUrl = process.env.HOST_URL;
+      const code = qrcode.toDataURL(hostUrl + uuid);
       const qrText = new QrCode({ qrtext: qrTextValue, qrId: uuid });
       await qrText.save();
       return code;
