@@ -5,7 +5,6 @@ const path = require("path");
 const qrcode = require("qrcode");
 const QrCode = require("./qr.model");
 const { v4: uuidv4 } = require("uuid");
-const splitContent = require("../../utils/splitcontent");
 
 class Qr {
   async generateQr(qrTextValue) {
