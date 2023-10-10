@@ -11,14 +11,14 @@ class Qr {
     try {
       //generating a UUIdv4
       const uuid = uuidv4();
-
-      const code = qrcode.toDataURL(qrTextValue);
-
+      const code = qrcode.toDataURL(
+        "https://04fg5pcv-3000.inc1.devtunnels.ms/scans/" + uuid
+      );
       const qrText = new QrCode({ qrtext: qrTextValue, qrId: uuid });
       await qrText.save();
       return code;
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      next(err);
     }
   }
 }

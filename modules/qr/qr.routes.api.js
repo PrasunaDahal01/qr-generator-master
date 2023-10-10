@@ -8,16 +8,16 @@ router.post("/", async (req, res, next) => {
     const qr = await QrController.generateQr(qrTextValue);
 
     res.json({ qr });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 
 router.get("/", async (req, res, next) => {
   try {
     res.send("Hello");
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 });
 

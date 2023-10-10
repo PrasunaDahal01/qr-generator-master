@@ -2,7 +2,7 @@ const scanModel = require("../scan/scan.model");
 const qrModel = require("../qr/qr.model");
 
 class Scan {
-  async handleScan(uuid) {
+  /* async handleScan(uuid) {
     try {
       const qrData = await qrModel.findOne({ qrId: uuid });
 
@@ -26,6 +26,7 @@ class Scan {
       throw err;
     }
   }
+  */
   async scanQR(ipAddress, qrId) {
     let response;
 
@@ -53,7 +54,7 @@ class Scan {
     } else {
       response = { error: "QR code not found" };
     }
-    return response;
+    return { response, qrDocument };
   }
 }
 
