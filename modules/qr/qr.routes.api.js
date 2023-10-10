@@ -5,6 +5,7 @@ const QrController = require("./qr.controller");
 router.post("/", async (req, res, next) => {
   try {
     const qrTextValue = req.body.name;
+    console.log(qrTextValue);
     const qr = await QrController.generateQr(qrTextValue);
 
     res.json({ qr });
