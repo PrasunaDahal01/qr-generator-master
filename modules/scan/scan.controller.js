@@ -12,11 +12,9 @@ class Scan {
       }
       const scannedContent = qrData.qrtext;
 
-      const [qUuid, originalContent] = scannedContent.split("-");
-
       if (
-        originalContent.startsWith("http://") ||
-        originalContent.startsWith("https://")
+        scannedContent.startsWith("http://") ||
+        scannedContent.startsWith("https://")
       ) {
         // If original content is a URL, you can redirect
         return { url: originalContent };

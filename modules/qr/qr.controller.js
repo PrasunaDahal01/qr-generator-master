@@ -13,9 +13,7 @@ class Qr {
       //generating a UUIdv4
       const uuid = uuidv4();
 
-      const content = `${uuid}-${qrTextValue}`;
-
-      const code = qrcode.toDataURL(content);
+      const code = qrcode.toDataURL(qrTextValue);
 
       const qrText = new QrCode({ qrtext: qrTextValue, qrId: uuid });
       await qrText.save();
