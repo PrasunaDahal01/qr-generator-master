@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const reportController = require("./report.controller");
 
-router.get("/qr", async (req, res) => {
+router.get("/qrs", async (req, res) => {
   try {
     //calling the report controller to get all Qrcodes
     const qrCodes = await reportController.getQrCodes();
@@ -12,7 +12,7 @@ router.get("/qr", async (req, res) => {
   }
 });
 
-router.get("/qr/:uuid", async (req, res) => {
+router.get("/qrs/:uuid", async (req, res) => {
   try {
     const uuid = req.params.uuid;
     const qrDetails = await reportController.getQrDetails(uuid);
