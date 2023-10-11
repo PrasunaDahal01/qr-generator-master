@@ -32,6 +32,11 @@ app.use(express.urlencoded({ extended: false })); //it allows us to access and d
 app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/", routeManager);
+app.use((err, req, res, next) => {
+  res
+    .status(500)
+    .json({ message: err.message, success: false, data: err.data, error: err });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

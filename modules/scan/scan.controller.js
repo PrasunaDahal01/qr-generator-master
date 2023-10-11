@@ -27,9 +27,9 @@ class Scan {
         response = await scanModel.create(payload);
       }
     } else {
-      response = { error: "QR code not found" };
+      throw new Error("QR code not found");
     }
-    return response;
+    return { response, qrDocument };
   }
 }
 

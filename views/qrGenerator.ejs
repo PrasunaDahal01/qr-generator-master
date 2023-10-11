@@ -87,19 +87,27 @@
         if (qrText.trim() === "") {
           alert("Please enter text or URL before generating QR CODE.");
         } else {
-          const res = await fetch("/api/v1/qr", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ name: qrText }),
-          });
-          const data = await res.json();
-          console.log({ data });
-          document.getElementById("base64image").src = data.qr;
-          imageQr.style.display = "block";
-          emailbutton.style.display = "block";
-          emailinput.style.display = "block";
+          try {
+            const res = await fetch("/api/v1/qrs", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ name: qrText }),
+            });
+            if (!res.ok) {
+              throw new Error(`Fetch request failed with status ${res.status}`);
+            }
+            const data = await res.json();
+            console.log({ data });
+            document.getElementById("base64image").src = data.qr;
+
+            imageQr.style.display = "block";
+            emailbutton.style.display = "block";
+            emailinput.style.display = "block";
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
       async function getMailData() {
@@ -109,7 +117,7 @@
           alert("Please enter your Email ID.");
         } else {
           const qr = document.getElementById("base64image").src;
-          const res = await fetch("/api/v1/mail", {
+          const res = await fetch("/api/v1/mails", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
