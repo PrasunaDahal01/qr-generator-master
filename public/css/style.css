@@ -4,7 +4,38 @@
   box-sizing: border-box;
   font-family: "poppins";
 }
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f2e8c6;
+  padding: 15px 10%;
+  transition: 0.2s;
+  height: 58px;
+}
+.logo {
+  color: #102c57;
+  font-size: 35px;
+  padding-left: 10px;
+  font-weight: 700;
+  scroll-padding-top: 10px;
+}
 
+header .icon i {
+  font-size: 25px;
+  color: #102c57;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+header .icon i:hover {
+  color: #e25e3e;
+}
 body {
   width: 100%;
   height: 100vh;

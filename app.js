@@ -4,8 +4,8 @@ const app = express();
 const port = 3000;
 const ejs = require("ejs");
 const path = require("path");
-const bp = require("body-parser"); //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
-//const User = require("./modules/qr/qr.model");
+const bp = require("body-parser"); //for getting data //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+
 var routeManager = require("./routes");
 
 main().catch((err) => console.log(err));
