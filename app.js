@@ -28,7 +28,7 @@ app.set("view engine", "ejs");
 app.use(bp.json()); //for json data
 app.use(bp.urlencoded()); // for form data
 app.use(express.json()); //this is to accept data in json format
-app.use(express.urlencoded({ extended: false })); //it allows us to access and decode information coming from form.
+app.use(express.urlencoded({ extended: false })); //it allows us to access and decode information coming from form. parse the json data
 app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/", routeManager);

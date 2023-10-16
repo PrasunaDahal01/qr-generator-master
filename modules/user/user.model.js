@@ -9,12 +9,13 @@ const userSchema = new Schema({
 
   password: {
     type: String,
+    select: false,
     required: true,
   },
 
   is_verified: {
-    type: Number,
-    default: true, //for email verification
+    type: Boolean,
+    default: 0, //for email verification
   },
 });
 

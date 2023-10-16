@@ -1,11 +1,9 @@
-const { PassThrough } = require("nodemailer/lib/xoauth2");
 const userModel = require("./user.model");
 const bcrypt = require("bcrypt");
 
-const securePassword = async (password) => {
+const securePassword = (password) => {
   try {
-    const passwordHash = await bcrypt.hash(password, 10);
-    return passwordHash;
+    return bcrypt.hash(password, 10);
   } catch (error) {
     console.log(error.message);
   }
@@ -22,16 +20,11 @@ const insertedData = async (req, res) => {
     });
     const userData = await user.save();
 
-    if (userData) {
-      res.render("userRegistration", {
-        message:
-          "Your registration has been done successfully.Please Verify Your mail.",
-      });
-    } else {
-      res.render("userRegistration", {
-        message: "Your registration has been failed.",
-      });
-    }
+    const message = userData
+      ? "Your registration has been done successfully. Please verify Your mail."
+      : "Your registration has been failed.";
+
+    res.render("userRegistration", { message });
   } catch (error) {
     console.log(error.message);
   }
