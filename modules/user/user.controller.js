@@ -2,12 +2,7 @@ const userModel = require("./user.model");
 const { securePassword } = require("../../utils/bcrypt");
 const bcrypt = require("bcrypt");
 const { generateAccessToken } = require("../../utils/jwtToken");
-const jwt = require("jsonwebtoken");
 
-/*const generateAccessToken = (userId) => {
-  const secretKey = "shhhh";
-  return jwt.sign({ id: userId }, secretKey, { expiresIn: "2h" });
-}; */
 //to get the user data that user has inserted:
 const registerUser = async (email, password) => {
   try {
