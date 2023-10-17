@@ -10,7 +10,7 @@ router.use("/qrs", qrRouting);
 router.use("/mails", mailRouting);
 router.use("/scans", scanRouting);
 router.use("/tests", testRouting);
-router.use("/registers", userRouting);
+router.use("/users", userRouting);
 
 router.get("/", (req, res) => {
   res.redirect("/qrs");

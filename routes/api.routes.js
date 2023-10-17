@@ -10,5 +10,6 @@ router.use("/qrs", qrRouter);
 router.use("/mails", mailRouter);
 router.use("/scans", scanRouter);
 router.use("/reports", reportRouter);
-router.use("/registers", userRouter);
+router.use("/users", userRouter);
+
 module.exports = router;

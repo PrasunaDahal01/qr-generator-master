@@ -23,8 +23,9 @@
       <div class="row custom-row justify-content-center">
         <div class="col-sm-12 col-md-8 col-lg-6">
           <div class="container rounded my-2 px-0 insideContainer">
+            
             <div class="py-1 header">
-              <h1 class="text-center">Registration Form</h1>
+              <h1 class="text-center">Login Form</h1>
             </div>
 
             <form action="" method="post" class="form">
@@ -51,27 +52,33 @@
                 />
               </div>
               <div class="py-3 mx-5 text-center text-white">
-                <input type="Submit" class="btn text-white" value="Register" />
+                <input type="Submit" class="btn text-white" value="Login" />
+              </div>
+              <div class="d-flex justify-content-center">
+                <p>Does not have an account?</p>
+              <a href="/users/registers">Register Now</a>
+              </div>
+              
+
           </div>
             </form>
 
         </div>
       </div>
     </div>
+<script>
+      const formE2 = document.querySelector(".form");
 
-    <script>
-      const formE1 = document.querySelector(".form");
-
-      formE1.addEventListener("submit", (event) => {
+      formE2.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const formData = new FormData(formE1);
+        const formData = new FormData(formE2);
 
         //javascript object
         const data = Object.fromEntries(formData);
         console.log(data);
 
-        fetch("/api/v1/users/registers", {
+        fetch("/api/v1/users/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -89,5 +96,5 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-  </body>
+      </body>
 </html>

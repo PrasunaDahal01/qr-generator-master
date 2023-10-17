@@ -5,6 +5,7 @@ const userSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
 
   password: {
@@ -13,10 +14,19 @@ const userSchema = new Schema({
     required: true,
   },
 
+  is_admin: {
+    type: Boolean,
+    required: true,
+  },
+
   is_verified: {
     type: Boolean,
     default: true, //for email verification
   },
+  access_token: {
+    type: String,
+    default: null,
+  },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("userRegisters", userSchema);
