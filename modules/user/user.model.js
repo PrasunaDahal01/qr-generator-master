@@ -14,8 +14,9 @@ const userSchema = new Schema({
     required: true,
   },
 
-  is_admin: {
-    type: Boolean,
+  role: {
+    type: String,
+    default: "user",
     required: true,
   },
 
@@ -23,6 +24,7 @@ const userSchema = new Schema({
     type: Boolean,
     default: true, //for email verification
   },
+
   access_token: {
     type: String,
     default: null,

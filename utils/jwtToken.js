@@ -6,7 +6,7 @@ const generateAccessToken = (userId, email) => {
       id: userId,
       email,
     },
-    "shhhh", //process.env.jwtsecret
+    process.env.SECRET_KEY, //process.env.jwtsecret
     {
       expiresIn: "2h",
     }

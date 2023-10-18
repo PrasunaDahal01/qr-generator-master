@@ -36,6 +36,16 @@ header .icon i {
 header .icon i:hover {
   color: #e25e3e;
 }
+
+header .logout {
+  text-decoration: none;
+  margin-left: 20px;
+  color: #102c57;
+  font-weight: 900;
+}
+header .logout:hover {
+  color: #e25e3e;
+}
 body {
   width: 100%;
   height: 100vh;

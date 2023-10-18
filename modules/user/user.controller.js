@@ -9,13 +9,12 @@ const registerUser = async (email, password) => {
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      return "This email is already registered.";
+      return { message: " This email is already registered." };
     }
     const sPassword = await securePassword(password);
     const user = new userModel({
       email,
       password: sPassword,
-      is_admin: 0,
     });
 
     //generate a token for user and send it.
@@ -26,8 +25,11 @@ const registerUser = async (email, password) => {
     const userData = await user.save();
 
     return userData
-      ? "Your registration has been done successfully. Please verify Your mail."
-      : "Your registration has been failed.";
+      ? {
+          message: "Your registration has been done successfully.",
+          token,
+        }
+      : { message: "Your registration has been failed." };
   } catch (error) {
     console.log(error.message);
   }

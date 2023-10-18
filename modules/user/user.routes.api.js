@@ -1,13 +1,21 @@
 const router = require("express").Router();
 
 const userController = require("./user.controller");
+const auth = require("../auth/auth.controller");
+const jwt = require("jsonwebtoken");
 
 router.post("/registers", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   try {
-    const message = await userController.registerUser(email, password);
-    res.json({ message });
+    const registerResult = await userController.registerUser(email, password);
+    if (registerResult.token) {
+      res.cookie("jwt", registerResult.token, {
+        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+      });
+    }
+    res.json({ message: registerResult.message });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Internal Server Error");
@@ -29,7 +37,7 @@ router.post("/login", async (req, res, next) => {
     const loginResult = await userController.loginUser(email, password);
     if (loginResult.message === "Login Successful") {
       //cookie
-      res.cookie("access_token", loginResult.token, {
+      res.cookie("jwt", loginResult.token, {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         httpOnly: true,
       });
@@ -47,4 +55,5 @@ router.get("/login", async (req, res, next) => {
     next(err);
   }
 });
+
 module.exports = router;

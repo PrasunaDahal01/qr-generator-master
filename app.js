@@ -2,12 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const port = 3000;
-const ejs = require("ejs");
-const path = require("path");
 const bp = require("body-parser"); //for getting data //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
-
-var routeManager = require("./routes");
+require("dotenv").config();
 const cookieParser = require("cookie-parser");
+var routeManager = require("./routes");
 
 main().catch((err) => console.log(err));
 
@@ -23,6 +21,8 @@ const con = mongoose.connection;
 con.on("open", function () {
   console.log("Connected to database");
 });
+
+app.use(cookieParser());
 
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "ejs");
