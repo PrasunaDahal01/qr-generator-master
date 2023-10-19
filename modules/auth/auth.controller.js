@@ -7,6 +7,7 @@ const userAuth = async (req, res, next) => {
     const token = req.cookies.jwt;
 
     const verifyUser = jwt.verify(token, process.env.SECRET_KEY);
+    console.log(verifyUser);
 
     const user = await userModel.findOne({ _id: verifyUser.id });
     console.log(user);

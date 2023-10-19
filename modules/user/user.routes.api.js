@@ -21,7 +21,7 @@ router.post("/registers", async (req, res) => {
   }
 });
 
-router.get("/registers", async (res, next) => {
+router.get("/registers", async (req, res, next) => {
   try {
     res.send("Hello");
   } catch (err) {
@@ -47,9 +47,24 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/login", async (res, next) => {
+router.get("/login", async (req, res, next) => {
   try {
     res.send("Hello");
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/profile", userAuth, async (req, res) => {
+  res.render("userProfile", { user: req.user });
+});
+
+router.get("/logout", userAuth, async (req, res, next) => {
+  try {
+    res.clearCookie("jwt");
+    console.log("logout successfully.");
+    await req.user.save();
+    res.render("userLogin");
   } catch (err) {
     next(err);
   }
@@ -63,20 +78,6 @@ router.get("/:id", async (req, res) => {
     res.status(404).json({ message: "User not found" });
   } else {
     res.json(user);
-  }
-});
-router.get("/profile", userAuth, async (req, res) => {
-  res.render("userProfile", { user: req.user });
-});
-
-router.get("/logout", userAuth, async (req, res, next) => {
-  try {
-    res.clearCookie("jwt");
-    console.log("logout successfully.");
-    await req.user.save();
-    res.render("userLogin");
-  } catch (err) {
-    next(err);
   }
 });
 

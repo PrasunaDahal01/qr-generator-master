@@ -57,7 +57,6 @@ const loginUser = async (email, password) => {
     return { message: "Password is incorrect." };
   }
 };
-
 const getUser = async (userId) => {
   try {
     const user = await userModel.findById(userId);
@@ -66,5 +65,4 @@ const getUser = async (userId) => {
     throw error;
   }
 };
-
 module.exports = { registerUser, loginUser, getUser };
