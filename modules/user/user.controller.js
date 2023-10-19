@@ -57,4 +57,14 @@ const loginUser = async (email, password) => {
     return { message: "Password is incorrect." };
   }
 };
-module.exports = { registerUser, loginUser };
+
+const getUser = async (userId) => {
+  try {
+    const user = await userModel.findById(userId);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { registerUser, loginUser, getUser };

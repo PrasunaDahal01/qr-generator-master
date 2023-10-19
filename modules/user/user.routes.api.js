@@ -21,7 +21,7 @@ router.post("/registers", async (req, res) => {
   }
 });
 
-router.get("/registers", async (req, res, next) => {
+router.get("/registers", async (res, next) => {
   try {
     res.send("Hello");
   } catch (err) {
@@ -47,11 +47,22 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/login", async (req, res, next) => {
+router.get("/login", async (res, next) => {
   try {
     res.send("Hello");
   } catch (err) {
     next(err);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  const userId = req.params.id;
+  const user = await userController.getUser(userId);
+
+  if (!user) {
+    res.status(404).json({ message: "User not found" });
+  } else {
+    res.json(user);
   }
 });
 router.get("/profile", userAuth, async (req, res) => {
