@@ -1,7 +1,6 @@
 const router = require("express").Router();
-
 const userController = require("./user.controller");
-const auth = require("../auth/auth.controller");
+const userAuth = require("../auth/auth.controller");
 const jwt = require("jsonwebtoken");
 
 router.post("/registers", async (req, res) => {
@@ -51,6 +50,20 @@ router.post("/login", async (req, res, next) => {
 router.get("/login", async (req, res, next) => {
   try {
     res.send("Hello");
+  } catch (err) {
+    next(err);
+  }
+});
+router.get("/profile", userAuth, async (req, res) => {
+  res.render("userProfile", { user: req.user });
+});
+
+router.get("/logout", userAuth, async (req, res, next) => {
+  try {
+    res.clearCookie("jwt");
+    console.log("logout successfully.");
+    await req.user.save();
+    res.render("userLogin");
   } catch (err) {
     next(err);
   }

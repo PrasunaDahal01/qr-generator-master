@@ -13,6 +13,6 @@ router.use("/tests", testRouting);
 router.use("/users", userRouting);
 
 router.get("/", (req, res) => {
-  res.redirect("/qrs");
+  res.redirect("/users/login");
 });
 module.exports = router;

@@ -5,6 +5,7 @@ const port = 3000;
 const bp = require("body-parser"); //for getting data //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
+
 var routeManager = require("./routes");
 
 main().catch((err) => console.log(err));

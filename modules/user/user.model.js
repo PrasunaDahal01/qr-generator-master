@@ -27,7 +27,7 @@ const userSchema = new Schema({
 
   access_token: {
     type: String,
-    default: null,
+    required: true,
   },
 });
 
