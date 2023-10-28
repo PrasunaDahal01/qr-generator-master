@@ -54,6 +54,9 @@ body {
   align-items: center;
   background-color: #102c57;
 }
+a {
+  text-decoration: none;
+}
 
 .box {
   background-color: #f2e8c6;

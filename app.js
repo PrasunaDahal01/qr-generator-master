@@ -5,6 +5,7 @@ const port = 3000;
 const bp = require("body-parser"); //for getting data //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 var routeManager = require("./routes");
 
@@ -33,6 +34,7 @@ app.use(express.json()); //this is to accept data in json format
 app.use(express.urlencoded({ extended: false })); //it allows us to access and decode information coming from form. parse the json data
 app.use("/public", express.static(__dirname + "/public"));
 app.use(cookieParser());
+app.use(cors());
 
 app.use("/", routeManager);
 app.use((err, req, res, next) => {

@@ -14,7 +14,10 @@ router.post("/registers", async (req, res) => {
         httpOnly: true,
       });
     }
-    res.json({ message: registerResult.message });
+    res.json({
+      success: registerResult.success,
+      message: registerResult.message,
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Internal Server Error");
@@ -41,7 +44,7 @@ router.post("/login", async (req, res, next) => {
         httpOnly: true,
       });
     }
-    res.json({ loginResult });
+    res.json({ success: loginResult.success, message: loginResult.message });
   } catch (err) {
     next(err);
   }

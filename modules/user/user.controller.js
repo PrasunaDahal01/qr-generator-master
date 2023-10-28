@@ -9,7 +9,7 @@ const registerUser = async (email, password) => {
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      return { message: " This email is already registered." };
+      return { success: false, message: " This email is already registered." };
     }
     const sPassword = await securePassword(password);
     const user = new userModel({
@@ -24,37 +24,38 @@ const registerUser = async (email, password) => {
 
     const userData = await user.save();
 
-    return userData
-      ? {
-          message: "Your registration has been done successfully.",
-          token,
-        }
-      : { message: "Your registration has been failed." };
+    if (userData) {
+      return {
+        success: true,
+        message: "Your registration has been done successfully.",
+        token,
+      };
+    } else {
+      return { success: false, message: "Your registration has been failed." };
+    }
   } catch (error) {
     console.log(error.message);
   }
 };
 
 const loginUser = async (email, password) => {
-  if (!(email && password)) {
-    return { message: "Fields cannot be empty" };
-  }
-
   //find user in DB
   const user = await userModel.findOne({ email }).select("+password");
+  console.log("user", user);
+
   if (!user) {
-    return { message: "Couldnot found your email." };
+    return { success: false, message: "Couldnot found your email." };
   }
 
   //matching the paword
   const isPasswordMatch = await bcrypt.compare(password, user.password);
 
-  if (user && isPasswordMatch) {
+  if (isPasswordMatch) {
     const token = generateAccessToken(user._id);
 
-    return { message: "Login Successful", token };
+    return { success: true, message: "Login Successful", token };
   } else {
-    return { message: "Password is incorrect." };
+    return { success: false, message: "Password is incorrect." };
   }
 };
 const getUser = async (userId) => {
