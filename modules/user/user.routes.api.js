@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const userController = require("./user.controller");
 const userAuth = require("../auth/auth.controller");
-const jwt = require("jsonwebtoken");
 
 router.post("/registers", async (req, res) => {
   const email = req.body.email;
@@ -67,7 +66,7 @@ router.get("/logout", userAuth, async (req, res, next) => {
     res.clearCookie("jwt");
     console.log("logout successfully.");
     await req.user.save();
-    res.render("userLogin");
+    res.redirect("/users/login");
   } catch (err) {
     next(err);
   }
