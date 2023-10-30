@@ -16,13 +16,13 @@ const userSchema = new Schema({
 
   role: {
     type: String,
+    enum: ["user", "admin"],
     default: "user",
-    required: true,
   },
 
   is_verified: {
     type: Boolean,
-    default: true, //for email verification
+    default: false, //for email verification
   },
 
   access_token: {

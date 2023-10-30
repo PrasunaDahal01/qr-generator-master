@@ -2,15 +2,27 @@ const userModel = require("./user.model");
 const { securePassword } = require("../../utils/bcrypt");
 const bcrypt = require("bcrypt");
 const { generateAccessToken } = require("../../utils/jwtToken");
+const otpModel = require("../otp/otp.model");
 
 //to get the user data that user has inserted:
-const registerUser = async (email, password) => {
+const registerUser = async (email, password, otp) => {
   try {
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
       return { success: false, message: " This email is already registered." };
     }
+    const response = await otpModel
+      .find({ email })
+      .sort({ createdAt: -1 })
+      .limit(1);
+    if (response.length === 0 || otp !== response[0].otp) {
+      return res.status(400).json({
+        success: false,
+        message: "The OTP is not valid",
+      });
+    }
+
     const sPassword = await securePassword(password);
     const user = new userModel({
       email,

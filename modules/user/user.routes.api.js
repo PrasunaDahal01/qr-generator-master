@@ -5,8 +5,13 @@ const userAuth = require("../auth/auth.controller");
 router.post("/registers", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  const otp = req.body.otp;
   try {
-    const registerResult = await userController.registerUser(email, password);
+    const registerResult = await userController.registerUser(
+      email,
+      password,
+      otp
+    );
     if (registerResult.token) {
       res.cookie("jwt", registerResult.token, {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
