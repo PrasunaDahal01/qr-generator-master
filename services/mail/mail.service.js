@@ -19,7 +19,7 @@ async function sendEmail(email, title, body) {
   console.log("otpEmailInfo", mailOptions);
   try {
     const mailResponse = transporter.sendMail(mailOptions);
-    console.log("Email sent successfully.", mailResponse);
+    console.log("Email sent successfully.");
     return mailResponse;
   } catch (error) {
     console.log("Error occured while sending email.", error);

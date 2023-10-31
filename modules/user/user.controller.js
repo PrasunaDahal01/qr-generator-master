@@ -3,36 +3,50 @@ const { securePassword } = require("../../utils/bcrypt");
 const bcrypt = require("bcrypt");
 const { generateAccessToken } = require("../../utils/jwtToken");
 const otpModel = require("../otp/otp.model");
+const otpController = require("../otp/otp.controller");
+
+const sendOTP = async (email) => {
+  const existingUser = await userModel.findOne({ email });
+  if (existingUser) {
+    return {
+      success: false,
+      message: "This email is already registered.",
+    };
+  } else {
+    //generate OTP
+    const otpResult = await otpController.sendOtp(email);
+    if (otpResult.success) {
+      return {
+        success: true,
+        message: "Check your mail to get OTP.",
+      };
+    } else {
+      return {
+        success: false,
+        message: "Failed to send OTP",
+      };
+    }
+  }
+};
 
 //to get the user data that user has inserted:
 const registerUser = async (email, password, otp) => {
   try {
     const existingUser = await userModel.findOne({ email });
-
     if (existingUser) {
-      return { success: false, message: " This email is already registered." };
-    }
-    const response = await otpModel
-      .find({ email })
-      .sort({ createdAt: -1 })
-      .limit(1);
-    if (response.length === 0 || otp !== response[0].otp) {
-      return res.status(400).json({
+      return {
         success: false,
-        message: "The OTP is not valid",
-      });
+        message: "This email is already registered.",
+        showOTPInput: false, // No need to show OTP input in this case
+      };
     }
 
     const sPassword = await securePassword(password);
     const user = new userModel({
       email,
       password: sPassword,
+      is_verified: true,
     });
-
-    //generate a token for user and send it.
-    const token = generateAccessToken(user._id);
-
-    user.access_token = token;
 
     const userData = await user.save();
 
@@ -40,20 +54,28 @@ const registerUser = async (email, password, otp) => {
       return {
         success: true,
         message: "Your registration has been done successfully.",
-        token,
+        showOTPInput: true,
       };
     } else {
-      return { success: false, message: "Your registration has been failed." };
+      return {
+        success: false,
+        message: "Your registration has been failed.",
+        showOTPInput: false,
+      };
     }
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
+    return {
+      success: false,
+      message: "Registration failed. Please try again.",
+      showOTPInput: false,
+    };
   }
 };
 
 const loginUser = async (email, password) => {
   //find user in DB
   const user = await userModel.findOne({ email }).select("+password");
-  console.log("user", user);
 
   if (!user) {
     return { success: false, message: "Couldnot found your email." };
@@ -64,7 +86,6 @@ const loginUser = async (email, password) => {
 
   if (isPasswordMatch) {
     const token = generateAccessToken(user._id);
-
     return { success: true, message: "Login Successful", token };
   } else {
     return { success: false, message: "Password is incorrect." };
@@ -78,4 +99,4 @@ const getUser = async (userId) => {
     throw error;
   }
 };
-module.exports = { registerUser, loginUser, getUser };
+module.exports = { sendOTP, registerUser, loginUser, getUser };

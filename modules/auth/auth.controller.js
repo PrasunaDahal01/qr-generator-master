@@ -6,6 +6,10 @@ const userAuth = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
 
+    if (!token) {
+      return res.status(401).send("No Token Provided");
+    }
+
     const verifyUser = jwt.verify(token, process.env.SECRET_KEY);
     console.log(verifyUser);
 

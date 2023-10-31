@@ -22,4 +22,17 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/verify", async (req, res, next) => {
+  const { email, otp } = req.body;
+  try {
+    const result = await otpController.verifyOTP(email, otp);
+    res.json({
+      success: result.success,
+      message: result.message,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;

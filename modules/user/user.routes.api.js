@@ -1,27 +1,47 @@
 const router = require("express").Router();
 const userController = require("./user.controller");
+const otpController = require("../otp/otp.controller");
 const userAuth = require("../auth/auth.controller");
+
+router.post("/sendOtp", async (req, res, next) => {
+  const email = req.body.email;
+  try {
+    const mailResult = await userController.sendOTP(email);
+    res.json({
+      success: mailResult.success,
+      message: mailResult.message,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post("/registers", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const otp = req.body.otp;
+
   try {
-    const registerResult = await userController.registerUser(
-      email,
-      password,
-      otp
-    );
-    if (registerResult.token) {
-      res.cookie("jwt", registerResult.token, {
-        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-        httpOnly: true,
+    const otpVerification = await otpController.verifyOTP(email, otp);
+    if (otpVerification) {
+      const registerResult = await userController.registerUser(
+        email,
+        password,
+        otp
+      );
+
+      res.json({
+        success: registerResult.success,
+        message: registerResult.message,
+        showOTPInput: false,
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "Invalid OTP",
+        showOTPInput: true,
       });
     }
-    res.json({
-      success: registerResult.success,
-      message: registerResult.message,
-    });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Internal Server Error");
