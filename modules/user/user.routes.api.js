@@ -145,6 +145,38 @@ router.get("/profile", userAuth, async (req, res) => {
   res.render("userProfile", { user: req.user });
 });
 
+//update profile
+router.get("/edit", userAuth, async (req, res, next) => {
+  try {
+    const id = req.query.id; ///to get data from url, we use query
+    const userData = await userController.editProfile(id);
+    if (userData) {
+      res.render("updateProfile", { user: userData });
+    } else {
+      res.json({
+        success: userData.success,
+        message: userData.message,
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/edit", async (req, res, next) => {
+  try {
+    const email = req.body.email;
+    const user_id = req.body.user_id;
+    const updateResult = await userController.updateProfile(email, user_id);
+    res.json({
+      success: updateResult.success,
+      message: updateResult.message,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get("/logout", userAuth, async (req, res, next) => {
   try {
     res.clearCookie("jwt");

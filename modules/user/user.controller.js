@@ -73,6 +73,7 @@ const registerUser = async (email, password, otp) => {
   }
 };
 
+// forget password to generate token and update the database with token and sending the email.
 const forgetPassword = async (email) => {
   const user = await userModel.findOne({ email });
 
@@ -93,6 +94,7 @@ const forgetPassword = async (email) => {
   }
 };
 
+//logging in
 const loginUser = async (email, password) => {
   //find user in DB
   const user = await userModel.findOne({ email }).select("+password");
@@ -112,6 +114,7 @@ const loginUser = async (email, password) => {
   }
 };
 
+//now setting new password
 const resetPassword = async (password, user_id) => {
   const secure_Password = await securePassword(password);
   const updatedData = await userModel.findByIdAndUpdate(
@@ -121,6 +124,39 @@ const resetPassword = async (password, user_id) => {
   return updatedData;
 };
 
+//finding the id to update the profile
+const editProfile = async (id) => {
+  const userData = await userModel.findById({ _id: id });
+  if (userData) {
+    return userData;
+  } else {
+    return {
+      success: false,
+      message: "User not found.",
+    };
+  }
+};
+
+//now updating the profile
+const updateProfile = async (email, user_id) => {
+  const userData = await userModel.findByIdAndUpdate(
+    { _id: user_id },
+    { $set: { email: email } }
+  );
+  if (userData) {
+    return {
+      success: true,
+      message: "Your Profile has been updated.",
+    };
+  } else {
+    return {
+      success: false,
+      message: "Cannot Update Profile.",
+    };
+  }
+};
+
+//getting the user by Id.
 const getUser = async (userId) => {
   try {
     const user = await userModel.findById(userId);
@@ -136,4 +172,6 @@ module.exports = {
   getUser,
   forgetPassword,
   resetPassword,
+  editProfile,
+  updateProfile,
 };
