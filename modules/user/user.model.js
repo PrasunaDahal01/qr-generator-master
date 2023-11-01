@@ -25,8 +25,9 @@ const userSchema = new Schema({
     default: false, //for email verification
   },
 
-  access_token: {
+  token: {
     type: String,
+    default: "",
   },
 });
 

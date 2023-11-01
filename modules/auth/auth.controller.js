@@ -5,16 +5,17 @@ const jwt = require("jsonwebtoken");
 const userAuth = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
+    console.log("token", token);
 
     if (!token) {
       return res.status(401).send("No Token Provided");
     }
 
     const verifyUser = jwt.verify(token, process.env.SECRET_KEY);
-    console.log(verifyUser);
+    console.log("verifyUser", verifyUser);
 
     const user = await userModel.findOne({ _id: verifyUser.id });
-    console.log(user);
+    console.log("user", user);
 
     req.token = token;
     req.user = user;

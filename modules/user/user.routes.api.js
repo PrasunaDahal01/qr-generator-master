@@ -2,6 +2,7 @@ const router = require("express").Router();
 const userController = require("./user.controller");
 const otpController = require("../otp/otp.controller");
 const userAuth = require("../auth/auth.controller");
+const userModel = require("./user.model");
 
 router.post("/sendOtp", async (req, res, next) => {
   const email = req.body.email;
@@ -61,6 +62,7 @@ router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const loginResult = await userController.loginUser(email, password);
+
     if (loginResult.message === "Login Successful") {
       //cookie
       res.cookie("jwt", loginResult.token, {
@@ -68,7 +70,11 @@ router.post("/login", async (req, res, next) => {
         httpOnly: true,
       });
     }
-    res.json({ success: loginResult.success, message: loginResult.message });
+    res.json({
+      success: loginResult.success,
+      message: loginResult.message,
+      token: loginResult.token,
+    });
   } catch (err) {
     next(err);
   }
@@ -77,6 +83,59 @@ router.post("/login", async (req, res, next) => {
 router.get("/login", async (req, res, next) => {
   try {
     res.send("Hello");
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/forgetPassword", async (req, res, next) => {
+  const email = req.body.email;
+  try {
+    const forgetP = await userController.forgetPassword(email);
+    res.json({
+      success: forgetP.success,
+      message: forgetP.message,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/forgetPassword", async (req, res, next) => {
+  try {
+    res.send("Hello");
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/resetPassword", async (req, res, next) => {
+  try {
+    const token = req.query.token;
+    const tokenData = await userModel.findOne({ token });
+    if (tokenData) {
+      res.render("resetPassword", { user_id: tokenData._id });
+    } else {
+      res.render("404", { message: "Token is invalid" });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/resetPassword", async (req, res, next) => {
+  try {
+    const password = req.body.password;
+    const user_id = req.body.user_id;
+    const resetPass = await userController.resetPassword(password, user_id);
+    if (resetPass) {
+      res.redirect("/users/login");
+    } else {
+      res.json({
+        success: false,
+        message: "update failed.",
+      });
+    }
   } catch (err) {
     next(err);
   }
