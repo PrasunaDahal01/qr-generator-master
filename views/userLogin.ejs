@@ -60,11 +60,11 @@
               </div>
               <div class="d-flex justify-content-center">
                 <p>Forgot Your Password?</p>
-                <a href="/users/forgetPassword">Click here</a>
+                <a href="/auth/forgetPassword">Click here</a>
               </div>
               <div class="d-flex justify-content-center">
                 <p>Does not have an account?</p>
-                <a href="/users/registers">Register Now</a>
+                <a href="/auth/registers">Register Now</a>
               </div>
               <div
                 id="messageBox"
@@ -89,7 +89,7 @@
         const data = Object.fromEntries(formData);
         console.log(data);
 
-        fetch("/api/v1/users/login", {
+        fetch("/api/v1/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
