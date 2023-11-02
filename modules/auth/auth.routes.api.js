@@ -177,6 +177,21 @@ router.get("/edit", userAuth, async (req, res, next) => {
       next(err);
     }
   });
+
+  router.post("/changePassword", async(req, res, next)=>{
+    try{
+        const password = req.body.password;
+        const newpassword = req.body.newpassword;
+        const user_id = req.body.user_id;
+        const changeResult = await authController.changePassword(password, newpassword, user_id);
+        res.json({
+            success: changeResult.success,
+            message:changeResult.message,
+        })
+    }catch(err){
+        next(err);
+    }
+  })
   
   router.get("/logout", userAuth, async (req, res, next) => {
     try {

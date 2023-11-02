@@ -57,10 +57,18 @@
         </div>
       </div>
       <div class="py-3 mx-5">
-        <a href="/api/v1/users/edit?id=<%= user._id %>" style="color: azure"
+        <a href="/api/v1/auth/edit?id=<%= user._id %>" style="color: azure"
           ><h5>Edit My Profile</h5></a
         >
       </div>
+      <div class="py-3 mx-5">
+        <p>Do you want to change your Password?</p>
+        <a href="/api/v1/auth/changePassword>" style="color: azure"
+          ><h5>Change password</h5></a
+        >
+      </div>
+
+      
     </div>
 
     <script

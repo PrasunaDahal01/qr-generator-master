@@ -15,14 +15,13 @@ const userAuth = async (req, res, next) => {
     console.log("verifyUser", verifyUser);
 
     const user = await userModel.findOne({ _id: verifyUser.id });
-    console.log("user", user);
 
     req.token = token;
     req.user = user;
 
     next();
-  } catch (error) {
-    res.status(401).send(error);
+  } catch (err) {
+    next(err);
   }
 };
 

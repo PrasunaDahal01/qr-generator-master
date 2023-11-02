@@ -156,6 +156,21 @@ const sendOTP = async (email) => {
     }
   };
 
+  const changePassword = async(password, newpassword, user_id)=>{
+    const userData = await authModel.findById({_id:user_id}).select("+password");
+    if (userData){
+        const isPasswordMatch = await bcrypt.compare(password, userData.password);
+        if (isPasswordMatch) {
+            const setPassword = await authModel.findByIdAndUpdate({_id:user_id},{$set:{password: newpassword}});
+            return { success: true, message: "Password changed."};
+          } else {
+            return { success: false, message: " Your current password is incorrect. Write the correct one to change password." };
+          }
+  
+
+    }
+  }
+
   module.exports = {
     sendOTP,
     registerUser,
@@ -164,4 +179,5 @@ const sendOTP = async (email) => {
     resetPassword,
     editProfile,
     updateProfile,
+    changePassword
   };
