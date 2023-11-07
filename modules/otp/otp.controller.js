@@ -34,4 +34,32 @@ async function sendOtp(email) {
   };
 }
 
-module.exports = { sendOtp };
+async function verifyOTP(email, otp) {
+  const existingUser = await userModel.findOne({ email });
+
+  if (!existingUser) {
+    return {
+      success: false,
+      message: "User donot exist.",
+    };
+  }
+
+  //now checking if the otp matches the one in database.
+  const otpRecord = await otpModel.findOne({ email, otp });
+
+  if (otpRecord) {
+    await otpModel.deleteOne({ email, otp });
+    existingUser.is_verified = true;
+    await existingUser.save();
+    return {
+      success: true,
+      message: "OTP verified successfully. User is now verified.",
+    };
+  }
+  return {
+    success: true,
+    message: "OTP verified successfully. User is now verified.",
+  };
+}
+
+module.exports = { sendOtp, verifyOTP };

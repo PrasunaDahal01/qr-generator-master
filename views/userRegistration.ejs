@@ -50,15 +50,26 @@
                   required
                 />
               </div>
+
+              
+          <div  id="otpBox" class="py-3 mx-5" style="display: none;">
+                <label for="otp" class="form-label">OTP:</label>
+                <input type="number" name="otp" class="form-control p-2" id="otpInput">
+              </div>
+                <div class="py-3 mx-5 text-center text-white" id="submitOtpButton" style="display:none;">
+                <input type="Submit" class="btn text-white" value="Submit" id="registerOtpButton" />
+          </div>
+
               <div class="py-3 mx-5 text-center text-white">
-                <input type="Submit" class="btn text-white" value="Register" />
+                <input type="Submit" class="btn text-white" value="Register" id="registerButton" />
           </div>
           <div class="py-3 mx-5 d-flex justify-content-center">
             <p> Do you want to log in? </p> 
-            <a href="/users/login">Log In</a>
+            <a href="/auth/login">Log In</a>
 
 
           </div>
+
             </form>
 
               <div id="messageBox" class="message-box
@@ -70,10 +81,14 @@
 
     <script>
       const formE1 = document.querySelector(".form");
-
       const messageBox = document.getElementById("messageBox");
-
-      formE1.addEventListener("submit", (event) => {
+      const otpBox = document.getElementById("otpBox");
+      const registerButton = document.getElementById("registerButton");
+      const otpInput = document.getElementById("otpInput");
+      const submitOtpButton = document.getElementById("submitOtpButton");
+      
+      let  checkEmailResult;
+      formE1.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const formData = new FormData(formE1);
@@ -82,26 +97,58 @@
         const data = Object.fromEntries(formData);
         console.log(data);
 
-        fetch("/api/v1/users/registers", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((res) => res.json())
-          .then((data) =>{
-            if(data.success){
-            messageBox.textContent = data.message;
-            messageBox.style.color = "green";
-          }else{
-            messageBox.textContent = data.message;
-            messageBox.style.color = "red"; 
+        if (!otpBox.style.display || otpBox.style.display === "none") {
+    // If OTP input is hidden, it means the user is registering for the first time
+
+    // Send a request to check if the email is already registered
+    const checkEmailResponse = await fetch("/api/v1/auth/sendOtp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+
+  checkEmailResult = await checkEmailResponse.json();
+    if(checkEmailResult){
+    if (checkEmailResult.success) {
+      // Email is not registered, show OTP input and "Submit" button
+      otpBox.style.display = "block";
+      submitOtpButton.style.display = "block";
+    }
+
+    // Display the message returned from the server
+    messageBox.textContent = checkEmailResult.message;
+    messageBox.style.color = checkEmailResult.success ? "green" : "red";
+  } else {  messageBox.textContent = checkEmailResult.message;
+      messageBox.style.color = "red";
+    }
+  } else{
+    const response = await fetch("/api/v1/auth/registers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Registration was successful
+      messageBox.textContent = result.message;
+      messageBox.style.color = "green";
+    } else {
+      // Registration failed
+      messageBox.textContent = result.message;
+      messageBox.style.color = "red";
+    }
+    
+  }
+});
+    
           
-            }
-          })
-          .catch((error) => console.log(error));
-      });
     </script>
 
     <script

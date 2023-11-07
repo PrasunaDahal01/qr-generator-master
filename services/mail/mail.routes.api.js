@@ -9,17 +9,16 @@ router.post("/", async (req, res, next) => {
     console.log("Email sent:", info.messageId);
 
     res.status(200).json({ message: "QR code sent successfully," });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ message: "Error sending QR code." });
+  } catch (err) {
+    next(err);
   }
 });
 
 router.get("/", async (req, res, next) => {
   try {
     res.send("Hello");
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    
   }
 });
 module.exports = router;
