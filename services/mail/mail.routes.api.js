@@ -6,8 +6,6 @@ router.post("/", async (req, res, next) => {
     const email = await req.body;
     const info = await MailController.sendMail(email);
 
-    console.log("Email sent:", info.messageId);
-
     res.status(200).json({ message: "QR code sent successfully," });
   } catch (err) {
     next(err);
@@ -17,8 +15,6 @@ router.post("/", async (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     res.send("Hello");
-  } catch (err) {
-    
-  }
+  } catch (err) {}
 });
 module.exports = router;

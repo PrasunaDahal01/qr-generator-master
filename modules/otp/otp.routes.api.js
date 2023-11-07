@@ -14,14 +14,6 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/", async (req, res, next) => {
-  try {
-    res.send("Hello");
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.post("/verify", async (req, res, next) => {
   const { email, otp } = req.body;
   try {

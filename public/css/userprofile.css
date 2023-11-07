@@ -35,6 +35,17 @@ header .logout {
 header .logout:hover {
   color: #e25e3e;
 }
+
+header .dashboard {
+  text-decoration: none;
+  margin-left: 700px;
+  color: #102c57;
+  font-weight: 900;
+}
+
+header .dashboard:hover {
+  color: #e25e3e;
+}
 body {
   width: 100%;
   height: 100vh;
@@ -52,6 +63,12 @@ a {
   text-decoration: none;
 }
 
+.addUser {
+  margin-bottom: 50px;
+}
+.addUser a {
+  color: #f1e6be;
+}
 .insideContainer {
   background-color: #f1e6be;
   border-radius: 20px;

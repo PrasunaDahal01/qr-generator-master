@@ -29,6 +29,12 @@ const userSchema = new Schema({
     type: String,
     default: "",
   },
+
+  status: {
+    type: String,
+    enum: ["active", "archived"],
+    default: "active",
+  },
 });
 
 module.exports = mongoose.model("userRegisters", userSchema);

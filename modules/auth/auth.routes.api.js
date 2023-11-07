@@ -1,8 +1,7 @@
 const router = require("express").Router();
 const authController = require("./auth.controller");
 const otpController = require("../otp/otp.controller");
-const userAuth = require("../middlewares/authorization");
-const authModel = require("./auth.model");
+const { userAuth } = require("../middlewares/authorization");
 
 router.post("/sendOtp", async (req, res, next) => {
   const email = req.body.email;
@@ -49,22 +48,12 @@ router.post("/registers", async (req, res) => {
   }
 });
 
-router.get("/registers", async (req, res, next) => {
-  try {
-    res.send("Hello");
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.post("/login", async (req, res, next) => {
-  //get all data from frontend
   const { email, password } = req.body;
   try {
     const loginResult = await authController.loginUser(email, password);
 
     if (loginResult.message === "Login Successful") {
-      //cookie
       res.cookie("jwt", loginResult.token, {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         httpOnly: true,
@@ -75,14 +64,6 @@ router.post("/login", async (req, res, next) => {
       message: loginResult.message,
       token: loginResult.token,
     });
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.get("/login", async (req, res, next) => {
-  try {
-    res.send("Hello");
   } catch (err) {
     next(err);
   }
@@ -101,22 +82,14 @@ router.post("/forgetPassword", async (req, res, next) => {
   }
 });
 
-router.get("/forgetPassword", async (req, res, next) => {
-  try {
-    res.send("Hello");
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.get("/resetPassword", async (req, res, next) => {
   try {
     const token = req.query.token;
-    const tokenData = await authModel.findOne({ token });
-    if (tokenData) {
-      res.render("resetPassword", { user_id: tokenData._id });
+    const result = await authController.resetPass(token);
+    if (result) {
+      res.render("auth/resetPassword", { user_id: result._id });
     } else {
-      res.render("404", { message: "Token is invalid" });
+      res.render("auth/404", { message: "Token is invalid" });
     }
   } catch (err) {
     next(err);
@@ -141,66 +114,32 @@ router.post("/resetPassword", async (req, res, next) => {
   }
 });
 
-router.get("/profile", userAuth, async (req, res) => {
-  res.render("userProfile", { user: req.user });
+router.post("/changePassword", async (req, res, next) => {
+  try {
+    const password = req.body.password;
+    const newpassword = req.body.newpassword;
+    const user_id = req.body.user_id;
+    const changeResult = await authController.changePassword(
+      password,
+      newpassword,
+      user_id
+    );
+    res.json({
+      success: changeResult.success,
+      message: changeResult.message,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-
-//update profile
-router.get("/edit", userAuth, async (req, res, next) => {
-    try {
-      const id = req.query.id; ///to get data from url, we use query
-      const userData = await authController.editProfile(id);
-      if (userData) {
-        res.render("updateProfile", { user: userData });
-      } else {
-        res.json({
-          success: userData.success,
-          message: userData.message,
-        });
-      }
-    } catch (err) {
-      next(err);
-    }
-  });
-  
-  router.post("/edit", async (req, res, next) => {
-    try {
-      const email = req.body.email;
-      const user_id = req.body.user_id;
-      const updateResult = await authController.updateProfile(email, user_id);
-      res.json({
-        success: updateResult.success,
-        message: updateResult.message,
-      });
-    } catch (err) {
-      next(err);
-    }
-  });
-
-  router.post("/changePassword", async(req, res, next)=>{
-    try{
-        const password = req.body.password;
-        const newpassword = req.body.newpassword;
-        const user_id = req.body.user_id;
-        const changeResult = await authController.changePassword(password, newpassword, user_id);
-        res.json({
-            success: changeResult.success,
-            message:changeResult.message,
-        })
-    }catch(err){
-        next(err);
-    }
-  })
-  
-  router.get("/logout", userAuth, async (req, res, next) => {
-    try {
-      res.clearCookie("jwt");
-      console.log("logout successfully.");
-      await req.user.save();
-      res.redirect("/users/login");
-    } catch (err) {
-      next(err);
-    }
-  });
+router.get("/logout", userAuth, async (req, res, next) => {
+  try {
+    res.clearCookie("jwt");
+    await req.user.save();
+    res.redirect("/auth/login");
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;
