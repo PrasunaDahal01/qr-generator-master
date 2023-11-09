@@ -173,7 +173,6 @@ const editUser = async (id, email, verify) => {
 //delete user by admin
 const archiveUser = async (id) => {
   const userData = await userModel.findById(id);
-  console.log("userData", userData);
   if (userData) {
     userData.status = "archived";
     const updatedData = await userData.save();

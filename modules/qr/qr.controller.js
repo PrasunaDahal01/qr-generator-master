@@ -8,14 +8,10 @@ const { v4: uuidv4 } = require("uuid");
 require("dotenv").config();
 class Qr {
   async generateQr(qrTextValue) {
-    console.log(qrTextValue);
-    //generating a UUIdv4
     const uuid = uuidv4();
-
     const hostUrl = process.env.HOST_URL;
     const code = qrcode.toDataURL(`${hostUrl}/scans/${uuid}`);
     const payload = { qrText: qrTextValue, qrId: uuid };
-    console.log(payload);
     await qrModel.create(payload);
     return code;
   }

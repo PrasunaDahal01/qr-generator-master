@@ -1,4 +1,3 @@
-const { default: mongoose } = require("mongoose");
 const qrModel = require("../qr/qr.model");
 
 class Report {

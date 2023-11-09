@@ -58,11 +58,16 @@ router.post("/login", async (req, res, next) => {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         httpOnly: true,
       });
+      res.cookie("refreshToken", loginResult.refreshToken, {
+        expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+      });
     }
     res.json({
       success: loginResult.success,
       message: loginResult.message,
       token: loginResult.token,
+      refreshToken: loginResult.refreshToken,
     });
   } catch (err) {
     next(err);

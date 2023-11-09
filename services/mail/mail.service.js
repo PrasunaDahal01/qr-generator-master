@@ -59,10 +59,9 @@ const addUserMail = async (email, password) => {
   };
   try {
     const mailResponse = transporter.sendMail(mailOptions);
-    console.log("Email sent successfully.");
     return mailResponse;
   } catch (error) {
-    console.log("Error occured while sending email.", error);
+    throw error;
   }
 };
 

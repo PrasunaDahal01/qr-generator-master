@@ -9,9 +9,7 @@ async function sendVerificationEmail(email, otp) {
       `<h1> Please confirm your OTP.</h1>
       <p>Here is your OTP code:${otp}</p>`
     );
-    console.log("Email Sent Successfully.");
   } catch (error) {
-    console.log("Error occured while sending email.", error);
     throw error;
   }
 }

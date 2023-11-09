@@ -2,6 +2,7 @@ const userModel = require("../user/user.model");
 const { securePassword } = require("../../utils/bcrypt");
 const bcrypt = require("bcrypt");
 const { generateAccessToken } = require("../../utils/jwtToken");
+const { generateRefreshToken } = require("../../utils/jwtToken");
 const { sendPasswordMail } = require("../../services/mail/mail.service");
 const otpController = require("../otp/otp.controller");
 
@@ -108,7 +109,9 @@ const loginUser = async (email, password) => {
 
   if (isPasswordMatch) {
     const token = generateAccessToken(user._id, user.role);
-    return { success: true, message: "Login Successful", token };
+    const refreshToken = generateRefreshToken(user._id, user.role);
+
+    return { success: true, message: "Login Successful", token, refreshToken };
   } else {
     return { success: false, message: "Password is incorrect." };
   }
