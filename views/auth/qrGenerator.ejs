@@ -36,7 +36,6 @@
   <body>
     <header>
       <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
-      <!--<div class="boxmenu" id="menuicon"></div>-->
       <div class="icon">
         <a href="/users/profile">
           <i class="fa-solid fa-user"></i>
@@ -123,9 +122,7 @@
               throw new Error(`Fetch request failed with status ${res.status}`);
             }
             const data = await res.json();
-            console.log({ data });
             document.getElementById("base64image").src = data.qr;
-
             imageQr.style.display = "block";
             emailbutton.style.display = "block";
             emailinput.style.display = "block";

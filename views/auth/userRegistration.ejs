@@ -95,60 +95,48 @@
 
         //javascript object
         const data = Object.fromEntries(formData);
-        console.log(data);
 
         if (!otpBox.style.display || otpBox.style.display === "none") {
-    // If OTP input is hidden, it means the user is registering for the first time
+          const checkEmailResponse = await fetch("/api/v1/auth/sendOtp", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
 
-    // Send a request to check if the email is already registered
-    const checkEmailResponse = await fetch("/api/v1/auth/sendOtp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+          checkEmailResult = await checkEmailResponse.json();
+          if(checkEmailResult){
+            if (checkEmailResult.success) {
+              otpBox.style.display = "block";
+              submitOtpButton.style.display = "block";
+            }
+            messageBox.textContent = checkEmailResult.message;
+            messageBox.style.color = checkEmailResult.success ? "green" : "red";
+          } else {
+              messageBox.textContent = checkEmailResult.message;
+              messageBox.style.color = "red";
+            }
+          } else
+          {
+            const response = await fetch("/api/v1/auth/registers", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+            const result = await response.json();
 
-
-  checkEmailResult = await checkEmailResponse.json();
-    if(checkEmailResult){
-    if (checkEmailResult.success) {
-      // Email is not registered, show OTP input and "Submit" button
-      otpBox.style.display = "block";
-      submitOtpButton.style.display = "block";
-    }
-
-    // Display the message returned from the server
-    messageBox.textContent = checkEmailResult.message;
-    messageBox.style.color = checkEmailResult.success ? "green" : "red";
-  } else {  messageBox.textContent = checkEmailResult.message;
-      messageBox.style.color = "red";
-    }
-  } else{
-    const response = await fetch("/api/v1/auth/registers", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      // Registration was successful
-      messageBox.textContent = result.message;
-      messageBox.style.color = "green";
-    } else {
-      // Registration failed
-      messageBox.textContent = result.message;
-      messageBox.style.color = "red";
-    }
-    
-  }
-});
-    
-          
+            if (result.success) {
+              messageBox.textContent = result.message;
+              messageBox.style.color = "green";
+            } else {
+              messageBox.textContent = result.message;
+              messageBox.style.color = "red";
+            }
+          }
+        });          
     </script>
 
     <script

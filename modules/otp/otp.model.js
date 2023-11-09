@@ -20,7 +20,6 @@ const otpSchema = new Schema({
 
 otpSchema.pre("save", async function (next) {
   if (this.isNew) {
-    console.log("New document saved to the database");
     await sendVerificationEmail(this.email, this.otp);
   }
   next();

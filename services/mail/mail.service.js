@@ -20,10 +20,9 @@ async function sendEmail(email, title, body) {
 
   try {
     const mailResponse = transporter.sendMail(mailOptions);
-    console.log("Email sent successfully.");
     return mailResponse;
   } catch (error) {
-    console.log("Error occured while sending email.", error);
+    throw error;
   }
 }
 
@@ -37,10 +36,9 @@ const sendPasswordMail = async (email, token) => {
   };
   try {
     const mailResponse = transporter.sendMail(mailOptions);
-    console.log("Email sent successfully.");
     return mailResponse;
   } catch (error) {
-    console.log("Error occured while sending email.", error);
+    throw error;
   }
 };
 
