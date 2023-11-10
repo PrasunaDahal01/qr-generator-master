@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { userAuth } = require("../middlewares/authorization");
+const { auth } = require("../middlewares/authorization");
 router.get("/registers", (req, res, next) => {
   res.render("auth/userRegistration");
 });
@@ -12,7 +12,7 @@ router.get("/forgetPassword", (req, res) => {
   res.render("auth/forgetPassword");
 });
 
-router.get("/changePassword", userAuth, async (req, res) => {
+router.get("/changePassword", auth(), async (req, res) => {
   res.render("auth/changePassword", { user: req.user });
 });
 module.exports = router;

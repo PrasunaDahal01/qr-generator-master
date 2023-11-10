@@ -6,12 +6,7 @@ const otpGenerator = require("otp-generator");
 async function sendOtp(email) {
   const existingUser = await userModel.findOne({ email });
 
-  if (existingUser) {
-    return {
-      success: false,
-      message: "User is already registered.",
-    };
-  }
+  if (existingUser) throw new Error("This email is taken.");
 
   let otp = otpGenerator.generate(6, {
     upperCaseAlphabets: false,
@@ -39,12 +34,7 @@ async function sendOtp(email) {
 async function sendadminOtp(email) {
   const existingUser = await userModel.findOne({ email });
 
-  if (existingUser) {
-    return {
-      success: false,
-      message: "User is already registered.",
-    };
-  }
+  if (existingUser) throw new Error("This email is taken.");
 
   let otp = otpGenerator.generate(6, {
     upperCaseAlphabets: false,
@@ -71,12 +61,7 @@ async function sendadminOtp(email) {
 async function verifyOTP(email, otp) {
   const existingUser = await userModel.findOne({ email });
 
-  if (!existingUser) {
-    return {
-      success: false,
-      message: "User donot exist.",
-    };
-  }
+  if (!existingUser) throw new Error("User not found.");
 
   //now checking if the otp matches the one in database.
   const otpRecord = await otpModel.findOne({ email, otp });
@@ -85,14 +70,9 @@ async function verifyOTP(email, otp) {
     await otpModel.deleteOne({ email, otp });
     existingUser.is_verified = true;
     await existingUser.save();
-    return {
-      success: true,
-      message: "OTP verified successfully. User is now verified.",
-    };
   }
   return {
     success: true,
-    message: "OTP verified successfully. User is now verified.",
   };
 }
 
@@ -100,12 +80,7 @@ async function verifyOTP(email, otp) {
 async function verifyadminOTP(email, otp) {
   const existingUser = await userModel.findOne({ email });
 
-  if (!existingUser) {
-    return {
-      success: false,
-      message: "User donot exist.",
-    };
-  }
+  if (!existingUser) throw new Error("User not found.");
 
   //now checking if the otp matches the one in database.
   const otpRecord = await otpModel.findOne({ email, otp });
@@ -114,14 +89,9 @@ async function verifyadminOTP(email, otp) {
     await otpModel.deleteOne({ email, otp });
     existingUser.is_verified = true;
     await existingUser.save();
-    return {
-      success: true,
-      message: "OTP verified successfully. User is now verified.",
-    };
   }
   return {
     success: true,
-    message: "OTP verified successfully. User is now verified.",
   };
 }
 module.exports = { sendOtp, verifyOTP, sendadminOtp, verifyadminOTP };

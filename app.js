@@ -34,10 +34,11 @@ app.use("/public", express.static(__dirname + "/public"));
 app.use(cors());
 
 app.use("/", routeManager);
+
 app.use((err, req, res, next) => {
   res
     .status(500)
-    .json({ message: err.message, success: false, data: err.data, error: err });
+    .json({ message: err.message, success: false, data: err.data });
 });
 
 app.listen(port, () => {

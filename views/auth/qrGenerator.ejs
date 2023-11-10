@@ -36,6 +36,15 @@
   <body>
     <header>
       <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
+      <% if (user.role === 'admin') { %>
+
+      <div>
+        <a href="/api/v1/users/dashboard" class="dashboard">Dashboard</a>
+      </div>
+      <% } %>
+
+      <div>
+
       <div class="icon">
         <a href="/users/profile">
           <i class="fa-solid fa-user"></i>

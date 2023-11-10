@@ -1,17 +1,17 @@
 const router = require("express").Router();
-const { userAuth, adminAuth } = require("../middlewares/authorization");
+const { auth } = require("../middlewares/authorization");
 const userController = require("./user.controller");
 
 router.get("/registers", (req, res, next) => {
   res.render("users/adminregisters");
 });
 
-router.get("/profile", userAuth, async (req, res) => {
+router.get("/profile", auth(), async (req, res) => {
   res.render("auth/userProfile", { user: req.user });
 });
 
 //get edit Profile
-router.get("/edit", userAuth, async (req, res, next) => {
+router.get("/edit", async (req, res, next) => {
   try {
     const id = req.query.id; ///to get data from url, we use query
     const userData = await userController.editProfile(id);
@@ -29,7 +29,7 @@ router.get("/edit", userAuth, async (req, res, next) => {
 });
 
 //CRUD operations by admin - Create
-router.get("/add", adminAuth, async (req, res, next) => {
+router.get("/add", auth("admin"), async (req, res, next) => {
   try {
     res.render("users/addUsers");
   } catch (err) {
@@ -37,7 +37,7 @@ router.get("/add", adminAuth, async (req, res, next) => {
   }
 });
 
-router.get("/editUser", adminAuth, async (req, res, next) => {
+router.get("/editUser", auth("admin"), async (req, res, next) => {
   try {
     const id = req.query.id;
     const data = await userController.getEditUser(id);

@@ -36,16 +36,6 @@ header .logout:hover {
   color: #e25e3e;
 }
 
-header .dashboard {
-  text-decoration: none;
-  margin-left: 700px;
-  color: #102c57;
-  font-weight: 900;
-}
-
-header .dashboard:hover {
-  color: #e25e3e;
-}
 body {
   width: 100%;
   height: 100vh;

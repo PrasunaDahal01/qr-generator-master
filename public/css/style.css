@@ -65,6 +65,17 @@ a {
   border-radius: 8px;
 }
 
+header .dashboard {
+  text-decoration: none;
+  margin-left: 650px;
+  color: #102c57;
+  font-weight: 900;
+}
+
+header .dashboard:hover {
+  color: #e25e3e;
+}
+
 .qrHeader h1 {
   font-size: 26px;
   text-align: center;

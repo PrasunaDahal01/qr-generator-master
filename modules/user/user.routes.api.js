@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const userController = require("./user.controller");
 const otpController = require("../otp/otp.controller");
-const { adminAuth } = require("../middlewares/authorization");
+const { auth } = require("../middlewares/authorization");
 const userModel = require("./user.model");
 
 router.post("/sendOtp", async (req, res, next) => {
@@ -25,29 +25,27 @@ router.post("/registers", async (req, res) => {
 
   try {
     const otpVerification = await otpController.verifyadminOTP(email, otp);
-    if (otpVerification) {
-      const registerResult = await userController.registerAdmin(
-        email,
-        password,
-        otp,
-        role
-      );
-
-      res.json({
-        success: registerResult.success,
-        message: registerResult.message,
-        showOTPInput: false,
-      });
-    } else {
+    if (!otpVerification) {
       res.json({
         success: false,
         message: "Invalid OTP",
         showOTPInput: true,
       });
     }
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Internal Server Error");
+    const registerResult = await userController.register(
+      email,
+      password,
+      otp,
+      role
+    );
+
+    return res.json({
+      success: registerResult.success,
+      message: registerResult.message,
+      showOTPInput: false,
+    });
+  } catch (err) {
+    next(err);
   }
 });
 
@@ -65,14 +63,12 @@ router.put("/edit/:id", async (req, res, next) => {
   }
 });
 //dashboard
-router.get("/dashboard", adminAuth, async (req, res, next) => {
+router.get("/dashboard", auth("admin"), async (req, res, next) => {
   try {
     const userData = await userModel.find({ role: "user" });
-    if (userData) {
-      res.render("users/adminDashboard", { user: userData });
-    } else {
-      res.status(401).send("No user found");
-    }
+    if (!userData) res.status(401).send("No user found");
+
+    res.render("users/adminDashboard", { user: userData });
   } catch (err) {
     next(err);
   }
@@ -118,10 +114,10 @@ router.get("/:id", async (req, res) => {
   const user = await userController.getUser(userId);
 
   if (!user) {
-    res.status(404).json({ message: "User not found" });
-  } else {
-    res.json(user);
+    return res.status(404).json({ message: "User not found" });
   }
+
+  res.json(user);
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 
-const securePassword = async (password) => {
+const encryptPassword = async (password) => {
   try {
     return await bcrypt.hash(password, 10);
   } catch (error) {
@@ -8,4 +8,4 @@ const securePassword = async (password) => {
   }
 };
 
-module.exports = { securePassword };
+module.exports = { encryptPassword };
