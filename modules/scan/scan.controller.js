@@ -1,5 +1,5 @@
-const scanModel = require("../scan/scan.model");
 const qrModel = require("../qr/qr.model");
+const scanModel = require("../scan/scan.model");
 
 class Scan {
   async scanQR(ipAddress, qrId) {

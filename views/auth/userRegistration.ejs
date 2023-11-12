@@ -16,6 +16,15 @@
       crossorigin="anonymous"
     />
 
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+
     <link rel="stylesheet" href="/public/css/registerstyle.css" />
   </head>
   <body>
@@ -23,6 +32,8 @@
       <div class="row custom-row justify-content-center">
         <div class="col-sm-12 col-md-8 col-lg-6">
           <div class="container rounded my-2 px-0 insideContainer">
+            <div id="messageBox" class="message-box
+              py-3 mx-5 px-5  justify-content-center" ></div>
             <div class="py-1 header">
               <h1 class="text-center">Registration Form</h1>
             </div>
@@ -50,12 +61,12 @@
                   required
                 />
               </div>
-
-              
+            
           <div  id="otpBox" class="py-3 mx-5" style="display: none;">
                 <label for="otp" class="form-label">OTP:</label>
                 <input type="number" name="otp" class="form-control p-2" id="otpInput">
               </div>
+              
                 <div class="py-3 mx-5 text-center text-white" id="submitOtpButton" style="display:none;">
                 <input type="Submit" class="btn text-white" value="Submit" id="registerOtpButton" />
           </div>
@@ -64,79 +75,73 @@
                 <input type="Submit" class="btn text-white" value="Register" id="registerButton" />
           </div>
           <div class="py-3 mx-5 d-flex justify-content-center">
-            <p> Do you want to log in? </p> 
-            <a href="/auth/login">Log In</a>
-
-
+            <p>Have an account?</p>
+          <p> <a href="/auth/login" style="color:#3876BF; font-weight:900;">Log In</a> </p>
           </div>
-
             </form>
-
-              <div id="messageBox" class="message-box
-              py-3 mx-5 d-flex justify-content-center" ></div>
-
         </div>
       </div>
     </div>
 
     <script>
       const formE1 = document.querySelector(".form");
-      const messageBox = document.getElementById("messageBox");
-      const otpBox = document.getElementById("otpBox");
-      const registerButton = document.getElementById("registerButton");
-      const otpInput = document.getElementById("otpInput");
-      const submitOtpButton = document.getElementById("submitOtpButton");
-      
-      let  checkEmailResult;
-      formE1.addEventListener("submit", async (event) => {
-        event.preventDefault();
+const messageBox = document.getElementById("messageBox");
+const otpBox = document.getElementById("otpBox");
+const registerButton = document.getElementById("registerButton");
+const otpInput = document.getElementById("otpInput");
+const submitOtpButton = document.getElementById("submitOtpButton");
 
-        const formData = new FormData(formE1);
+let checkEmailResult;
+let otpVerificationResult;
 
-        //javascript object
-        const data = Object.fromEntries(formData);
+formE1.addEventListener("submit", async (event) => {
+  event.preventDefault();
 
-        if (!otpBox.style.display || otpBox.style.display === "none") {
-          const checkEmailResponse = await fetch("/api/v1/auth/sendOtp", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          });
+  const formData = new FormData(formE1);
+  const data = Object.fromEntries(formData);
 
-          checkEmailResult = await checkEmailResponse.json();
-          if(checkEmailResult){
-            if (checkEmailResult.success) {
-              otpBox.style.display = "block";
-              submitOtpButton.style.display = "block";
-            }
-            messageBox.textContent = checkEmailResult.message;
-            messageBox.style.color = checkEmailResult.success ? "green" : "red";
-          } else {
-              messageBox.textContent = checkEmailResult.message;
-              messageBox.style.color = "red";
-            }
-          } else
-          {
-            const response = await fetch("/api/v1/auth/registers", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(data),
-            });
-            const result = await response.json();
+  if (!otpBox.style.display || otpBox.style.display === "none") {
+    const checkEmailResponse = await fetch("/api/v1/auth/sendOtp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-            if (result.success) {
-              messageBox.textContent = result.message;
-              messageBox.style.color = "green";
-            } else {
-              messageBox.textContent = result.message;
-              messageBox.style.color = "red";
-            }
-          }
-        });          
+    checkEmailResult = await checkEmailResponse.json();
+
+    if (checkEmailResult.success) {
+      otpBox.style.display = "block";
+      submitOtpButton.style.display = "block";
+    }
+
+    messageBox.innerHTML = `<div class="alert alert-${
+      checkEmailResult.success ? 'success' : 'danger'
+    }" role="alert">
+      ${checkEmailResult.success ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>'}
+      ${checkEmailResult.message}
+    </div>`;
+  } else {
+    // OTP verification
+     const response = await fetch("/api/v1/auth/registers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+
+      messageBox.innerHTML = `<div class="alert alert-${
+        result.success ? 'success' : 'danger'
+      }" role="alert">
+        ${result.success ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>'}
+        ${result.message}
+      </div>`;
+    } 
+});
+
     </script>
 
     <script

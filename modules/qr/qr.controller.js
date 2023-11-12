@@ -1,11 +1,9 @@
-//apps functions
-// the controller will contain the code which you are going to send to the user.
-//controller functions to get the requested data from the models, create an HTML page displaying the data, and return it to the user to view in the browser.
+require("dotenv").config();
 const path = require("path");
 const qrcode = require("qrcode");
 const qrModel = require("./qr.model");
 const { v4: uuidv4 } = require("uuid");
-require("dotenv").config();
+
 class Qr {
   async generateQr(qrTextValue) {
     const uuid = uuidv4();

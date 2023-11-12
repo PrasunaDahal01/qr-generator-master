@@ -9,6 +9,15 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,300;1,500;1,600&display=swap"
       rel="stylesheet"
     />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -23,6 +32,10 @@
       <div class="row custom-row justify-content-center">
         <div class="col-sm-12 col-md-8 col-lg-6">
           <div class="container rounded my-2 px-0 insideContainer">
+            <div
+              id="messageBox"
+              class="message-box py-3 mx-5 px-5 text-center justify-content-center"
+            ></div>
             <div class="py-1 header">
               <h1 class="text-center">Login Form</h1>
             </div>
@@ -60,17 +73,16 @@
                 />
               </div>
               <div class="d-flex justify-content-center">
-                <p>Forgot Your Password?</p>
-                <a href="/auth/forgetPassword">Click here</a>
+                <a href="/auth/forgetPassword">Forgot Password?</a>
               </div>
               <div class="d-flex justify-content-center">
-                <p>Does not have an account?</p>
-                <a href="/auth/registers">Register Now</a>
+                <a
+                  href="/auth/registers"
+                  style="color: #212a3e; font-weight: 900"
+                >
+                  Create New Account</a
+                >
               </div>
-              <div
-                id="messageBox"
-                class="message-box py-3 mx-5 d-flex justify-content-center"
-              ></div>
             </form>
           </div>
         </div>
@@ -101,8 +113,7 @@
             if (data.success) {
               window.location.href = "http://localhost:3000/qrs";
             } else {
-              messageBox.textContent = data.message;
-              messageBox.style.color = "red";
+              messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fas fa-times-circle"></i>${data.message}</div>`;
             }
           })
           .catch((error) => console.log(error));

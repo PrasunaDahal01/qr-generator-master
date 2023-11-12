@@ -6,6 +6,7 @@ const { sendVerificationEmail } = require("../../services/mail/sendotpmail");
 const otpSchema = new Schema({
   email: {
     type: String,
+    required: true,
   },
   otp: {
     type: String,

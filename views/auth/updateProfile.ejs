@@ -16,6 +16,14 @@
       crossorigin="anonymous"
     />
 
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <link rel="stylesheet" href="/public/css/updateProfile.css" />
   </head>
   <body>
@@ -28,6 +36,10 @@
       <div class="row custom-row justify-content-center">
         <div class="col-sm-12 col-md-8 col-lg-6">
           <div class="container rounded my-2 px-0 insideContainer">
+            <div
+              id="messageBox"
+              class="message-box py-3 mx-5 px-5 justify-content-center"
+            ></div>
             <div class="py-1 header">
               <h1 class="text-center">Edit Your Profile:</h1>
             </div>
@@ -49,13 +61,12 @@
               <div class="py-3 mx-5 text-center text-white">
                 <input type="Submit" class="btn text-white" value="Update" />
               </div>
-              <div
-                id="messageBox"
-                class="message-box py-3 mx-5 d-flex justify-content-center"
-              ></div>
             </form>
           </div>
         </div>
+      </div>
+      <div class="py-3 mx-5">
+        <a href="/users/profile" style="color: azure">Go Back</a>
       </div>
     </div>
     <script>
@@ -81,13 +92,16 @@
         })
           .then((res) => res.json())
           .then((data) => {
-            if (data.success) {
-              messageBox.textContent = data.message;
-              messageBox.style.color = "green";
-            } else {
-              messageBox.textContent = data.message;
-              messageBox.style.color = "red";
-            }
+            messageBox.innerHTML = `<div class="alert alert-${
+              data.success ? "success" : "danger"
+            }" role="alert">
+        ${
+          data.success
+            ? '<i class="fas fa-check-circle"></i>'
+            : '<i class="fas fa-times-circle"></i>'
+        }
+        ${data.message}
+      </div>`;
           })
           .catch((error) => console.log(error));
       });

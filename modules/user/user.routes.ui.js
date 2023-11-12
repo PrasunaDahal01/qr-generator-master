@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { auth } = require("../middlewares/authorization");
 const userController = require("./user.controller");
+const { auth } = require("../middlewares/authorization");
 
 router.get("/registers", (req, res, next) => {
   res.render("users/adminregisters");

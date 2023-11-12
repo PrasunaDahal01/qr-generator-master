@@ -22,7 +22,8 @@ router.post("/registers", async (req, res, next) => {
   const otp = req.body.otp;
   try {
     const otpVerification = await otpController.verifyOTP(email, otp);
-    if (!otpVerification) throw new Error("Invalid OTP");
+    if (!otpVerification || !otpVerification.success)
+      throw new Error("Invalid OTP");
     const registerResult = await authController.register(email, password);
     res.json({
       success: registerResult.success,
@@ -30,7 +31,7 @@ router.post("/registers", async (req, res, next) => {
       showOTPInput: false,
     });
   } catch (err) {
-    res.status(500).send("Internal Server Error");
+    next(err);
   }
 });
 
@@ -47,7 +48,22 @@ router.post("/login", async (req, res, next) => {
       success: loginResult.success,
       message: loginResult.message,
       token: loginResult.token,
+      refreshToken: loginResult.refreshToken,
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/regenerate", async (req, res, next) => {
+  const refreshToken = req.body.refreshToken;
+  try {
+    const result = await authController.regenerateToken(refreshToken);
+    res.cookie("jwt", result, {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    });
+    res.json({ token: result });
   } catch (err) {
     next(err);
   }

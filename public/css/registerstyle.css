@@ -11,6 +11,15 @@ body {
   margin-top: 120px;
 }
 
+.messageBox {
+  padding: 10px;
+}
+a:hover {
+  color: #e25e3e;
+}
+a {
+  text-decoration: none;
+}
 .Container {
   background-color: #f1e6be;
   border-radius: 20px;
@@ -30,13 +39,13 @@ h1 {
   font-weight: 600;
 }
 .btn {
-  background-color: #e25e3e;
+  background-color: #435585;
   font-weight: 600;
   border-radius: 15px;
   padding: 10px 30px;
 }
 .form-control {
-  border-color: #e25e3e;
+  border-color: #9db2bf;
 }
 
 .form-label {

@@ -1,4 +1,3 @@
-//routes for fetching data from controller
 const router = require("express").Router();
 const QrController = require("./qr.controller");
 

@@ -1,12 +1,12 @@
 const userModel = require("./user.model");
-const { encryptPassword } = require("../../utils/bcrypt");
-const otpController = require("../otp/otp.controller");
 const randomstring = require("randomstring");
+const otpController = require("../otp/otp.controller");
+const { encryptPassword } = require("../../utils/bcrypt");
 const { addUserMail } = require("../../services/mail/mail.service");
 
 const sendOTP = async (email) => {
   const existingUser = await userModel.findOne({ email });
-  if (existingUser) throw new Error("Email already in use.");
+  if (existingUser) throw new Error("This email is taken.");
   const otpResult = await otpController.sendadminOtp(email);
   if (!otpResult) throw new Error("Failed To Send OTP.");
   return {
@@ -17,22 +17,19 @@ const sendOTP = async (email) => {
 
 const register = async (email, password, role) => {
   const existingUser = await userModel.findOne({ email });
-  if (existingUser) throw new Error("Email already in use.");
+  if (existingUser) throw new Error("This email is taken.");
 
   const ePassword = await encryptPassword(password);
   const user = new userModel({
     email,
     password: ePassword,
     role: role,
+    is_verified: true,
   });
-  const userData = await user.save();
-
-  if (!userData) throw new Error("Your registration has failed.");
-
+  await user.save();
   return {
     success: true,
-    message: "Your registration has been done successfully.",
-    showOTPInput: true,
+    message: "Registration Done.",
   };
 };
 
@@ -55,7 +52,7 @@ const updateProfile = async (email, user_id) => {
   if (!userData) throw new Error("Cannot Update Profile. ");
   return {
     success: true,
-    message: "Your Profile has been updated.",
+    message: "Profile updated.",
   };
 };
 
@@ -72,13 +69,13 @@ const addNewUser = async (email) => {
   addUserMail(email, password);
   return {
     success: true,
-    message: "New user is added.",
+    message: "New user added.",
   };
 };
 
 const getEditUser = async (id) => {
   const userData = await userModel.findById({ _id: id });
-  if (!userData) throw Error("Couldnot find your Id for update");
+  if (!userData) throw Error("Update failed.");
   return userData;
 };
 
@@ -90,7 +87,7 @@ const editUser = async (id, email, verify) => {
   if (!userData) throw new Error("Unable to update user.");
   return {
     success: true,
-    message: "User is updated.",
+    message: "Updated.",
   };
 };
 

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { auth } = require("../middlewares/authorization");
+
 router.get("/registers", (req, res, next) => {
   res.render("auth/userRegistration");
 });

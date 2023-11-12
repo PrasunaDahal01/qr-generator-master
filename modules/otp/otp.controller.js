@@ -1,18 +1,17 @@
-const userModel = require("../user/user.model");
 const otpModel = require("./otp.model");
 const otpGenerator = require("otp-generator");
+const userModel = require("../user/user.model");
 
-//for users
 async function sendOtp(email) {
   const existingUser = await userModel.findOne({ email });
 
   if (existingUser) throw new Error("This email is taken.");
-
   let otp = otpGenerator.generate(6, {
     upperCaseAlphabets: false,
     lowerCaseAlphabets: false,
     specialChars: false,
   });
+
   let result = await otpModel.findOne({ otp: otp });
   while (result) {
     otp = otpGenerator.generate(6, {
@@ -22,15 +21,13 @@ async function sendOtp(email) {
   }
 
   const otpPayload = { email, otp };
-  const otpBody = await otpModel.create(otpPayload);
+  await otpModel.create(otpPayload);
   return {
     success: true,
-    message: "OTP sent successfully.",
     otp,
   };
 }
 
-//foradmin
 async function sendadminOtp(email) {
   const existingUser = await userModel.findOne({ email });
 
@@ -50,48 +47,30 @@ async function sendadminOtp(email) {
   }
 
   const otpPayload = { email, otp };
-  const otpBody = await otpModel.create(otpPayload);
+  await otpModel.create(otpPayload);
   return {
     success: true,
-    message: "OTP sent successfully.",
     otp,
   };
 }
 
 async function verifyOTP(email, otp) {
-  const existingUser = await userModel.findOne({ email });
-
-  if (!existingUser) throw new Error("User not found.");
-
-  //now checking if the otp matches the one in database.
-  const otpRecord = await otpModel.findOne({ email, otp });
-
+  const otpRecord = await otpModel.findOne({ email: email, otp: otp });
   if (otpRecord) {
     await otpModel.deleteOne({ email, otp });
-    existingUser.is_verified = true;
-    await existingUser.save();
+    return {
+      success: true,
+    };
   }
-  return {
-    success: true,
-  };
 }
 
-//verify for admin
 async function verifyadminOTP(email, otp) {
-  const existingUser = await userModel.findOne({ email });
-
-  if (!existingUser) throw new Error("User not found.");
-
-  //now checking if the otp matches the one in database.
-  const otpRecord = await otpModel.findOne({ email, otp });
-
+  const otpRecord = await otpModel.findOne({ email: email, otp: otp });
   if (otpRecord) {
     await otpModel.deleteOne({ email, otp });
-    existingUser.is_verified = true;
-    await existingUser.save();
+    return {
+      success: true,
+    };
   }
-  return {
-    success: true,
-  };
 }
 module.exports = { sendOtp, verifyOTP, sendadminOtp, verifyadminOTP };

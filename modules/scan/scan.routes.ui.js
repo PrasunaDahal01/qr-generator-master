@@ -1,5 +1,5 @@
-const router = require("express").Router();
 const ip = require("ip");
+const router = require("express").Router();
 const ScanController = require("./scan.controller");
 
 router.get("/:uuid", async (req, res, next) => {

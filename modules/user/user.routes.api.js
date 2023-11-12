@@ -1,8 +1,8 @@
+const userModel = require("./user.model");
 const router = require("express").Router();
 const userController = require("./user.controller");
 const otpController = require("../otp/otp.controller");
 const { auth } = require("../middlewares/authorization");
-const userModel = require("./user.model");
 
 router.post("/sendOtp", async (req, res, next) => {
   const email = req.body.email;
@@ -17,7 +17,7 @@ router.post("/sendOtp", async (req, res, next) => {
   }
 });
 
-router.post("/registers", async (req, res) => {
+router.post("/registers", async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const otp = req.body.otp;
@@ -25,19 +25,9 @@ router.post("/registers", async (req, res) => {
 
   try {
     const otpVerification = await otpController.verifyadminOTP(email, otp);
-    if (!otpVerification) {
-      res.json({
-        success: false,
-        message: "Invalid OTP",
-        showOTPInput: true,
-      });
-    }
-    const registerResult = await userController.register(
-      email,
-      password,
-      otp,
-      role
-    );
+    if (!otpVerification || !otpVerification.success)
+      throw new Error("Invalid OTP");
+    const registerResult = await userController.register(email, password, role);
 
     return res.json({
       success: registerResult.success,
