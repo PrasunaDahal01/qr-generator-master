@@ -36,8 +36,9 @@ app.use(cors());
 app.use("/", routeManager);
 
 app.use((err, req, res, next) => {
+  const statusCode = err.status || 500;
   res
-    .status(500)
+    .status(statusCode)
     .json({ message: err.message, success: false, data: err.data });
 });
 

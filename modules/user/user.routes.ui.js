@@ -10,7 +10,6 @@ router.get("/profile", auth(), async (req, res) => {
   res.render("auth/userProfile", { user: req.user });
 });
 
-//get edit Profile
 router.get("/edit", async (req, res, next) => {
   try {
     const id = req.query.id; ///to get data from url, we use query
@@ -28,7 +27,6 @@ router.get("/edit", async (req, res, next) => {
   }
 });
 
-//CRUD operations by admin - Create
 router.get("/add", auth("admin"), async (req, res, next) => {
   try {
     res.render("users/addUsers");

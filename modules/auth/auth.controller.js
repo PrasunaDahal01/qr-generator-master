@@ -54,7 +54,7 @@ const forgetPassword = async (email) => {
 
 const login = async (email, password) => {
   const user = await userModel.findOne({ email }).select("+password");
-  if (!user) throw new Error("Could not found your email");
+  if (!user) throw new Error("Please register first and then log in.");
 
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) throw new Error("Password is incorrect.");

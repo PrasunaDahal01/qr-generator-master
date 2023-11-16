@@ -101,20 +101,13 @@ router.post("/resetPassword", async (req, res, next) => {
     const password = req.body.password;
     const user_id = req.body.user_id;
     const resetPass = await authController.resetPassword(password, user_id);
-    if (resetPass) {
-      res.redirect("/users/login");
-    } else {
-      res.json({
-        success: false,
-        message: "update failed.",
-      });
-    }
+    res.json({ success: true, resetPass });
   } catch (err) {
     next(err);
   }
 });
 
-router.post("/changePassword", async (req, res, next) => {
+router.put("/changePassword", async (req, res, next) => {
   try {
     const password = req.body.password;
     const newpassword = req.body.newpassword;

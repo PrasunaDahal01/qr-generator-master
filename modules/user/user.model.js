@@ -30,11 +30,10 @@ const userSchema = new Schema({
     default: "",
   },
 
-  status: {
-    type: String,
-    enum: ["active", "archived"],
-    default: "active",
+  archived: {
+    type: Boolean,
+    default: false,
   },
 });
 
-module.exports = mongoose.model("userRegisters", userSchema);
+module.exports = mongoose.model("user", userSchema);

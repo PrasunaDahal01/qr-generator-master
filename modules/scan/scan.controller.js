@@ -7,7 +7,6 @@ class Scan {
 
     const qrDocument = await qrModel.findOne({ qrId });
 
-    // compare with code and ip if it exist, if it exist do not increase the count, if not increase it
     if (qrDocument) {
       const existingDocument = await scanModel.findOne({
         IpAddress: ipAddress,
@@ -15,7 +14,6 @@ class Scan {
       });
 
       if (existingDocument) {
-        //if the IP address exists, increment the count
         response = await scanModel.findByIdAndUpdate(existingDocument._id, {
           $inc: { count: 1 },
         });

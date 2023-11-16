@@ -89,7 +89,7 @@ router.put("/editUser/:id", async (req, res, next) => {
   }
 });
 
-router.get("/archive/:id", async (req, res, next) => {
+router.delete("/archive/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const result = await userController.archiveUser(id);

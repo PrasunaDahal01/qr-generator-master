@@ -34,7 +34,7 @@
           <div class="container rounded my-2 px-0 insideContainer">
             <div
               id="messageBox"
-              class="message-box py-3 mx-5 px-5 text-center justify-content-center"
+              class="message-box py-3 mx-5 px-5 justify-content-center"
             ></div>
             <div class="py-1 header">
               <h1 class="text-center">Login Form</h1>
@@ -88,10 +88,12 @@
         </div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
       const formE2 = document.querySelector(".form");
+      let loginResult;
 
-      formE2.addEventListener("submit", (event) => {
+      formE2.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const messageBox = document.getElementById("messageBox");
@@ -101,22 +103,21 @@
         //javascript object
         const data = Object.fromEntries(formData);
 
-        fetch("/api/v1/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              window.location.href = "http://localhost:3000/qrs";
-            } else {
-              messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fas fa-times-circle"></i>${data.message}</div>`;
-            }
-          })
-          .catch((error) => console.log(error));
+        try {
+          const result = await axios.post("/api/v1/auth/login", data);
+          loginResult = await result.data;
+          if (loginResult.success) {
+            window.location.href = "http://localhost:3000/qrs";
+          } else {
+            messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fas fa-times-circle"></i>${data.message}</div>`;
+          }
+        } catch (error) {
+          const errorMessage =
+            error.response && error.response.data.message
+              ? error.response.data.message
+              : "An internal server error occcured.";
+          messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fa fa-times-circle"></i> ${errorMessage}</div>`;
+        }
       });
     </script>
 

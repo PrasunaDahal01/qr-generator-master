@@ -92,12 +92,14 @@ const editUser = async (id, email, verify) => {
 };
 
 const archiveUser = async (id) => {
-  const userData = await userModel.findById(id);
-  if (userData) {
-    userData.status = "archived";
-    const updatedData = await userData.save();
-    return updatedData;
-  }
+  const updatedUser = await userModel.findByIdAndUpdate(
+    { _id: id },
+    { $set: { archived: true } }
+  );
+  if (!updatedUser) throw new Error("User not found");
+  return {
+    success: true,
+  };
 };
 module.exports = {
   getUser,

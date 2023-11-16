@@ -1,4 +1,4 @@
-<!--Views are used by the controllers to render the data-->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -110,6 +110,8 @@
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script>
       async function getQrData() {
         const qrText = document.getElementById("qrText").value;
@@ -120,23 +122,18 @@
           alert("Please enter text or URL before generating QR CODE.");
         } else {
           try {
-            const res = await fetch("/api/v1/qrs", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ name: qrText }),
-            });
-            if (!res.ok) {
+            const res = await axios.post("/api/v1/qrs",{name: qrText});
+            if (res.status !== 200) {
               throw new Error(`Fetch request failed with status ${res.status}`);
             }
-            const data = await res.json();
+            const data = await res.data;
+            console.log(data);
             document.getElementById("base64image").src = data.qr;
             imageQr.style.display = "block";
             emailbutton.style.display = "block";
             emailinput.style.display = "block";
           } catch (error) {
-            console.log(error);
+            console.error("error",error);
           }
         }
       }
@@ -147,14 +144,12 @@
           alert("Please enter your Email ID.");
         } else {
           const qr = document.getElementById("base64image").src;
-          const res = await fetch("/api/v1/mails", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ qrCode: qr, email: email }),
-          });
-          const data = await res.json();
+          try{
+            const res = await axios.post("/api/v1/mails",{ qrCode: qr, email: email }) ;   
+          const data = await res.data;
+          }catch(error){
+            console.log(error);
+          }         
         }
       }
 

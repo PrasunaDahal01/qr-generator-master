@@ -82,7 +82,7 @@
         </div>
       </div>
     </div>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
       const formE1 = document.querySelector(".form");
       const messageBox = document.getElementById("messageBox");
@@ -102,55 +102,43 @@
         console.log(data);
 
         if (!otpBox.style.display || otpBox.style.display === "none") {
-    // If OTP input is hidden, it means the user is registering for the first time
+          try{
+            const checkEmailResponse = await axios.post("/api/v1/users/sendOtp",data);
+            checkEmailResult = await checkEmailResponse.data;
+            if(checkEmailResult){
+              if (checkEmailResult.success) {
+                otpBox.style.display = "block";
+                submitOtpButton.style.display = "block";
+              }
+              messageBox.innerHTML = `<div class="alert alert-${
+                checkEmailResult.success ? 'success' : 'danger'
+              }" role="alert">${
+                checkEmailResult.success ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>'}${checkEmailResult.message}</div>`;
+              }
+            }catch(error){
+              const errorMessage = error.response && error.response.data.message? error.response.data.message:"An interval error occured."
 
-    // Send a request to check if the email is already registered
-    const checkEmailResponse = await fetch("/api/v1/users/sendOtp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+              messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fas fa-times-circle"></i> ${errorMessage}</div>`;
+            }
 
-
-  checkEmailResult = await checkEmailResponse.json();
-    if(checkEmailResult){
-    if (checkEmailResult.success) {
-      // Email is not registered, show OTP input and "Submit" button
-      otpBox.style.display = "block";
-      submitOtpButton.style.display = "block";
-    }
-
-    // Display the message returned from the server
-    messageBox.innerHTML = `<div class="alert alert-${
-      checkEmailResult.success ? 'success' : 'danger'
-    }" role="alert">
-      ${checkEmailResult.success ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>'}
-      ${checkEmailResult.message}
-    </div>`;
-  } 
   } else{
-    const response = await fetch("/api/v1/users/registers", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await response.json();
-    messageBox.innerHTML = `<div class="alert alert-${
+    const response = await axios.post("/api/v1/users/registers",data);
+    try{
+      const result = await response.data;messageBox.innerHTML = `<div class="alert alert-${
         result.success ? 'success' : 'danger'
       }" role="alert">
         ${result.success ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>'}
         ${result.message}
       </div>`;
+    }catch(error){
+      const errorMessage = error.response&&error.response.data.message
+      ?error.response.data.message
+      :"An internal server error occured.";
+      messageBox.innerHTML= `<div class="alert alert-danger" role="alert"><i class="fas fa-times-cicle">${errorMessage}</div>`;
     } 
-});
-    
-          
-    </script>
+  }   
+});      
+</script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

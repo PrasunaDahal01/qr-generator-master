@@ -6,6 +6,7 @@ async function sendOtp(email) {
   const existingUser = await userModel.findOne({ email });
 
   if (existingUser) throw new Error("This email is taken.");
+
   let otp = otpGenerator.generate(6, {
     upperCaseAlphabets: false,
     lowerCaseAlphabets: false,
