@@ -2,6 +2,7 @@ const router = require("express").Router();
 const authController = require("./auth.controller");
 const otpController = require("../otp/otp.controller");
 const { auth } = require("../middlewares/authorization");
+const upload = require("../../services/multer/multer.service");
 
 router.post("/sendOtp", async (req, res, next) => {
   const email = req.body.email;
@@ -16,15 +17,23 @@ router.post("/sendOtp", async (req, res, next) => {
   }
 });
 
-router.post("/registers", async (req, res, next) => {
+router.post("/registers", upload.single("image"), async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const otp = req.body.otp;
+  const image = req.file.filename;
   try {
     const otpVerification = await otpController.verifyOTP(email, otp);
     if (!otpVerification || !otpVerification.success)
       throw new Error("Invalid OTP");
-    const registerResult = await authController.register(email, password);
+    if (!req.file) {
+      throw new Error("No file uploaded");
+    }
+    const registerResult = await authController.register(
+      email,
+      password,
+      image
+    );
     res.json({
       success: registerResult.success,
       message: registerResult.message,
@@ -59,10 +68,6 @@ router.post("/regenerate", async (req, res, next) => {
   const refreshToken = req.body.refreshToken;
   try {
     const result = await authController.regenerateToken(refreshToken);
-    res.cookie("jwt", result, {
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    });
     res.json({ token: result });
   } catch (err) {
     next(err);

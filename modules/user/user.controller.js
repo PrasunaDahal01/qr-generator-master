@@ -15,7 +15,7 @@ const sendOTP = async (email) => {
   };
 };
 
-const register = async (email, password, role) => {
+const register = async (email, password, role, image) => {
   const existingUser = await userModel.findOne({ email });
   if (existingUser) throw new Error("This email is taken.");
 
@@ -25,6 +25,7 @@ const register = async (email, password, role) => {
     password: ePassword,
     role: role,
     is_verified: true,
+    image,
   });
   await user.save();
   return {
@@ -44,11 +45,18 @@ const editProfile = async (id) => {
   return userData;
 };
 
-const updateProfile = async (email, user_id) => {
+const updateProfile = async (email, user_id, image) => {
+  if (!image) {
+    await userModel.findByIdAndUpdate(
+      { _id: user_id },
+      { $set: { email: email } }
+    );
+  }
   const userData = await userModel.findByIdAndUpdate(
     { _id: user_id },
-    { $set: { email: email } }
+    { $set: { email: email, image: image } }
   );
+
   if (!userData) throw new Error("Cannot Update Profile. ");
   return {
     success: true,
@@ -56,13 +64,14 @@ const updateProfile = async (email, user_id) => {
   };
 };
 
-const addNewUser = async (email) => {
+const addNewUser = async (email, image) => {
   const password = randomstring.generate(8);
   const ePassword = await encryptPassword(password);
   const user = new userModel({
     email: email,
     password: ePassword,
     is_verified: true,
+    image,
   });
   const userData = await user.save();
   if (!userData) throw new Error("Unable to add new User");
@@ -79,10 +88,10 @@ const getEditUser = async (id) => {
   return userData;
 };
 
-const editUser = async (id, email, verify) => {
+const editUser = async (id, email, verify, role, image) => {
   const userData = await userModel.findByIdAndUpdate(
     { _id: id },
-    { $set: { email: email, is_verified: verify } }
+    { $set: { email: email, is_verified: verify, role: role, image: image } }
   );
   if (!userData) throw new Error("Unable to update user.");
   return {

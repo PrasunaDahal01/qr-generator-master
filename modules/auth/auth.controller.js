@@ -20,7 +20,7 @@ const sendOTP = async (email) => {
   };
 };
 
-const register = async (email, password) => {
+const register = async (email, password, image) => {
   const existingUser = await userModel.findOne({ email });
   if (existingUser) throw new Error("This email is taken.");
   const ePassword = await encryptPassword(password);
@@ -29,6 +29,7 @@ const register = async (email, password) => {
     email,
     password: ePassword,
     is_verified: true,
+    image,
   });
   await user.save();
   return {

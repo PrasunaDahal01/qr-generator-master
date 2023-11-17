@@ -38,7 +38,7 @@
               <h1 class="text-center">Registration Form</h1>
             </div>
 
-            <form action="" method="post" class="form">
+            <form action="" method="post" class="form" enctype="multipart/form-data">
               <div class="py-3 mx-5">
                 <label for="email" class="form-label">Email:</label>
                 <label for="" class="form-label"></label>
@@ -61,6 +61,16 @@
                   required
                 />
               </div>
+
+              <div class="py-3 mx-5">
+                <input
+                  type="file"
+                  name="image"
+                  class="form-control p-2"
+                  placeholder="Enter Your Picture:"
+                  required
+                />
+              </div>
             
           <div  id="otpBox" class="py-3 mx-5" style="display: none;">
                 <label for="otp" class="form-label">OTP:</label>
@@ -71,8 +81,8 @@
                 <input type="Submit" class="btn text-white" value="Submit" id="registerOtpButton" />
           </div>
 
-              <div class="py-3 mx-5 text-center text-white">
-                <input type="Submit" class="btn text-white" value="Register" id="registerButton" />
+              <div id="registerButton" class="py-3 mx-5 text-center text-white">
+                <input type="Submit" class="btn text-white" value="Register" id="registerbutton" />
           </div>
           <div class="py-3 mx-5 d-flex justify-content-center">
             <p>Have an account?</p>
@@ -112,6 +122,7 @@ formE1.addEventListener("submit", async (event) => {
     if (checkEmailResult.success) {
       otpBox.style.display = "block";
       submitOtpButton.style.display = "block";
+      registerButton.style.display = "none";
     }
 
     messageBox.innerHTML = `<div class="alert alert-${
@@ -133,7 +144,7 @@ formE1.addEventListener("submit", async (event) => {
   }   
   } else {
     try{
-      const response = await axios.post("/api/v1/auth/registers", data);
+      const response = await axios.post("/api/v1/auth/registers", data,{headers:{'Content-Type': 'multipart/form-data'}});
     const result = await response.data;
 
       messageBox.innerHTML = `<div class="alert alert-${

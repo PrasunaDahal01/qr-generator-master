@@ -47,9 +47,17 @@
           <div class="col-sm-12">
             <div class="rounded my-2 px-0 insideContainer">
               <div class="py-1 header">
-                <h1 class="text-center">Your Details:</h1>
+                <h1 class="text-center">My Profile</h1>
               </div>
               <div class="py-3 mx-5">
+                <p>
+                  <img
+                    src="../../public/userImages/<%= user.image %>"
+                    width="100px"
+                    height="100px"
+                    alt="<%= user.image %>"
+                  />
+                </p>
                 <p>Email: <%= user.email %></p>
                 <p>Role: <%= user.role %></p>
               </div>

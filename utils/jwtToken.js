@@ -9,7 +9,7 @@ const generateAccessToken = (userId, userRole) => {
     },
     process.env.SECRET_KEY, //process.env.jwtsecret
     {
-      expiresIn: "2h",
+      expiresIn: "20m",
     }
   );
 };

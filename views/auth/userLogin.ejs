@@ -90,35 +90,83 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      const formE2 = document.querySelector(".form");
-      let loginResult;
+      let loginResult = {};
+      const login = async () => {
+        const formE2 = document.querySelector(".form");
 
-      formE2.addEventListener("submit", async (event) => {
-        event.preventDefault();
+        formE2.addEventListener("submit", async (event) => {
+          event.preventDefault();
 
-        const messageBox = document.getElementById("messageBox");
+          const messageBox = document.getElementById("messageBox");
 
-        const formData = new FormData(formE2);
+          const formData = new FormData(formE2);
 
-        //javascript object
-        const data = Object.fromEntries(formData);
+          //javascript object
+          const data = Object.fromEntries(formData);
 
-        try {
-          const result = await axios.post("/api/v1/auth/login", data);
-          loginResult = await result.data;
-          if (loginResult.success) {
-            window.location.href = "http://localhost:3000/qrs";
-          } else {
-            messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fas fa-times-circle"></i>${data.message}</div>`;
+          try {
+            const result = await axios.post("/api/v1/auth/login", data);
+
+            loginResult = await result.data;
+            if (loginResult.success) {
+              window.location.href = "http://localhost:3000/qrs";
+            } else {
+              messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fas fa-times-circle"></i>${data.message}</div>`;
+            }
+          } catch (error) {
+            const errorMessage =
+              error.response && error.response.data.message
+                ? error.response.data.message
+                : "An internal server error occcured.";
+            messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fa fa-times-circle"></i> ${errorMessage}</div>`;
           }
+        });
+      };
+      login();
+
+      const refreshToken = async () => {
+        try {
+          const storedRefreshToken = login.loginResult.refreshToken;
+          console.log("stored refreshtoken", storedRefreshToken);
+
+          const response = await axios.post("/api/v1/auth/regenerate", {
+            refreshToken: storedRefreshToken,
+          });
+
+          //updating the stored token with new one
+          loginResult.token = response.data.token;
+
+          setCookie("jwt", loginResult.token, {
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+          });
+          return loginResult.token;
         } catch (error) {
-          const errorMessage =
-            error.response && error.response.data.message
-              ? error.response.data.message
-              : "An internal server error occcured.";
-          messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fa fa-times-circle"></i> ${errorMessage}</div>`;
+          //redirecting to login page on failing.
+          window.location.href = "http://localhost:3000/auth/login";
+          throw error;
         }
-      });
+      };
+
+      axios.interceptors.response.use(
+        (response) => {
+          return response;
+        },
+        async (error) => {
+          if (
+            error.response.status === 401 &&
+            error.response.data.message === "Invalid Token"
+          ) {
+            try {
+              const refreshedToken = await refreshToken();
+            } catch (error) {
+              window.location.href = "http://localhost:3000/auth/login";
+              return Promise.reject(error);
+            }
+          }
+          return Promise.reject(error);
+        }
+      );
     </script>
 
     <script
