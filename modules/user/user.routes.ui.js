@@ -27,6 +27,14 @@ router.get("/edit", async (req, res, next) => {
   }
 });
 
+router.get("/dashboard", async (req, res, next) => {
+  try {
+    res.render("users/adminDashboard");
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get("/add", auth("admin"), async (req, res, next) => {
   try {
     res.render("users/addUsers");

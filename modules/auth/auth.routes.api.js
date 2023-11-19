@@ -48,12 +48,8 @@ router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const loginResult = await authController.login(email, password);
-
-    res.cookie("jwt", loginResult.token, {
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    });
-    res.json({
+    console.log(loginResult);
+    res.status(200).json({
       success: loginResult.success,
       message: loginResult.message,
       token: loginResult.token,
@@ -68,9 +64,11 @@ router.post("/regenerate", async (req, res, next) => {
   const refreshToken = req.body.refreshToken;
   try {
     const result = await authController.regenerateToken(refreshToken);
+
     res.json({ token: result });
   } catch (err) {
-    next(err);
+    console.error("Token regeneration error:", err);
+    throw new Error("Invalid or expired refresh token");
   }
 });
 

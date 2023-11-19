@@ -59,7 +59,7 @@ const login = async (email, password) => {
 
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) throw new Error("Password is incorrect.");
-
+  console.log(isPasswordMatch);
   const token = generateAccessToken(user._id, user.role);
   const refreshToken = generateRefreshToken(user._id, user.role);
 
@@ -100,7 +100,9 @@ const changePassword = async (password, newpassword, user_id) => {
 };
 
 const regenerateToken = async (refreshToken) => {
+  console.log("Attempting to regenerate token...");
   const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY);
+  console.log("Token regenerated successfully.");
   return generateAccessToken(decoded.id, decoded.role);
 };
 

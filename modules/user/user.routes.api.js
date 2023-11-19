@@ -4,7 +4,6 @@ const userController = require("./user.controller");
 const otpController = require("../otp/otp.controller");
 const { auth } = require("../middlewares/authorization");
 const upload = require("../../services/multer/multer.service");
-const { resolveContent } = require("nodemailer/lib/shared");
 
 router.post("/sendOtp", async (req, res, next) => {
   const email = req.body.email;
@@ -50,6 +49,10 @@ router.post("/registers", upload.single("image"), async (req, res, next) => {
   }
 });
 
+router.get("/me", auth(), async (req, res, next) => {
+  res.status(200).json({ user: req.user });
+});
+
 router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
   try {
     const email = req.body.email;
@@ -69,16 +72,8 @@ router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
   }
 });
 //dashboard
-router.get("/dashboard", auth("admin"), async (req, res, next) => {
-  try {
-    const userData = await userModel.find({ role: "user" });
-    if (!userData) res.status(401).send("No user found");
 
-    res.render("users/adminDashboard", { user: userData });
-  } catch (err) {
-    next(err);
-  }
-});
+router.get("/users", auth("admin"), async (req, res, next) => {});
 
 router.post("/add", upload.single("image"), async (req, res, next) => {
   try {
