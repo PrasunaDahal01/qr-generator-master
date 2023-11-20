@@ -40,6 +40,7 @@ const register = async (email, password, image) => {
 
 const forgetPassword = async (email) => {
   const user = await userModel.findOne({ email });
+  console.log("user");
   if (!user) throw new Error("Couldnot found your email");
 
   const token = generateAccessToken(user._id);

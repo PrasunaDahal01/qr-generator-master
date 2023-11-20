@@ -74,6 +74,7 @@ router.post("/regenerate", async (req, res, next) => {
 
 router.post("/forgetPassword", async (req, res, next) => {
   const email = req.body.email;
+  console.log("email", email);
   try {
     const forgetP = await authController.forgetPassword(email);
     res.json({

@@ -9,6 +9,7 @@ router.post("/sendOtp", async (req, res, next) => {
   const email = req.body.email;
   try {
     const mailResult = await userController.sendOTP(email);
+
     res.json({
       success: mailResult.success,
       message: mailResult.message,
@@ -29,9 +30,11 @@ router.post("/registers", upload.single("image"), async (req, res, next) => {
     const otpVerification = await otpController.verifyadminOTP(email, otp);
     if (!otpVerification || !otpVerification.success)
       throw new Error("Invalid OTP");
+
     if (!req.file) {
       throw new Error("No file uploaded");
     }
+
     const registerResult = await userController.register(
       email,
       password,
@@ -84,7 +87,7 @@ router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
       user_id,
       image
     );
-    console.log("Updatedimage", updateResult.image);
+
     res.json({
       success: updateResult.success,
       message: updateResult.message,
@@ -96,8 +99,8 @@ router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
 
 router.get("/users", auth("admin"), async (req, res, next) => {
   try {
-    const userData = await userModel.find({ role: "user" });
-    console.log("userdata", userData);
+    const userData = await userModel.find({ role: "user", isArchived: false });
+
     res.status(200).json({ user: userData });
   } catch (err) {
     next(err);
@@ -109,6 +112,7 @@ router.post("/add", upload.single("image"), async (req, res, next) => {
     const email = req.body.email;
     const image = req.file.filename;
     const addUser = await userController.addNewUser(email, image);
+
     res.json({
       success: addUser.success,
       message: addUser.message,
@@ -133,6 +137,7 @@ router.put("/editUser/:id", upload.single("image"), async (req, res, next) => {
       role,
       image
     );
+
     res.json(editResult);
   } catch (err) {
     next(err);
@@ -143,6 +148,7 @@ router.delete("/archive/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const result = await userController.archiveUser(id);
+
     res.json({ result });
   } catch (err) {
     next(err);
@@ -152,7 +158,6 @@ router.delete("/archive/:id", async (req, res, next) => {
 router.get("/:id", async (req, res) => {
   const userId = req.params.id;
   const user = await userController.getUser(userId);
-
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }

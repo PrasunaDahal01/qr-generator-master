@@ -15,4 +15,5 @@ router.get("/forgetPassword", (req, res) => {
 router.get("/changePassword", async (req, res) => {
   res.render("auth/changePassword");
 });
+
 module.exports = router;
