@@ -49,8 +49,28 @@ router.post("/registers", upload.single("image"), async (req, res, next) => {
   }
 });
 
+router.get("/qrs", auth(), async (req, res, next) => {
+  res.status(200).json({ user: req.user });
+});
+
 router.get("/me", auth(), async (req, res, next) => {
   res.status(200).json({ user: req.user });
+});
+
+router.get("/edit", auth(), async (req, res, next) => {
+  try {
+    res.status(200).json({ user: req.user });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/reset", auth(), async (req, res, next) => {
+  try {
+    res.status(200).json({ user: req.user });
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
@@ -58,11 +78,13 @@ router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
     const email = req.body.email;
     const user_id = req.params.id;
     const image = req.file ? req.file.filename : undefined;
+    console.log("image", image);
     const updateResult = await userController.updateProfile(
       email,
       user_id,
       image
     );
+    console.log("Updatedimage", updateResult.image);
     res.json({
       success: updateResult.success,
       message: updateResult.message,
@@ -71,9 +93,16 @@ router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
     next(err);
   }
 });
-//dashboard
 
-router.get("/users", auth("admin"), async (req, res, next) => {});
+router.get("/users", auth("admin"), async (req, res, next) => {
+  try {
+    const userData = await userModel.find({ role: "user" });
+    console.log("userdata", userData);
+    res.status(200).json({ user: userData });
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.post("/add", upload.single("image"), async (req, res, next) => {
   try {

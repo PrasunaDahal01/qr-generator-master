@@ -96,6 +96,8 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/public/javascript/storage.js"></script>
+<script src="/public/javascript/requestManager.js"></script>
     <script>
       const formE1 = document.querySelector(".form");
 const messageBox = document.getElementById("messageBox");
@@ -115,7 +117,11 @@ formE1.addEventListener("submit", async (event) => {
 
   if (!otpBox.style.display || otpBox.style.display === "none") {
     try{
-      const checkEmailResponse = await axios.post("/api/v1/auth/sendOtp", data);
+      const response = await post({
+      endpoint: "/api/v1/auth/sendOtp",
+      headers: { "Content-Type": "application/json" },
+      params: data,
+    });
 
     checkEmailResult = await checkEmailResponse.data;
     
@@ -144,15 +150,12 @@ formE1.addEventListener("submit", async (event) => {
   }   
   } else {
     try{
-      const response = await axios.post("/api/v1/auth/registers", data,{headers:{'Content-Type': 'multipart/form-data'}});
+      const response = await post({
+      endpoint: "/api/v1/auth/registers",
+      headers: { 'Content-Type': 'multipart/form-data' },
+      params: data,
+    });
     const result = await response.data;
-
-      messageBox.innerHTML = `<div class="alert alert-${
-        result.success ? 'success' : 'danger'
-      }" role="alert">
-        ${result.success ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>'}
-        ${result.message}
-      </div>`;
     }catch(error){
       const errorMessage =
       error.response && error.response.data.message

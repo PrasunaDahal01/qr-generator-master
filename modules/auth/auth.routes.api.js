@@ -110,6 +110,15 @@ router.post("/resetPassword", async (req, res, next) => {
   }
 });
 
+router.get("/change", auth(), async (req, res, next) => {
+  try {
+    console.log("user:", req.user);
+    res.status(200).json({ user: req.user });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.put("/changePassword", async (req, res, next) => {
   try {
     const password = req.body.password;
@@ -121,7 +130,7 @@ router.put("/changePassword", async (req, res, next) => {
       user_id
     );
 
-    res.json({
+    res.status(200).json({
       success: changeResult.success,
       message: changeResult.message,
     });

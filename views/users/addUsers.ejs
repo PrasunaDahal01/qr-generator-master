@@ -74,6 +74,8 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/public/javascript/requestManager.js"></script>
+    <script src="/public/javascript/storage.js"></script>
     <script>
 
         const formE2 = document.querySelector(".form");
@@ -85,19 +87,12 @@
         const data = Object.fromEntries(formData);
 
         try{
-          const response = await axios.post("/api/v1/users/add", data, {headers:{'Content-Type': 'multipart/form-data'}});
+            const response = await post({
+            endpoint: "/api/v1/users/add",
+            headers: { 'Content-Type': 'multipart/form-data' },
+            params: data,
+          });
         result = response.data;
-        messageBox.innerHTML = `<div class="alert alert-${
-              result.success ? "success" : "danger"
-            }" role="alert">
-        ${
-          result.success
-            ? '<i class="fas fa-check-circle"></i>'
-            : '<i class="fas fa-times-circle"></i>'
-        }
-        ${result.message}
-      </div>`;
-
         }catch(error){
           const errorMessage =
             error.response && error.response.data.message

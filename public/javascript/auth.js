@@ -4,7 +4,7 @@ const login = async (formE2) => {
   const data = Object.fromEntries(formData);
   try {
     const response = await post({
-      endpoint: "/auth/login",
+      endpoint: "/api/v1/auth/login",
       headers: { "Content-Type": "application/json" },
       params: data,
     });

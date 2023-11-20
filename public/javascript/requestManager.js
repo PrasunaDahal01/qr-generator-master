@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:3000/api/v1";
+const API_BASE_URL = "http://localhost:3000/";
 
 const refreshToken = async (refreshToken) => {
   try {
@@ -67,11 +67,22 @@ const get = ({ endpoint, headers }) => {
 };
 
 const deleteUser = async ({ endpoint, headers }) => {
-  return requestManager({ method: "post", endpoint, headers, requestOptions });
+  return requestManager({
+    method: "delete",
+    endpoint,
+    headers,
+    requestOptions,
+  });
 };
 
 const post = async ({ endpoint, headers, params }) => {
   const requestOptions = { data: params };
 
   return requestManager({ method: "post", endpoint, headers, requestOptions });
+};
+
+const put = async ({ endpoint, headers, params }) => {
+  const requestOptions = { data: params };
+
+  return requestManager({ method: "put", endpoint, headers, requestOptions });
 };

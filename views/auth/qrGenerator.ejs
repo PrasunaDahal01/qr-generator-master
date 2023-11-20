@@ -136,7 +136,7 @@
         } else {
           try {
             const response = await post({
-              endpoint: "/qrs",
+              endpoint: "/api/v1/qrs",
               headers: { "Content-Type": "application/json" },
               params: { name: qrText },
             });
@@ -165,7 +165,7 @@
           const qr = document.getElementById("base64image").src;
           try {
             const response = await post(
-              { endpoint: "/mails" },
+              { endpoint: "/api/v1/mails" },
               { headers: { "Content-Type": "application/json" } },
               { params: { qrCode: qr, email: email } }
             );

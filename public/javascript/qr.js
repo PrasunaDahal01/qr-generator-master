@@ -1,7 +1,7 @@
 const pageLoad = async () => {
   try {
     const response = await get({
-      endpoint: "/users/me",
+      endpoint: "/api/v1/users/qrs",
       headers: { "Content-Type": "application/json" },
     });
     const userRole = response.user.role;

@@ -49,31 +49,30 @@
               <div class="py-1 header">
                 <h1 class="text-center">My Profile</h1>
               </div>
-              <div class="py-3 mx-5">
-                <p>
-                  <img
-                    src="../../public/userImages/<%= user.image %>"
-                    width="100px"
-                    height="100px"
-                    alt="<%= user.image %>"
-                  />
-                </p>
-                <p>Email: <%= user.email %></p>
-                <p>Role: <%= user.role %></p>
-              </div>
+              <div id="userId"></div>
+              <div class="py-3 mx-5" id="userDetails"></div>
             </div>
           </div>
         </div>
       </div>
       <div class="py-3 mx-5">
-        <a href="/users/edit?id=<%= user._id %>" style="color: azure"
-          ><h5>Edit My Profile</h5></a
-        >
+        <a href="/users/edit" style="color: azure"><h5>Edit My Profile</h5></a>
         <a href="/auth/changePassword"
           ><h5 style="color: azure">Change password</h5></a
         >
       </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/public/javascript/profile.js"></script>
+    <script src="/public/javascript/requestManager.js"></script>
+    <script src="/public/javascript/storage.js"></script>
+
+    <script>
+      window.addEventListener("load", () => {
+        pageLoad();
+      });
+    </script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
