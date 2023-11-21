@@ -48,7 +48,7 @@ router.post("/login", async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const loginResult = await authController.login(email, password);
-    console.log(loginResult);
+
     res.status(200).json({
       success: loginResult.success,
       message: loginResult.message,
@@ -64,10 +64,10 @@ router.post("/regenerate", async (req, res, next) => {
   const refreshToken = req.body.refreshToken;
   try {
     const result = await authController.regenerateToken(refreshToken);
+    console.log("regenerateToken", result);
 
-    res.json({ token: result });
+    res.status(200).json({ token: result });
   } catch (err) {
-    console.error("Token regeneration error:", err);
     throw new Error("Invalid or expired refresh token");
   }
 });
@@ -77,6 +77,7 @@ router.post("/forgetPassword", async (req, res, next) => {
   console.log("email", email);
   try {
     const forgetP = await authController.forgetPassword(email);
+
     res.json({
       success: forgetP.success,
       message: forgetP.message,
