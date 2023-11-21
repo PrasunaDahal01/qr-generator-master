@@ -24,8 +24,8 @@
     />
 
     <link rel="stylesheet" href="/public/css/updateProfile.css" />
-  </head>
-  <body>
+    </head>
+    <body>
     <header>
       <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
       <a href="#" class="logout" id="logOut" onclick="logOut(event)">LogOut</a>
@@ -48,6 +48,7 @@
                 <div id="emailData"></div>
                 
               </div>
+
             <div class="py-3 mx-5">
               <label class="form-label">Verify User:</label>
               <div class="form-check">
@@ -55,13 +56,13 @@
                 class="form-check-input" required />
                 <label class="form-check-label">verify</label>
               </div>
+
               <div class="form-check">
                 <input type="radio" name="verify" value="false"    
                 class="form-check-input" required />
                 <label  class="form-check-label">Unverify</label>
               </div>
-              
-              
+    
             </div>
             <div class="py-3 mx-5">
               <label class="form-label"> User Role</label>
@@ -88,23 +89,22 @@
             <div class="py-3 mx-5 text-center text-white">
               <input type="Submit" class="btn text-white" value="Update User" id="addButton" />
             </div>
-      </div>
           </div>
+        </div>
         </form>
-  </div>
-      <div class="py-3 mx-5 " >
+        </div>
+        <div class="py-3 mx-5 " >
         <a href="/users/dashboard" style="color: azure;">Go Back</a>
       </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="/public/javascript/edit.js"></script>
-<script src="/public/javascript/requestManager.js"></script>
-<script src="/public/javascript/storage.js"></script>
-<script>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/public/javascript/edit.js"></script>
+    <script src="/public/javascript/requestManager.js"></script>
+    <script src="/public/javascript/storage.js"></script>
+    <script>
     window.addEventListener("load", () => {
         pageLoad();
       });
-
       const logOut = async (event) => {
         event.preventDefault();
         localStorage.clear();
@@ -112,25 +112,21 @@
       };
 
       const editUser = async()=>{
-        const formE2 = document.querySelector(".form");
-    let result;
-
-      formE2.addEventListener("submit", async(event) => {
-        event.preventDefault();
-
-        const messageBox = document.getElementById("messageBox");
-
-        const formData = new FormData(formE2);
-
-        const data = Object.fromEntries(formData);
-        userId = data.user_id;
-        try{
-          const response = await put({
+        const editForm= document.querySelector(".form");
+        editForm.addEventListener("submit", async(event) => {
+          event.preventDefault();
+          const messageBox = document.getElementById("messageBox");
+          const formData = new FormData(editForm);
+          const data = Object.fromEntries(formData);
+          userId = data.user_id;
+          try{
+            const response = await put({
             endpoint: `/api/v1/users/editUser/${userId}`,
             headers: { 'Content-Type': 'multipart/form-data' },
             params: data,
           });
         result = await response.data;
+            messageBox.innerHTML = `<div class="alert alert-success" role="alert"><i class="fas fa-check-circle"></i>User Updated.</div>`;
         }catch(error){
           const errorMessage =
             error.response && error.response.data.message
@@ -141,12 +137,9 @@
     <i class="fas fa-times-circle"></i> ${errorMessage}
   </div>`;
         }      
-          });  
-        
+          });       
       }
-      editUser();
-
-      
+      editUser();      
     </script>
 
     <script

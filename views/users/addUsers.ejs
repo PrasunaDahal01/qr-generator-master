@@ -98,6 +98,7 @@
             params: data,
           });
         result = response.data;
+            messageBox.innerHTML = `<div class="alert alert-success" role="alert"><i class="fas fa-check-circle"></i>Users Added.</div>`;
         }catch(error){
           const errorMessage =
             error.response && error.response.data.message

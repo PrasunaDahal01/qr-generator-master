@@ -103,10 +103,8 @@ const changePassword = async (password, newpassword, user_id) => {
 };
 
 const regenerateToken = async (refreshToken) => {
-  console.log("Attempting to regenerate token...");
-  console.log("refreshToken", refreshToken);
   const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY);
-  console.log("Token regenerated successfully.");
+
   return generateAccessToken(decoded.id, decoded.role);
 };
 

@@ -9,8 +9,9 @@ const refreshTokens = async (refreshToken) => {
         refreshToken,
       }
     );
-    console.log("resulttoken", response.token);
-    setAccessToken(response.token);
+    console.log({ response });
+
+    setAccessToken(response.data.token);
   } catch (error) {
     window.location.href = "http://localhost:3000/auth/login";
     throw error;
@@ -21,10 +22,12 @@ const errorInterceptor = async (error) => {
   console.log("error coming", error.response);
   if (error.response && error.response.status === 401) {
     try {
+      console.log("from here in the error interceptor");
       const refreshToken = getRefreshToken();
-      console.log("refreshErrorInterceptor", refreshToken);
       await refreshTokens(refreshToken);
-
+      console.log(error.config);
+      error.config.headers.set("Authorization", `Bearer ${getAccessToken()}`);
+      console.log(error.config);
       return axios.request(error.config);
     } catch (error) {
       window.location.href = "http://localhost:3000/auth/login";

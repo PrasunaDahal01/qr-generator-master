@@ -64,7 +64,6 @@ router.post("/regenerate", async (req, res, next) => {
   const refreshToken = req.body.refreshToken;
   try {
     const result = await authController.regenerateToken(refreshToken);
-    console.log("regenerateToken", result);
 
     res.status(200).json({ token: result });
   } catch (err) {
