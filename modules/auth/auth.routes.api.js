@@ -91,7 +91,7 @@ router.get("/resetPassword", async (req, res, next) => {
     const token = req.query.token;
     const result = await authController.resetPass(token);
     if (result) {
-      res.render("auth/resetPassword", { user_id: result._id });
+      res.render("auth/resetPassword", { userId: result._id });
     } else {
       res.render("auth/404", { message: "Token is invalid" });
     }
@@ -103,8 +103,8 @@ router.get("/resetPassword", async (req, res, next) => {
 router.post("/resetPassword", async (req, res, next) => {
   try {
     const password = req.body.password;
-    const user_id = req.body.user_id;
-    const resetPass = await authController.resetPassword(password, user_id);
+    const userId = req.body.userId;
+    const resetPass = await authController.resetPassword(password, userId);
     res.json({ success: true, resetPass });
   } catch (err) {
     next(err);
@@ -113,7 +113,6 @@ router.post("/resetPassword", async (req, res, next) => {
 
 router.get("/change", auth(), async (req, res, next) => {
   try {
-    console.log("user:", req.user);
     res.status(200).json({ user: req.user });
   } catch (err) {
     next(err);

@@ -69,15 +69,16 @@ const login = async (email, password) => {
 
 const resetPass = async (token) => {
   const tokenData = await userModel.findOne({ token });
+  console.log("Token", tokenData);
   if (!tokenData) throw new Error("Token Not Found");
 
   return tokenData;
 };
 
-const resetPassword = async (password, user_id) => {
+const resetPassword = async (password, userId) => {
   const ePassword = await encryptPassword(password);
   const updatedData = await userModel.findByIdAndUpdate(
-    { _id: user_id },
+    { _id: userId },
     { $set: { password: ePassword, token: "" } }
   );
 

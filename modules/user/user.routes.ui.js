@@ -34,15 +34,9 @@ router.get("/add", async (req, res, next) => {
   }
 });
 
-router.get("/editUser", auth("admin"), async (req, res, next) => {
+router.get("/editUser", async (req, res, next) => {
   try {
-    const id = req.query.id;
-    const data = await userController.getEditUser(id);
-    if (data) {
-      res.render("users/editUser", { user: data });
-    } else {
-      res.redirect("/api/v1/users/dashboard");
-    }
+    res.render("users/editUser");
   } catch (err) {
     next(err);
   }

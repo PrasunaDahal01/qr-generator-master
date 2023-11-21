@@ -82,12 +82,6 @@ const addNewUser = async (email, image) => {
   };
 };
 
-const getEditUser = async (id) => {
-  const userData = await userModel.findById({ _id: id });
-  if (!userData) throw Error("Update failed.");
-  return userData;
-};
-
 const editUser = async (id, email, verify, role, image) => {
   const userData = await userModel.findByIdAndUpdate(
     { _id: id },
@@ -118,6 +112,5 @@ module.exports = {
   editUser,
   editProfile,
   updateProfile,
-  getEditUser,
   archiveUser,
 };

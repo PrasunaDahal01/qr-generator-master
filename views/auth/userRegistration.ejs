@@ -123,20 +123,13 @@ formE1.addEventListener("submit", async (event) => {
       params: data,
     });
 
-    checkEmailResult = await checkEmailResponse.data;
+    checkEmailResult = await response.data;
     
     if (checkEmailResult.success) {
       otpBox.style.display = "block";
       submitOtpButton.style.display = "block";
       registerButton.style.display = "none";
     }
-
-    messageBox.innerHTML = `<div class="alert alert-${
-      checkEmailResult.success ? 'success' : 'danger'
-    }" role="alert">
-      ${checkEmailResult.success ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>'}
-      ${checkEmailResult.message}
-    </div>`;
 
     }catch(error){
     const errorMessage =

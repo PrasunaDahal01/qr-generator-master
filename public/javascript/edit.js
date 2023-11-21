@@ -5,7 +5,7 @@ const pageLoad = async () => {
       headers: { "Content-Type": "application/json" },
     });
     const user = response.user;
-    console.log("profileuser", user);
+    console.log("edituser", user);
 
     const userId = document.getElementById("userId");
     const emailData = document.getElementById("emailData");

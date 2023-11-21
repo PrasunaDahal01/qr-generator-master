@@ -71,7 +71,6 @@ const deleteUser = async ({ endpoint, headers }) => {
     method: "delete",
     endpoint,
     headers,
-    requestOptions,
   });
 };
 

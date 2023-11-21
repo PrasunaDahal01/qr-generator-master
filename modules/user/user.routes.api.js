@@ -99,7 +99,8 @@ router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
 
 router.get("/users", auth("admin"), async (req, res, next) => {
   try {
-    const userData = await userModel.find({ role: "user", isArchived: false });
+    const userData = await userModel.find({ role: "user", archived: false });
+    console.log("userData", userData);
 
     res.status(200).json({ user: userData });
   } catch (err) {
@@ -147,6 +148,7 @@ router.put("/editUser/:id", upload.single("image"), async (req, res, next) => {
 router.delete("/archive/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
+    console.log("id", id);
     const result = await userController.archiveUser(id);
 
     res.json({ result });

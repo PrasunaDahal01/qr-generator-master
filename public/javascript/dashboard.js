@@ -1,7 +1,8 @@
-async function deleteUser(id) {
+async function deleteUsers(event, id) {
+  event.preventDefault();
   try {
     await deleteUser({
-      endpoint: `users/archive/${id}`,
+      endpoint: `/api/v1/users/archive/${id}`,
       headers: { "Content-Type": "application/json" },
       params: "data",
     });
@@ -20,7 +21,6 @@ const fetchUsers = async () => {
       endpoint: "/api/v1/users/users",
       headers: { "Content-Type": "multipart/form-data" },
     });
-
     return response.user;
   } catch (error) {
     throw new Error("User not found.");
@@ -36,14 +36,14 @@ const loadTable = (users) => {
           <tr>
             <td>${user.email}</td>
             <td>${user.role}</td>
-            <td><img src="/public/userImages/users[i].image" alt="users[i].image" width="100px" height="100px"></td>
+            <td><img src="/public/userImages/${user.image}" alt="${user.image}" width="100px" height="100px"></td>
             <td>${user.is_verified}</td>
             <td >
               <div class="d-flex gap-5">
-                <a href="/users/editUser?id=${users[i]._id}" style="color:coral">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="/users/editUser" style="color:coral">Edit <i class="fa-solid fa-pen-to-square"></i></a>
               <a href="#" 
-              onclick="deleteUser(users._id)"
-                dataId = "users[i]._id"
+              onclick="deleteUsers(event, '${user._id}')"
+                dataId = "${user._id}"
                 style="color:coral"
                 class="archive-Link"><i class="fa-solid fa-box-archive"></i></a>
                 </td>            
