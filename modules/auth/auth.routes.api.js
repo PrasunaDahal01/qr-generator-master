@@ -140,13 +140,4 @@ router.put("/changePassword", async (req, res, next) => {
   }
 });
 
-router.get("/logout", auth(), async (req, res, next) => {
-  try {
-    res.clearCookie("jwt");
-    await req.user.save();
-    res.redirect("/auth/login");
-  } catch (err) {
-    next(err);
-  }
-});
 module.exports = router;

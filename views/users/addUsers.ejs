@@ -28,8 +28,7 @@
   <body>
     <header>
       <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
-
-      <a href="/api/v1/auth/logout" class="logout">LogOut</a>
+      <a href="#" class="logout" id="logOut" onclick="logOut(event)">LogOut</a>
     </header>
       <div class="box">
       <div class="row custom-row justify-content-center">
@@ -77,8 +76,14 @@
     <script src="/public/javascript/requestManager.js"></script>
     <script src="/public/javascript/storage.js"></script>
     <script>
+        const logOut = async (event) => {
+        event.preventDefault();
+        localStorage.clear();
+        window.location.href = "http://localhost:3000/auth/login";
+      };
 
-        const formE2 = document.querySelector(".form");
+      const addUsers = async ()=>{
+         const formE2 = document.querySelector(".form");
         let result;
         formE2.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -105,6 +110,9 @@
         }
         });
 
+      }
+
+      addUsers();
     </script>
 
     <script

@@ -1,7 +1,7 @@
 const pageLoad = async () => {
   try {
     const response = await get({
-      endpoint: "api/v1/users/edit",
+      endpoint: "api/v1/users/update",
       headers: { "Content-Type": "application/json" },
     });
     const user = response.user;

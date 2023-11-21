@@ -60,7 +60,7 @@ router.get("/me", auth(), async (req, res, next) => {
   res.status(200).json({ user: req.user });
 });
 
-router.get("/edit", auth(), async (req, res, next) => {
+router.get("/update", auth(), async (req, res, next) => {
   try {
     res.status(200).json({ user: req.user });
   } catch (err) {
@@ -68,7 +68,7 @@ router.get("/edit", auth(), async (req, res, next) => {
   }
 });
 
-router.get("/reset", auth(), async (req, res, next) => {
+router.get("/edit", auth("admin"), async (req, res, next) => {
   try {
     res.status(200).json({ user: req.user });
   } catch (err) {

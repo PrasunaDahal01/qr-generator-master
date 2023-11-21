@@ -30,7 +30,7 @@
     <header>
       <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
 
-      <a href="/api/v1/auth/logout" class="logout">LogOut</a>
+      <a href="#" class="logout" id="logOut" onclick="logOut(event)">LogOut</a>
     </header>
     <div class="box">
       <div class="row custom-row justify-content-center">
@@ -85,37 +85,48 @@
       window.addEventListener("load", () => {
         pageLoad();
       });
-      const formE2 = document.querySelector(".form");
 
-      formE2.addEventListener("submit", async (event) => {
+      const logOut = async (event) => {
         event.preventDefault();
+        localStorage.clear();
+        window.location.href = "http://localhost:3000/auth/login";
+      };
 
-        const messageBox = document.getElementById("messageBox");
+      const updateProfile = async () => {
+        const profileForm = document.querySelector(".form");
 
-        const formData = new FormData(formE2);
+        profileForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
 
-        const data = Object.fromEntries(formData);
-        userId = data.user_id;
+          const messageBox = document.getElementById("messageBox");
 
-        try {
-          const response = await put({
-            endpoint: `/api/v1/users/edit/${userId}`,
-            headers: { "Content-Type": "multipart/form-data" },
-            params: data,
-          });
+          const formData = new FormData(formE2);
 
-          const result = await response.data;
-        } catch (error) {
-          const errorMessage =
-            error.response && error.response.data.message
-              ? error.response.data.message
-              : "An internal server error occurred.";
+          const data = Object.fromEntries(formData);
+          userId = data.user_id;
 
-          messageBox.innerHTML = `<div class="alert alert-danger" role="alert">
+          try {
+            const response = await put({
+              endpoint: `/api/v1/users/edit/${userId}`,
+              headers: { "Content-Type": "multipart/form-data" },
+              params: data,
+            });
+
+            const result = await response.data;
+          } catch (error) {
+            const errorMessage =
+              error.response && error.response.data.message
+                ? error.response.data.message
+                : "An internal server error occurred.";
+
+            messageBox.innerHTML = `<div class="alert alert-danger" role="alert">
         <i class="fas fa-times-circle"></i> ${errorMessage}
       </div>`;
-        }
-      });
+          }
+        });
+      };
+
+      updateProfile();
     </script>
 
     <script

@@ -49,7 +49,9 @@
         <a href="/users/profile">
           <i class="fa-solid fa-user"></i>
         </a>
-        <a href="/api/v1/auth/logout" class="logout">LogOut</a>
+        <a href="#" class="logout" id="logOut" onclick="logOut(event)"
+          >LogOut</a
+        >
       </div>
     </header>
 
@@ -126,6 +128,11 @@
         window.location.href = "http://localhost:3000/users/dashboard";
       };
 
+      const logOut = async (event) => {
+        event.preventDefault();
+        localStorage.clear();
+        window.location.href = "http://localhost:3000/auth/login";
+      };
       async function getQrData() {
         const qrText = document.getElementById("qrText").value;
         const emailbutton = document.getElementById("mailbtn");
