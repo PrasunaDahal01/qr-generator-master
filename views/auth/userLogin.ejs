@@ -9,7 +9,6 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,300;1,500;1,600&display=swap"
       rel="stylesheet"
     />
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
@@ -17,14 +16,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-
     <link rel="stylesheet" href="/public/css/registerstyle.css" />
   </head>
   <body>
@@ -72,9 +69,11 @@
                   value="Login"
                 />
               </div>
+
               <div class="d-flex justify-content-center">
                 <a href="/auth/forgetPassword">Forgot Password?</a>
               </div>
+
               <div class="d-flex justify-content-center">
                 <a
                   href="/auth/registers"
@@ -89,17 +88,17 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-      const formE2 = document.querySelector(".form");
-      formE2.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const messageBox = document.getElementById("messageBox");
-        login(formE2);
-      });
-    </script>
     <script src="/public/javascript/auth.js"></script>
     <script src="/public/javascript/storage.js"></script>
     <script src="/public/javascript/requestManager.js"></script>
+    <script>
+      const loginForm = document.querySelector(".form");
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const messageBox = document.getElementById("messageBox");
+        login(loginForm);
+      });
+    </script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"

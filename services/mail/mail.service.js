@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
+
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
@@ -8,9 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-//for otp
 async function sendEmail(email, title, body) {
-  //send email to users
   const mailOptions = {
     from: "your-email@gmail.com",
     to: email,
@@ -26,7 +25,6 @@ async function sendEmail(email, title, body) {
   }
 }
 
-//for reset password
 const sendPasswordMail = async (email, token) => {
   const mailOptions = {
     from: "your-email@gmail.com",
@@ -42,7 +40,6 @@ const sendPasswordMail = async (email, token) => {
   }
 };
 
-//for the new user verification mail added by admin.
 const addUserMail = async (email, password) => {
   const mailOptions = {
     from: "your-email@gmail.com",

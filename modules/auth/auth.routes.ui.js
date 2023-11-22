@@ -16,4 +16,8 @@ router.get("/changePassword", async (req, res) => {
   res.render("auth/changePassword");
 });
 
+router.get("/otp", async (req, res) => {
+  res.render("auth/otpGeneration");
+});
+
 module.exports = router;

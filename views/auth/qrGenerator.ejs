@@ -23,18 +23,19 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
     />
-
     <link rel="stylesheet" href="/public/css/style.css" />
   </head>
 
   <body>
     <header>
-      <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
+      <a href="/qrs">
+        <h2 class="logo">QRcode Generator</h2>
+      </a>
+
       <div class="dashBoard" style="display: none">
         <a
           href="#"
@@ -58,7 +59,6 @@
     <div class="box">
       <div class="qrHeader">
         <h1>QR Code Generator</h1>
-
         <form class="contact_form">
           <input
             type="text"
@@ -67,6 +67,7 @@
             id="qrText"
             required
           />
+
           <div>
             <label for="Sizes">Select Size: </label>
             <select id="sizes" name="size" onchange="changeImageSize()">
@@ -75,14 +76,15 @@
               <option value="300">300 x 300</option>
             </select>
           </div>
+
           <input
             type="email"
-            ,
             name="email"
             placeholder="Type your Email ID"
             id="mail"
             style="display: none"
           />
+
           <div class="mailbutton">
             <button
               type="button"
@@ -107,7 +109,6 @@
           </div>
         </form>
       </div>
-
       <div class="qrBody">
         <img id="base64image" src="" style="display: none" />
       </div>
@@ -133,6 +134,7 @@
         localStorage.clear();
         window.location.href = "http://localhost:3000/auth/login";
       };
+
       async function getQrData() {
         const qrText = document.getElementById("qrText").value;
         const emailbutton = document.getElementById("mailbtn");
@@ -148,7 +150,7 @@
               params: { name: qrText },
             });
 
-            const data = await response.data;
+            const data = await response;
 
             document.getElementById("base64image").src = data.qr;
             imageQr.style.display = "block";
@@ -158,11 +160,11 @@
             throw new Error(
               `Fetch request failed with status ${response.status}`
             );
-
             console.error("error", error);
           }
         }
       }
+
       async function getMailData() {
         const mailbutton = document.getElementById("mailbtn");
         const email = document.getElementById("mail").value;
@@ -170,13 +172,15 @@
           alert("Please enter your Email ID.");
         } else {
           const qr = document.getElementById("base64image").src;
+          console.log("email", email);
+          console.log("qr", qr);
+
           try {
-            const response = await post(
-              { endpoint: "/api/v1/mails" },
-              { headers: { "Content-Type": "application/json" } },
-              { params: { qrCode: qr, email: email } }
-            );
-            const data = await response.data;
+            const response = await post({
+              endpoint: "/api/v1/mails",
+              headers: { "Content-Type": "application/json" },
+              params: { qrCode: qr, email: email },
+            });
           } catch (error) {
             console.log(error);
           }

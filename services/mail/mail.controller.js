@@ -1,7 +1,7 @@
-const transporter = require("./mail.service");
+const { transporter } = require("./mail.service");
 class Mail {
-  async sendMail(body) {
-    const qrCode = body.qrCode.replace("data:image/png;base64,", ""),
+  async sendEMail(body) {
+    const qrCodes = body.qrCode.replace("data:image/png;base64,", ""),
       mailOptions = {
         from: "your-email@gmail.com",
         to: body.email,
@@ -10,7 +10,7 @@ class Mail {
         attachments: [
           {
             filename: "qr-code.png",
-            content: Buffer.from(qrCode, "base64"),
+            content: Buffer.from(qrCodes, "base64"),
             cid: "Image_ID",
             contentDisposition: "inline",
           },

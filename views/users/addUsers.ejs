@@ -22,35 +22,38 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-
     <link rel="stylesheet" href="/public/css/updateProfile.css" />
   </head>
+
   <body>
+
     <header>
       <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
       <a href="#" class="logout" id="logOut" onclick="logOut(event)">LogOut</a>
     </header>
+
       <div class="box">
-      <div class="row custom-row justify-content-center">
-        <div class="col-sm-12 col-md-8 col-lg-6">
-          <div class="container rounded my-2 px-0 insideContainer">
-            <div id="messageBox" class="message-box
+        <div class="row custom-row justify-content-center">
+          <div class="col-sm-12 col-md-8 col-lg-6">
+            <div class="container rounded my-2 px-0 insideContainer">
+              <div id="messageBox" class="message-box
               py-3 mx-5 px-5  justify-content-center" ></div>
-            <div class="py-1 header">
+              <div class="py-1 header">
               <h1 class="text-center">Add New User</h1>
-            </div>
-            <form action="" method="post" class="form" enctype="multipart/form-data">
-              <div class="py-3 mx-5">
-                <label for="email" class="form-label">Email:</label>
-                <label for="" class="form-label"></label>
-                <input
+              </div>
+              <form action="" method="post" class="form" enctype="multipart/form-data">
+
+                <div class="py-3 mx-5">
+                  <label for="email" class="form-label">Email:</label>
+                  <input
                   type="email"
                   name="email"
                   class="form-control p-2"
                   placeholder="example@gmail.com"
                   required
-                />
+                  />
               </div>
+
               <div class="py-3 mx-5">
                 <input
                   type="file"
@@ -83,22 +86,31 @@
       };
 
       const addUsers = async ()=>{
-         const formE2 = document.querySelector(".form");
-        let result;
-        formE2.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const messageBox = document.getElementById("messageBox");
-        const formData = new FormData(formE2);
-        const data = Object.fromEntries(formData);
-
-        try{
+        const addForm = document.querySelector(".form");
+        addForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const messageBox = document.getElementById("messageBox");
+          const formData = new FormData(addForm);
+          const data = Object.fromEntries(formData);
+          
+          try{
             const response = await post({
             endpoint: "/api/v1/users/add",
             headers: { 'Content-Type': 'multipart/form-data' },
             params: data,
           });
-        result = response.data;
-            messageBox.innerHTML = `<div class="alert alert-success" role="alert"><i class="fas fa-check-circle"></i>Users Added.</div>`;
+          
+          messageBox.innerHTML = `<div class="alert alert-${
+              response.success ? "success" : "danger"
+            }" role="alert">
+        ${
+          response.success
+            ? '<i class="fas fa-check-circle"></i>'
+            : '<i class="fas fa-times-circle"></i>'
+        }
+        ${response.message}
+      </div>`;
+        
         }catch(error){
           const errorMessage =
             error.response && error.response.data.message
@@ -110,7 +122,6 @@
   </div>`;
         }
         });
-
       }
 
       addUsers();

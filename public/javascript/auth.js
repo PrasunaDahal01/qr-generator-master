@@ -1,19 +1,18 @@
-const login = async (formE2) => {
-  const formData = new FormData(formE2);
-  //javascript object
+const login = async (loginForm) => {
+  const formData = new FormData(loginForm);
   const data = Object.fromEntries(formData);
+
   try {
     const response = await post({
       endpoint: "/api/v1/auth/login",
       headers: { "Content-Type": "application/json" },
       params: data,
     });
-    console.log("Response:", response);
+
     setAccessToken(response.token);
     setRefreshToken(response.refreshToken);
     window.location.href = "http://localhost:3000/qrs";
   } catch (error) {
-    console.log("error:", error);
     const errorMessage =
       error.response && error.response.data.message
         ? error.response.data.message

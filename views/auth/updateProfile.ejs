@@ -15,7 +15,6 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
@@ -23,9 +22,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-
     <link rel="stylesheet" href="/public/css/updateProfile.css" />
   </head>
+
   <body>
     <header>
       <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
@@ -97,11 +96,8 @@
 
         profileForm.addEventListener("submit", async (event) => {
           event.preventDefault();
-
           const messageBox = document.getElementById("messageBox");
-
           const formData = new FormData(formE2);
-
           const data = Object.fromEntries(formData);
           userId = data.user_id;
 
@@ -112,8 +108,16 @@
               params: data,
             });
 
-            const result = await response.data;
-            messageBox.innerHTML = `<div class="alert alert-success" role="alert"><i class="fas fa-check-circle"></i>Profile Updated.</div>`;
+            messageBox.innerHTML = `<div class="alert alert-${
+              response.success ? "success" : "danger"
+            }" role="alert">
+        ${
+          response.success
+            ? '<i class="fas fa-check-circle"></i>'
+            : '<i class="fas fa-times-circle"></i>'
+        }
+        ${response.message}
+      </div>`;
           } catch (error) {
             const errorMessage =
               error.response && error.response.data.message
