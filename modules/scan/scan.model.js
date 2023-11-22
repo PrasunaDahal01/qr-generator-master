@@ -7,7 +7,9 @@ const scanSchema = new Schema({
     type: ObjectId,
     ref: "QrCode",
   },
+
   IpAddress: String,
+
   count: {
     type: Number,
     default: 1,

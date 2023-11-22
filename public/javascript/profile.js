@@ -4,10 +4,9 @@ const pageLoad = async () => {
       endpoint: "/api/v1/users/me",
       headers: { "Content-Type": "application/json" },
     });
-    const user = response.user;
-    console.log("profileuser", user);
-    const userDetails = document.getElementById("userDetails");
 
+    const user = response.user;
+    const userDetails = document.getElementById("userDetails");
     const userId = document.getElementById("userId");
 
     userId.innerHTML = `<input
@@ -26,7 +25,6 @@ const pageLoad = async () => {
     <p>Email:${user.email}</p>
     <p>Role:${user.role}</p>`;
   } catch (error) {
-    console.log("errorr", error);
     throw error;
   }
 };

@@ -41,7 +41,7 @@ const register = async (email, password, image) => {
 
 const forgetPassword = async (email) => {
   const user = await userModel.findOne({ email });
-  console.log("user");
+
   if (!user) throw new Error("Couldnot found your email");
 
   const token = generateAccessToken(user._id);
@@ -70,7 +70,7 @@ const login = async (email, password) => {
 
 const resetPass = async (token) => {
   const tokenData = await userModel.findOne({ token });
-  console.log("Token", tokenData);
+
   if (!tokenData) throw new Error("Token Not Found");
 
   return tokenData;
@@ -78,6 +78,7 @@ const resetPass = async (token) => {
 
 const resetPassword = async (password, userId) => {
   const ePassword = await encryptPassword(password);
+
   const updatedData = await userModel.findByIdAndUpdate(
     { _id: userId },
     { $set: { password: ePassword, token: "" } }
@@ -90,6 +91,7 @@ const changePassword = async (password, newpassword, user_id) => {
   const userData = await userModel
     .findById({ _id: user_id })
     .select("+password");
+
   const isPasswordMatch = await bcrypt.compare(password, userData.password);
   if (!isPasswordMatch) throw new Error("Your current password is incorrect.");
 

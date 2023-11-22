@@ -5,7 +5,6 @@ const pageLoad = async () => {
       headers: { "Content-Type": "application/json" },
     });
     const user = response.user;
-    console.log("edituser", user);
 
     const userId = document.getElementById("userId");
     const emailData = document.getElementById("emailData");
@@ -24,7 +23,6 @@ const pageLoad = async () => {
                   required
                 />`;
   } catch (error) {
-    console.log("errorr", error);
     throw error;
   }
 };

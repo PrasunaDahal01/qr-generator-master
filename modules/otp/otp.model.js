@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-
 const { sendVerificationEmail } = require("../../services/mail/sendotpmail");
 
 const otpSchema = new Schema({
@@ -15,7 +14,7 @@ const otpSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 60 * 5, //5 minutes
+    expires: 60 * 5,
   },
 });
 

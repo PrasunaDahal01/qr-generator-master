@@ -4,8 +4,8 @@ const pageLoad = async () => {
       endpoint: "api/v1/users/update",
       headers: { "Content-Type": "application/json" },
     });
+
     const user = response.user;
-    console.log("updateUser", user);
     const userId = document.getElementById("userId");
     const userEmail = document.getElementById("userEmail");
     const userImage = document.getElementById("userImage");
@@ -31,7 +31,6 @@ const pageLoad = async () => {
                 alt="${user.image}"
               />`;
   } catch (error) {
-    console.log("error", error);
     throw error;
   }
 };

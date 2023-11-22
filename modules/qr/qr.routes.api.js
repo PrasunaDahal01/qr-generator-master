@@ -6,6 +6,7 @@ router.post("/", async (req, res, next) => {
   try {
     const qrTextValue = req.body.name;
     const qr = await QrController.generateQr(qrTextValue);
+
     res.json({ qr });
   } catch (err) {
     next(err);
@@ -13,7 +14,6 @@ router.post("/", async (req, res, next) => {
 });
 
 router.get("/", auth(), async (req, res, next) => {
-  console.log("this route is hit.");
   try {
     res.redirect("/qrs", { user: req.user });
   } catch (err) {

@@ -2,14 +2,12 @@ const API_BASE_URL = "http://localhost:3000/";
 
 const refreshTokens = async (refreshToken) => {
   try {
-    console.log("stored refreshtoken", refreshToken);
     const response = await axios.post(
       "http://localhost:3000/api/v1/auth/regenerate",
       {
         refreshToken,
       }
     );
-    console.log({ response });
 
     setAccessToken(response.data.token);
   } catch (error) {
@@ -19,15 +17,13 @@ const refreshTokens = async (refreshToken) => {
 };
 
 const errorInterceptor = async (error) => {
-  console.log("error coming", error.response);
   if (error.response && error.response.status === 401) {
     try {
-      console.log("from here in the error interceptor");
       const refreshToken = getRefreshToken();
       await refreshTokens(refreshToken);
-      console.log(error.config);
+
       error.config.headers.set("Authorization", `Bearer ${getAccessToken()}`);
-      console.log(error.config);
+
       return axios.request(error.config);
     } catch (error) {
       window.location.href = "http://localhost:3000/auth/login";
@@ -55,8 +51,6 @@ const requestManager = ({ method, endpoint, headers, requestOptions = {} }) => {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      console.log("Axios response error:", error);
-
       return errorInterceptor(error);
     }
   );
@@ -64,11 +58,9 @@ const requestManager = ({ method, endpoint, headers, requestOptions = {} }) => {
   return axios
     .request(requestParams)
     .then((response) => {
-      console.log("responsee:", response);
       return response.data;
     })
     .catch((error) => {
-      console.log("error:", error);
       throw error;
     });
 };

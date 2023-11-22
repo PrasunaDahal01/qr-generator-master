@@ -19,6 +19,7 @@ async function sendEmail(email, title, body) {
 
   try {
     const mailResponse = transporter.sendMail(mailOptions);
+
     return mailResponse;
   } catch (error) {
     throw error;
@@ -34,6 +35,7 @@ const sendPasswordMail = async (email, token) => {
   };
   try {
     const mailResponse = transporter.sendMail(mailOptions);
+
     return mailResponse;
   } catch (error) {
     throw error;
@@ -54,6 +56,7 @@ const addUserMail = async (email, password) => {
   };
   try {
     const mailResponse = transporter.sendMail(mailOptions);
+
     return mailResponse;
   } catch (error) {
     throw error;

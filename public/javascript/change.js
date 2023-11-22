@@ -5,10 +5,8 @@ const pageLoad = async () => {
       headers: { "Content-Type": "application/json" },
     });
     const user = response.user;
-    console.log("changeUser", user);
+
     const userId = document.getElementById("userId");
-    const userEmail = document.getElementById("userEmail");
-    const userImage = document.getElementById("userImage");
 
     userId.innerHTML = `<input
     type="hidden" 

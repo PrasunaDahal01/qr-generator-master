@@ -27,7 +27,7 @@ const userSchema = new Schema({
 
   is_verified: {
     type: Boolean,
-    default: false, //for email verification
+    default: false,
   },
 
   token: {

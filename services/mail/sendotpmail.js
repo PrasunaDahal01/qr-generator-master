@@ -1,6 +1,5 @@
 const { sendEmail } = require("./mail.service");
 
-//function to send emails.
 async function sendVerificationEmail(email, otp) {
   try {
     const mailResponse = await sendEmail(

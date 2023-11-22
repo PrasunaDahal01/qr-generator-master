@@ -8,6 +8,7 @@ router.get("/:uuid", async (req, res, next) => {
     const qrId = req.params.uuid;
 
     const Scan = await ScanController.scanQR(ipAddress, qrId);
+
     res.redirect(Scan.qrDocument.qrText);
   } catch (err) {
     next(err);
