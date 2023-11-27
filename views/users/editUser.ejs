@@ -25,11 +25,35 @@
     <link rel="stylesheet" href="/public/css/updateProfile.css" />
     </head>
     <body>
+      <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="container-fluid">
+        <a href="/qrs" class="navbar-brand">
+          <h2 class="logo">QRcode Generator</h2>
+        </a>
 
-    <header>
-      <a href="/qrs"><h2 class="logo">QRcode Generator</h2></a>
-      <a href="#" class="logout" id="logOut" onclick="logOut(event)">LogOut</a>
-    </header>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a href="#" class="nav-link" id="logOut" onclick="logOut(event)">
+                LogOut</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
       <div class="box">
         <div class="row custom-row justify-content-center">

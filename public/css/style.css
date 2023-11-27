@@ -4,56 +4,60 @@
   box-sizing: border-box;
   font-family: "poppins";
 }
-header {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #f2e8c6;
-  padding: 15px 10%;
-  transition: 0.2s;
-  height: 58px;
-}
+
 .logo {
   color: #102c57;
   font-size: 35px;
   padding-left: 10px;
   font-weight: 700;
-  scroll-padding-top: 10px;
+}
+nav {
+  background-color: #f2e8c6;
+  padding: 15px 5%;
+  transition: 0.2s;
 }
 
-header .icon i {
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+nav i {
   font-size: 25px;
   color: #102c57;
   cursor: pointer;
   transition: 0.3s;
 }
 
-header .icon i:hover {
+nav i:hover {
   color: #e25e3e;
 }
 
-header .logout {
-  text-decoration: none;
-  margin-left: 20px;
+.navbar-nav .nav-item .nav-link {
   color: #102c57;
   font-weight: 900;
+  text-decoration: none;
+  margin-right: 15px;
 }
-header .logout:hover {
+
+.navbar-nav .nav-item .nav-link:hover {
   color: #e25e3e;
 }
-body {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #102c57;
+
+.navbar-toggler {
+  background-color: #f2e8c6;
+  border-style: none;
 }
+
+.navbar-nav .nav-item .nav-link:hover {
+  color: #e25e3e;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #102c57;
+  padding-top: 58px;
+}
+
 a {
   text-decoration: none;
 }
@@ -63,17 +67,6 @@ a {
   padding: 25px;
   width: 400px;
   border-radius: 8px;
-}
-
-header .dashboard {
-  text-decoration: none;
-  margin-left: 650px;
-  color: #102c57;
-  font-weight: 900;
-}
-
-header .dashboard:hover {
-  color: #e25e3e;
 }
 
 .qrHeader h1 {

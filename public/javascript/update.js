@@ -1,14 +1,14 @@
 const pageLoad = async () => {
   try {
     const response = await get({
-      endpoint: "api/v1/users/update",
-      headers: { "Content-Type": "application/json" },
+      endpoint: 'api/v1/users/update',
+      headers: { 'Content-Type': 'application/json' },
     });
 
     const user = response.user;
-    const userId = document.getElementById("userId");
-    const userEmail = document.getElementById("userEmail");
-    const userImage = document.getElementById("userImage");
+    const userId = document.getElementById('userId');
+    const userEmail = document.getElementById('userEmail');
+    const userImage = document.getElementById('userImage');
 
     userId.innerHTML = `<input
     type="hidden" 
@@ -32,5 +32,39 @@ const pageLoad = async () => {
               />`;
   } catch (error) {
     throw error;
+  }
+};
+
+const updateProfile = async (profileForm) => {
+  const formData = new FormData(profileForm);
+  const data = Object.fromEntries(formData);
+  userId = data.user_id;
+
+  try {
+    const response = await put({
+      endpoint: `/api/v1/users/edit/${userId}`,
+      headers: { 'Content-Type': 'multipart/form-data' },
+      params: data,
+    });
+
+    messageBox.innerHTML = `<div class="alert alert-${
+      response.success ? 'success' : 'danger'
+    }" role="alert">
+        ${
+          response.success
+            ? '<i class="fas fa-check-circle"></i>'
+            : '<i class="fas fa-times-circle"></i>'
+        }
+        ${response.message}
+      </div>`;
+  } catch (error) {
+    const errorMessage =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : 'An internal server error occurred.';
+
+    messageBox.innerHTML = `<div class="alert alert-danger" role="alert">
+        <i class="fas fa-times-circle"></i> ${errorMessage}
+      </div>`;
   }
 };

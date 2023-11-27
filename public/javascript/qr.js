@@ -6,7 +6,7 @@ const pageLoad = async () => {
     });
 
     const userRole = response.user.role;
-    const dashBoard = document.querySelector(".dashBoard");
+    const dashBoard = document.getElementById("adminDashboard");
 
     if (userRole === "admin") {
       dashBoard.style.display = "block";

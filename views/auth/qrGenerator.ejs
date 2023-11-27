@@ -10,6 +10,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -30,89 +31,123 @@
     <link rel="stylesheet" href="/public/css/style.css" />
   </head>
 
-  <body>
-    <header>
-      <a href="/qrs">
-        <h2 class="logo">QRcode Generator</h2>
-      </a>
-
-      <div class="dashBoard" style="display: none">
-        <a
-          href="#"
-          class="dashboard"
-          id="adminDashboard"
-          onclick="getDashboard(event)"
-          >Dashboard</a
-        >
-      </div>
-
-      <div class="icon">
-        <a href="/users/profile">
-          <i class="fa-solid fa-user"></i>
+  <body class="d-flex justify-content-center align-items-center">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+      <div class="container-fluid">
+        <a href="/qrs" class="navbar-brand">
+          <h2 class="logo">QRcode Generator</h2>
         </a>
-        <a href="#" class="logout" id="logOut" onclick="logOut(event)"
-          >LogOut</a
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                href="#"
+                class="nav-link"
+                id="adminDashboard"
+                onclick="getDashboard(event)"
+              >
+                Dashboard</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="/users/profile" class="nav-link">
+                <i class="fa-solid fa-user"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" id="logOut" onclick="logOut(event)">
+                LogOut</a
+              >
+            </li>
+          </ul>
+        </div>
       </div>
-    </header>
+    </nav>
 
-    <div class="box">
-      <div class="qrHeader">
-        <h1>QR Code Generator</h1>
-        <form class="contact_form">
-          <input
-            type="text"
-            name="name"
-            placeholder="Type your text or URL"
-            id="qrText"
-            required
-          />
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="box">
+            <div class="qrHeader">
+              <h1>QR Code Generator</h1>
+              <form class="contact_form">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Type your text or URL"
+                  id="qrText"
+                  required
+                />
+                <div>
+                  <label for="Sizes">Select Size: </label>
+                  <select id="sizes" name="size" onchange="changeImageSize()">
+                    <option value="100">100 x 100</option>
+                    <option value="200">200 x 200</option>
+                    <option value="300">300 x 300</option>
+                    <option value="400">400 x 400</option>
+                  </select>
+                </div>
 
-          <div>
-            <label for="Sizes">Select Size: </label>
-            <select id="sizes" name="size" onchange="changeImageSize()">
-              <option value="100">100 x 100</option>
-              <option value="200">200 x 200</option>
-              <option value="300">300 x 300</option>
-            </select>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Type your Email ID"
+                  id="mail"
+                  style="display: none"
+                />
+
+                <div class="mailbutton">
+                  <button
+                    type="button"
+                    class="mailbtn"
+                    id="mailbtn"
+                    onclick="getMailData()"
+                    style="display: none"
+                  >
+                    Send email
+                  </button>
+                </div>
+
+                <div class="qrfooter">
+                  <button
+                    type="button"
+                    class="footer2"
+                    id="btn"
+                    onclick="getQrData()"
+                  >
+                    Generate QR CODE
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Type your Email ID"
-            id="mail"
-            style="display: none"
-          />
-
-          <div class="mailbutton">
-            <button
-              type="button"
-              class="mailbtn"
-              id="mailbtn"
-              onclick="getMailData()"
-              style="display: none"
-            >
-              Send email
-            </button>
+        </div>
+        <div class="col-md-6">
+          <div class="qrBody">
+            <img id="base64image" src="" style="display: none" />
           </div>
-
-          <div class="qrfooter">
-            <button
-              type="button"
-              class="footer2"
-              id="btn"
-              onclick="getQrData()"
-            >
-              Generate QR CODE
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="qrBody">
-        <img id="base64image" src="" style="display: none" />
+        </div>
       </div>
     </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/public/javascript/qr.js"></script>

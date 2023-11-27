@@ -1,30 +1,10 @@
-const pageLoad = async () => {
-  try {
-    const response = await get({
-      endpoint: 'api/v1/auth/change',
-      headers: { 'Content-Type': 'application/json' },
-    });
-    const user = response.user;
-
-    const userId = document.getElementById('userId');
-
-    userId.innerHTML = `<input
-    type="hidden" 
-    name="user_id" 
-    value="${user._id}" />`;
-  } catch (error) {
-    console.log('error', error);
-    throw error;
-  }
-};
-
-const changePassword = async (changeForm) => {
-  const formData = new FormData(changeForm);
+const forgetPassword = async (forgetForm) => {
+  const formData = new FormData(forgetForm);
   const data = Object.fromEntries(formData);
 
   try {
-    const response = await put({
-      endpoint: '/api/v1/auth/changePassword',
+    const response = await post({
+      endpoint: '/api/v1/auth/forgetPassword',
       headers: { 'Content-Type': 'application/json' },
       params: data,
     });
