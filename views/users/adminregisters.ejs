@@ -111,80 +111,18 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/public/javascript/adminRegister.js"></script>
     <script src="/public/javascript/storage.js"></script>
     <script src="/public/javascript/requestManager.js"></script>
     <script>
-      const adminForm = document.querySelector(".form");
-      const messageBox = document.getElementById("messageBox");
-      const otpBox = document.getElementById("otpBox");
-      const registerButton = document.getElementById("registerButton");
-      const otpInput = document.getElementById("otpInput");
-      const submitOtpButton = document.getElementById("submitOtpButton");
+      const registerForm = document.querySelector('.form');
+      const messageBox = document.getElementById('messageBox');
+      const otpBox = document.getElementById('otpBox');
+      const registerButton = document.getElementById('registerButton');
+      const otpInput = document.getElementById('otpInput');
+      const submitOtpButton = document.getElementById('submitOtpButton');
 
-      formE1.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const formData = new FormData(adminForm);
-        const data = Object.fromEntries(formData);
-
-        if (!otpBox.style.display || otpBox.style.display === "none") {
-          try {
-            const response = await post({
-              endpoint: "/api/v1/auth/sendOtp",
-              headers: { "Content-Type": "application/json" },
-              params: data,
-            });
-
-            const checkEmailResult = await response;
-
-            if (checkEmailResult) {
-              if (checkEmailResult.success) {
-                otpBox.style.display = "block";
-                submitOtpButton.style.display = "block";
-                registerButton.style.display = "none";
-              }
-              messageBox.innerHTML = `<div class="alert alert-${
-                checkEmailResult.success ? "success" : "danger"
-              }" role="alert">${
-                checkEmailResult.success
-                  ? '<i class="fas fa-check-circle"></i>'
-                  : '<i class="fas fa-times-circle"></i>'
-              }${checkEmailResult.message}</div>`;
-            }
-          } catch (error) {
-            const errorMessage =
-              error.response && error.response.data.message
-                ? error.response.data.message
-                : "An interval error occured.";
-
-            messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fas fa-times-circle"></i> ${errorMessage}</div>`;
-          }
-        } else {
-          try {
-            const response = await post({
-              endpoint: "/api/v1/users/registers",
-              headers: { "Content-Type": "multipart/form-data" },
-              params: data,
-            });
-
-            messageBox.innerHTML = `<div class="alert alert-${
-              response.success ? "success" : "danger"
-            }" role="alert">
-            ${
-              response.success
-                ? '<i class="fas fa-check-circle"></i>'
-                : '<i class="fas fa-times-circle"></i>'
-            }
-            ${response.message}
-          </div>`;
-          } catch (error) {
-            const errorMessage =
-              error.response && error.response.data.message
-                ? error.response.data.message
-                : "An internal server error occured.";
-            messageBox.innerHTML = `<div class="alert alert-danger" role="alert"><i class="fas fa-times-cicle">${errorMessage}</div>`;
-          }
-        }
-      });
+      registerForm.addEventListener('submit', handleRegistration);
     </script>
 
     <script
