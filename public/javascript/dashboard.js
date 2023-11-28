@@ -3,33 +3,33 @@ async function deleteUsers(event, id) {
   try {
     await deleteUser({
       endpoint: `/api/v1/users/archive/${id}`,
-      headers: { "Content-Type": "application/json" },
-      params: "data",
+      headers: { 'Content-Type': 'application/json' },
+      params: 'data',
     });
 
     pageLoad();
   } catch (error) {
     error.response && error.response.data.message
       ? error.response.data.message
-      : "An internal server error occurred.";
+      : 'An internal server error occurred.';
   }
 }
 
 const fetchUsers = async () => {
   try {
     const response = await get({
-      endpoint: "/api/v1/users/users",
-      headers: { "Content-Type": "multipart/form-data" },
+      endpoint: '/api/v1/users/users',
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response.user;
   } catch (error) {
-    throw new Error("User not found.");
+    throw new Error('User not found.');
   }
 };
 
 const loadTable = (users) => {
-  const userTableBody = document.getElementById("user-table-body");
-  let htmlContent = "";
+  const userTableBody = document.getElementById('user-table-body');
+  let htmlContent = '';
 
   users.forEach((user) => {
     htmlContent += `
@@ -40,7 +40,7 @@ const loadTable = (users) => {
             <td>${user.is_verified}</td>
             <td >
               <div class="d-flex gap-5">
-                <a href="/users/editUser" style="color:coral">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="/users/editUser?id=${user._id}" style="color:coral">Edit <i class="fa-solid fa-pen-to-square"></i></a>
               <a href="#" 
               onclick="deleteUsers(event, '${user._id}')"
                 dataId = "${user._id}"

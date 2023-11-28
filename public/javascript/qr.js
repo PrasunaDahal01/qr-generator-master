@@ -14,12 +14,13 @@ const pageLoad = async () => {
       dashBoard.style.display = 'none';
     }
   } catch (error) {
-    console.log('errorr', error);
+    console.error('errorr', error);
     throw error;
   }
 };
 
-async function getQrData() {
+const getQrData = async (event) => {
+  event.preventDefault();
   const qrText = document.getElementById('qrText').value;
   const emailbutton = document.getElementById('mailbtn');
   const emailinput = document.getElementById('mail');
@@ -42,12 +43,12 @@ async function getQrData() {
       emailinput.style.display = 'block';
     } catch (error) {
       throw new Error(`Fetch request failed with status ${response.status}`);
-      console.error('error', error);
     }
   }
-}
+};
 
-async function getMailData() {
+const getMailData = async (event) => {
+  event.preventDefault();
   const mailbutton = document.getElementById('mailbtn');
   const email = document.getElementById('mail').value;
   if (!email.trim()) {
@@ -67,7 +68,7 @@ async function getMailData() {
       console.log(error);
     }
   }
-}
+};
 
 function changeImageSize() {
   const selectedSize = document.getElementById('sizes').value;

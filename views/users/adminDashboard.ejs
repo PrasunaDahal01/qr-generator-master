@@ -86,14 +86,14 @@
     <script src="/public/javascript/dashboard.js"></script>
 
     <script>
-      window.addEventListener("load", () => {
+      window.addEventListener('load', () => {
         pageLoad();
       });
 
       const logOut = async (event) => {
         event.preventDefault();
         localStorage.clear();
-        window.location.href = "http://localhost:3000/auth/login";
+        window.location.href = 'http://localhost:3000/auth/login';
       };
     </script>
     <script
