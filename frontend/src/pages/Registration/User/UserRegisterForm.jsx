@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { handleRegistration } from "../../../adapters/AdminRegistration";
+import { handleRegistration } from "../../../adapters/UserRegistration";
 import "../../../css/RegisterStyle.css";
-export default function AdminForm() {
+
+export default function UserRegisterForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -11,9 +12,10 @@ export default function AdminForm() {
   const [otpBoxVisible, setOtpBoxVisible] = useState(false);
   const [otpButton, setOtpButton] = useState(false);
   const [registerButton, setRegisterButton] = useState(true);
-  const handleSubmit = (e) => {
+
+  const handleRegisterSubmit = (e) => {
     e.preventDefault();
-    console.log("register", formData);
+    console.log("formdata", formData);
     handleRegistration(
       formData,
       setFormData,
@@ -38,23 +40,24 @@ export default function AdminForm() {
               action=""
               method="post"
               className="form"
-              enctype="multipart/form-data"
-              onSubmit={handleSubmit}
+              encType="multipart/form-data"
+              onSubmit={handleRegisterSubmit}
             >
               <div className="py-3 mx-5">
                 <label htmlFor="email" className="form-label">
                   Email:
                 </label>
+
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
-                  className="form-control p-2"
-                  placeholder="example@gmail.com"
-                  required
                   onChange={(e) => {
                     setFormData({ email: e.target.value });
                   }}
+                  className="form-control p-2"
+                  placeholder="example@gmail.com"
+                  required
                 />
               </div>
 
@@ -66,12 +69,12 @@ export default function AdminForm() {
                   type="password"
                   name="password"
                   value={formData.password}
-                  className="form-control p-2"
-                  placeholder="Enter Your Password"
-                  required
                   onChange={(e) => {
                     setFormData({ ...formData, password: e.target.value });
                   }}
+                  className="form-control p-2"
+                  placeholder="Enter Your Password"
+                  required
                 />
               </div>
 
@@ -80,12 +83,12 @@ export default function AdminForm() {
                   type="file"
                   name="image"
                   value={formData.image}
-                  className="form-control p-2"
-                  placeholder="Upload  Picture:"
-                  required
                   onChange={(e) => {
                     setFormData({ ...formData, image: e.target.value });
                   }}
+                  className="form-control p-2"
+                  placeholder="Enter Your Picture:"
+                  required
                 />
               </div>
 
@@ -100,9 +103,9 @@ export default function AdminForm() {
                 <input
                   type="number"
                   name="otp"
+                  value={formData.otp || ""}
                   className="form-control p-2"
                   id="otpInput"
-                  value={formData.otp || ""}
                   onChange={(e) => {
                     setFormData({ ...formData, otp: e.target.value });
                   }}
@@ -117,25 +120,32 @@ export default function AdminForm() {
                 <input
                   type="Submit"
                   className="btn text-white"
-                  value="Submit"
                   id="registerOtpButton"
                 />
               </div>
 
               <div
-                className="py-3 mx-5 text-center text-white"
                 id="registerButton"
+                className="py-3 mx-5 text-center text-white"
                 style={{ display: registerButton ? "block" : "none" }}
               >
                 <input
                   type="Submit"
                   className="btn text-dark"
-                  value="Register"
+                  id="registerbutton"
                 />
               </div>
+
               <div className="py-3 mx-5 d-flex justify-content-center">
-                <p>Do you want to log in?</p>
-                <a href="/auth/login">Log In</a>
+                <p>Have an account?</p>
+                <p>
+                  <a
+                    href="/auth/login"
+                    style={{ color: "#3876bf", fontWeight: 900 }}
+                  >
+                    Log In
+                  </a>
+                </p>
               </div>
             </form>
           </div>

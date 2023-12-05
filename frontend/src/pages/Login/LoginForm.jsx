@@ -1,6 +1,6 @@
 import "../../css/RegisterStyle.css";
 import React, { useState } from "react";
-import { login } from "../../javascript/auth";
+import { login } from "./Login";
 
 export default function Form() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -9,6 +9,7 @@ export default function Form() {
     e.preventDefault();
     login(formData);
   };
+
   return (
     <div className="box">
       <div className="row custom-row justify-content-center">

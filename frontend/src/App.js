@@ -1,9 +1,9 @@
-import LoginForm from './components/Auth/LoginForm';
+import UserRegisterForm from "./pages/Registration/User/UserRegisterForm";
 
 function App() {
   return (
     <>
-      <LoginForm />
+      <UserRegisterForm />
     </>
   );
 }

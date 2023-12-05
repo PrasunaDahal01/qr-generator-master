@@ -1,6 +1,11 @@
 import React from "react";
-
+import { pageLoad, deleteUSers } from "../../../adapters/Dashboard";
 export default function Dashboard() {
+  const logOut = async (event) => {
+    event.preventDefault();
+    localStorage.clear();
+    window.location.href = "http://localhost:3000/auth/login";
+  };
   return (
     <div>
       <nav class="navbar navbar-expand-lg navbar-light fixed-top">
@@ -24,7 +29,7 @@ export default function Dashboard() {
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <button class="nav-link" id="logOut" onclick="logOut(event)">
+                <button class="nav-link" id="logOut" onclick={logOut}>
                   LogOut
                 </button>
               </li>

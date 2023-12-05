@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import {
-  pageLoad,
-  getQrData,
-  getMailData,
-  changeImageSize,
-} from "../../javascript/qr";
+import { pageLoad, getQrData, getMailData, changeImageSize } from "./Qr";
+import "../../css/style.css";
 
 export default function QrGenerator() {
   const [qrData, setqrData] = useState({
@@ -24,7 +20,7 @@ export default function QrGenerator() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    getQrData(qrData);
+    getQrData({ qrText: qrData.name, img: qrData.img });
   };
 
   const handleEmailSubmit = (e) => {
@@ -106,7 +102,9 @@ export default function QrGenerator() {
                       name="size"
                       value={sizeData.size}
                       onChange={(e) => {
-                        setsizeData({ size: e.target.value });
+                        const newSize = e.target.value;
+                        setsizeData({ size: newSize });
+                        changeImageSize(newSize);
                       }}
                     >
                       <option value="100">100 x 100</option>
@@ -161,9 +159,9 @@ export default function QrGenerator() {
                 src=""
                 style={{ display: " none" }}
                 alt="qrImage"
-                value={formData.img}
+                value={qrData.img}
                 onChange={(e) => {
-                  setFormData({ img: e.target.value });
+                  setqrData({ ...qrData, img: e.target.value });
                 }}
               />
             </div>
