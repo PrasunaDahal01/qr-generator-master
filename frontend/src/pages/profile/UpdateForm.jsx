@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function UpdateForm() {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container-fluid">
-          <a href="/qrs" className="navbar-brand">
+          <Link to="/qrs" className="navbar-brand">
             <h2 className="logo">QRcode Generator</h2>
-          </a>
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -84,9 +85,9 @@ export default function UpdateForm() {
           </div>
         </div>
         <div className="py-3 mx-5">
-          <a href="/users/profile" style={{ color: "azure" }}>
+          <Link to="/users/profile" style={{ color: "azure" }}>
             Go Back
-          </a>
+          </Link>
         </div>
       </div>
     </>

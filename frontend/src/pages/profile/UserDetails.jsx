@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function UserDetails() {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container-fluid">
-          <a href="/qrs" className="navbar-brand">
+          <Link to="/qrs" className="navbar-brand">
             <h2 className="logo">QRcode Generator</h2>
-          </a>
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -51,12 +52,12 @@ export default function UserDetails() {
         </div>
 
         <div className="py-3 mx-5">
-          <a href="/users/edit" style={{ color: "azure" }}>
+          <Link to="/users/edit" style={{ color: "azure" }}>
             <h5>Edit My Profile</h5>
-          </a>
-          <a href="/auth/changePassword">
+          </Link>
+          <Link to="/auth/changePassword">
             <h5 style={{ color: "azure" }}>Change password</h5>
-          </a>
+          </Link>
         </div>
       </div>
     </>

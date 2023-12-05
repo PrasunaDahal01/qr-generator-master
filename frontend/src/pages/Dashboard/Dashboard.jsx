@@ -1,5 +1,6 @@
 import React from "react";
-import { pageLoad, deleteUSers } from "../../../adapters/Dashboard";
+import { Link } from "react-router-dom";
+import { pageLoad, deleteUSers } from "../../adapters/Dashboard";
 export default function Dashboard() {
   const logOut = async (event) => {
     event.preventDefault();
@@ -10,9 +11,9 @@ export default function Dashboard() {
     <div>
       <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container-fluid">
-          <a href="/qrs" class="navbar-brand">
+          <Link to="/qrs" class="navbar-brand">
             <h2 class="logo">QRcode Generator</h2>
-          </a>
+          </Link>
 
           <button
             class="navbar-toggler"
@@ -40,7 +41,7 @@ export default function Dashboard() {
 
       <div class="d-flex flex-column">
         <div class="addUser">
-          <a href="/users/add">Add New User</a>
+          <Link to="/users/add">Add New User</Link>
         </div>
         <h4 style={{ color: "coral" }}>Users List:</h4>
         <table class="table w-50" style={{ color: "coral" }}>

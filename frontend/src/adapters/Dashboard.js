@@ -1,4 +1,4 @@
-import { deleteUser, get } from "../src/lib/requestManager";
+import { deleteUser, get } from "../lib/requestManager";
 async function deleteUsers(event, id) {
   event.preventDefault();
   try {

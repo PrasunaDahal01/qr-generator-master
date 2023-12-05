@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ForgetForm() {
+export default function ForgetPasswordForm() {
   return (
     <div className="box">
       <div className="row custom-row justify-content-center">

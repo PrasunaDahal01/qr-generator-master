@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { handleRegistration } from "../../../adapters/AdminRegistration";
+import { Link } from "react-router-dom";
 import "../../../css/RegisterStyle.css";
-export default function AdminForm() {
+import { handleRegistration } from "../../../adapters/AdminRegistration";
+
+export default function AdminRegisterForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -135,7 +137,7 @@ export default function AdminForm() {
               </div>
               <div className="py-3 mx-5 d-flex justify-content-center">
                 <p>Do you want to log in?</p>
-                <a href="/auth/login">Log In</a>
+                <Link to="/auth/login">Log In</Link>
               </div>
             </form>
           </div>

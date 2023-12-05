@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { pageLoad, editUser } from "../../adapters/Dashboard";
 
 export default function EditUserForm() {
@@ -11,9 +12,9 @@ export default function EditUserForm() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container-fluid">
-          <a href="/qrs" className="navbar-brand">
+          <Link to="/qrs" className="navbar-brand">
             <h2 className="logo">QRcode Generator</h2>
-          </a>
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -143,9 +144,9 @@ export default function EditUserForm() {
           </div>
         </div>
         <div className="py-3 mx-5 ">
-          <a href="/users/dashboard" style={{ color: "azure" }}>
+          <Link to="/users/dashboard" style={{ color: "azure" }}>
             Go Back
-          </a>
+          </Link>
         </div>
       </div>
     </>

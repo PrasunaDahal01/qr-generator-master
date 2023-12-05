@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import { pageLoad, getQrData, getMailData, changeImageSize } from "./Qr";
+import { Link } from "react-router-dom";
+import {
+  pageLoad,
+  getQrData,
+  getMailData,
+  changeImageSize,
+} from "../../adapters/Qr";
 import "../../css/style.css";
 
-export default function QrGenerator() {
+export default function QrForm() {
   const [qrData, setqrData] = useState({
     name: "",
     img: "",
@@ -32,9 +38,9 @@ export default function QrGenerator() {
     <div>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container-fluid">
-          <a href="/qrs" className="navbar-brand">
+          <Link to="/qrs" className="navbar-brand">
             <h2 className="logo">QRcode Generator</h2>
-          </a>
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -60,9 +66,9 @@ export default function QrGenerator() {
                 </button>
               </li>
               <li className="nav-item">
-                <a href="/users/profile" className="nav-link">
+                <Link to="/users/profile" className="nav-link">
                   <i className="fa-solid fa-user"></i>
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <button

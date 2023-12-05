@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { addUser } from "../../adapters/Add";
 
 export default function AddUserForm() {
@@ -16,9 +17,9 @@ export default function AddUserForm() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container-fluid">
-          <a href="/qrs" className="navbar-brand">
+          <Link to="/qrs" className="navbar-brand">
             <h2 className="logo">QRcode Generator</h2>
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -103,9 +104,9 @@ export default function AddUserForm() {
           </div>
         </div>
         <div className="py-3 mx-5">
-          <a href="/users/dashboard" style={{ color: "azure" }}>
+          <Link to="/users/dashboard" style={{ color: "azure" }}>
             Go Back
-          </a>
+          </Link>
         </div>
       </div>
     </>

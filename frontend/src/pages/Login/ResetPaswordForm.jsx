@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-export default function ResetForm() {
+export default function ResetPasswordForm() {
   return (
     <div className="box">
       <div className="row custom-row justify-content-center">
@@ -33,7 +34,7 @@ export default function ResetForm() {
               </div>
               <div className="d-flex justify-content-center">
                 <p>Do you want to login?</p>
-                <a href="/auth/login">Login</a>
+                <Link to="/auth/login">Login</Link>
               </div>
             </form>
           </div>

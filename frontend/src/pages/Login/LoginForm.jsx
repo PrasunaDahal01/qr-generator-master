@@ -1,8 +1,9 @@
+import { login } from "../../adapters/Login";
 import "../../css/RegisterStyle.css";
 import React, { useState } from "react";
-import { login } from "./Login";
+import { Link } from "react-router-dom";
 
-export default function Form() {
+export default function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleSubmit = (e) => {
@@ -77,15 +78,15 @@ export default function Form() {
               </div>
 
               <div className="d-flex justify-content-center">
-                <a
-                  href="/auth/registers"
+                <Link
+                  to="/auth/registers"
                   style={{
                     color: "#212a3e",
                     fontWeight: 900,
                   }}
                 >
                   Create New Account
-                </a>
+                </Link>
               </div>
             </form>
           </div>

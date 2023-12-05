@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { handleRegistration } from "../../../adapters/UserRegistration";
 import "../../../css/RegisterStyle.css";
+import { Link } from "react-router-dom";
+import { handleRegistration } from "../../../adapters/UserRegistration";
 
 export default function UserRegisterForm() {
   const [formData, setFormData] = useState({
@@ -139,12 +140,12 @@ export default function UserRegisterForm() {
               <div className="py-3 mx-5 d-flex justify-content-center">
                 <p>Have an account?</p>
                 <p>
-                  <a
-                    href="/auth/login"
+                  <Link
+                    to="/auth/login"
                     style={{ color: "#3876bf", fontWeight: 900 }}
                   >
                     Log In
-                  </a>
+                  </Link>
                 </p>
               </div>
             </form>

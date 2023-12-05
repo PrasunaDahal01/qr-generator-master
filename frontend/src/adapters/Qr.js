@@ -1,4 +1,4 @@
-import { get, post } from "../src/lib/requestManager";
+import { get, post } from "../lib/requestManager";
 const pageLoad = async () => {
   try {
     const response = await get({

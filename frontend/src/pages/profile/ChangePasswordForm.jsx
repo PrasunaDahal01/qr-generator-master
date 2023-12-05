@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { changePassword } from "../../../adapters/Change";
+import { Link } from "react-router-dom";
+import { changePassword } from "../../adapters/Change";
 
-export default function ChangeForm() {
+export default function ChangePasswordForm() {
   const [formData, setFormData] = useState({ password: "", newpassword: "" });
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -11,9 +12,9 @@ export default function ChangeForm() {
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container-fluid">
-          <a href="/qrs" className="navbar-brand">
+          <Link to="/qrs" className="navbar-brand">
             <h2 className="logo">QRcode Generator</h2>
-          </a>
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -39,9 +40,9 @@ export default function ChangeForm() {
                 </button>
               </li>
               <li className="nav-item">
-                <a href="/users/profile" className="nav-link">
+                <Link to="/users/profile" className="nav-link">
                   <i className="fa-solid fa-user"></i>
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <button
@@ -121,9 +122,9 @@ export default function ChangeForm() {
           </div>
         </div>
         <div className="py-3 mx-5">
-          <a href="/users/profile" style={{ color: "azure" }}>
+          <Link to="/users/profile" style={{ color: "azure" }}>
             Go Back
-          </a>
+          </Link>
         </div>
       </div>
     </>

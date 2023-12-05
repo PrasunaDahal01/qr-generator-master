@@ -1,4 +1,4 @@
-import { get, put } from "../src/lib/requestManager";
+import { get, put } from "../lib/requestManager";
 const pageLoad = async () => {
   try {
     const response = await get({
