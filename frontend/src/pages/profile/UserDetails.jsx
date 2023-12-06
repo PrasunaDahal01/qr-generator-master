@@ -36,11 +36,11 @@ export default function UserDetails() {
         </div>
       </nav>
 
-      <div className="d-flex flex-column">
-        <div className="box">
-          <div className="row custom-row justify-content-center">
-            <div className="col-sm-12">
-              <div className="rounded my-2 px-0 insideContainer">
+      <div className="container mt-5 pt-5">
+        <div className="row ">
+          <div className="col-12 col-sm-8 col-md-8 col-xl-12 m-auto">
+            <div className="card form-box shadow">
+              <div className="card-body">
                 <div className="py-1 header">
                   <h1 className="text-center">My Profile</h1>
                 </div>
@@ -50,13 +50,12 @@ export default function UserDetails() {
             </div>
           </div>
         </div>
-
         <div className="py-3 mx-5">
-          <Link to="/users/edit" style={{ color: "azure" }}>
+          <Link to="/users/edit" style={{ color: "#ed5169" }}>
             <h5>Edit My Profile</h5>
           </Link>
-          <Link to="/auth/changePassword">
-            <h5 style={{ color: "azure" }}>Change password</h5>
+          <Link to="/auth/changePassword" style={{ color: "#ed5169" }}>
+            <h5>Change password</h5>
           </Link>
         </div>
       </div>

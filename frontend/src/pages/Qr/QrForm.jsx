@@ -6,7 +6,6 @@ import {
   getMailData,
   changeImageSize,
 } from "../../adapters/Qr";
-import "../../css/style.css";
 
 export default function QrForm() {
   const [qrData, setqrData] = useState({
@@ -83,82 +82,94 @@ export default function QrForm() {
           </div>
         </div>
       </nav>
-      <div className="container">
+      <div className="container mt-5 pt-5">
         <div className="row">
-          <div className="col-md-6">
-            <div className="box">
-              <div className="qrHeader">
-                <h1>QR Code Generator</h1>
-                <form className="contact_form">
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Type your text or URL"
-                    id="qrText"
-                    required
-                    value={qrData.name}
-                    onChange={(e) => {
-                      setqrData({ name: e.target.value });
-                    }}
-                  />
-                  <div>
-                    <label for="Sizes">Select Size: </label>
-                    <select
-                      id="sizes"
-                      name="size"
-                      value={sizeData.size}
-                      onChange={(e) => {
-                        const newSize = e.target.value;
-                        setsizeData({ size: newSize });
-                        changeImageSize(newSize);
-                      }}
-                    >
-                      <option value="100">100 x 100</option>
-                      <option value="200">200 x 200</option>
-                      <option value="300">300 x 300</option>
-                      <option value="400">400 x 400</option>
-                    </select>
-                  </div>
+          <div className="col-8">
+            <div className="card form-box shadow">
+              <div className="card-body">
+                <div className="py-1 header">
+                  <h1>QR Code Generator</h1>
+                  <form className="form">
+                    <div className="py-3 mx-5">
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Type your text or URL"
+                        id="qrText"
+                        required
+                        className="form-control p-2"
+                        value={qrData.name}
+                        onChange={(e) => {
+                          setqrData({ name: e.target.value });
+                        }}
+                      />
+                    </div>
 
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Type your Email ID"
-                    id="mail"
-                    value={mailData.email}
-                    onChange={(e) => {
-                      setmailData({ email: e.target.value });
-                    }}
-                    style={{ display: " none" }}
-                  />
+                    <div className="py-3 mx-5">
+                      <label className="form-label" for="Sizes">
+                        Select Size:
+                      </label>
+                      <select
+                        id="sizes"
+                        name="size"
+                        className="form-control p-2 my-3"
+                        value={sizeData.size}
+                        onChange={(e) => {
+                          const newSize = e.target.value;
+                          setsizeData({ size: newSize });
+                          changeImageSize(newSize);
+                        }}
+                      >
+                        <option value="100">100 x 100</option>
+                        <option value="200">200 x 200</option>
+                        <option value="300">300 x 300</option>
+                        <option value="400">400 x 400</option>
+                      </select>
+                    </div>
 
-                  <div className="mailbutton">
-                    <button
-                      type="button"
-                      className="mailbtn"
-                      id="mailbtn"
-                      style={{ display: " none" }}
-                      onSubmit={handleEmailSubmit}
-                    >
-                      Send email
-                    </button>
-                  </div>
+                    <div className="py-3 mx-5">
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Type your Email ID"
+                        id="mail"
+                        value={mailData.email}
+                        onChange={(e) => {
+                          setmailData({ email: e.target.value });
+                        }}
+                        style={{ display: " none" }}
+                      />
+                    </div>
 
-                  <div className="qrfooter">
-                    <button
-                      type="button"
-                      className="footer2"
-                      id="btn"
-                      onSubmit={handleSubmit}
-                    >
-                      Generate QR CODE
-                    </button>
-                  </div>
-                </form>
+                    <div className="py-3 mx-5 text-center">
+                      <button
+                        type="button"
+                        className="btn button"
+                        id="mailbtn"
+                        style={{ display: " none" }}
+                        onSubmit={handleEmailSubmit}
+                      >
+                        Send email
+                      </button>
+                    </div>
+
+                    <div className="py-3 mx-5 text-center">
+                      <button
+                        type="button"
+                        className="btn button"
+                        id="btn"
+                        onSubmit={handleSubmit}
+                      >
+                        Generate QR CODE
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-          <div className="col-md-6">
+
+          <div className="col-6">
             <div className="qrBody">
               <img
                 id="base64image"

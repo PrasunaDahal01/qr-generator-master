@@ -33,7 +33,7 @@ const pageLoad = async () => {
 
 const editUser = async (event) => {
   event.preventDefault();
-  const messageBox = document.getElementById("messageBox");
+  /*const messageBox = document.getElementById("messageBox");
   const formData = new FormData(editForm);
   const data = Object.fromEntries(formData);
   userId = data.user_id;
@@ -49,6 +49,7 @@ const editUser = async (event) => {
         ? error.response.data.message
         : "An internal server error occurred.";
   }
+  */
 };
 
 export { pageLoad, editUser };

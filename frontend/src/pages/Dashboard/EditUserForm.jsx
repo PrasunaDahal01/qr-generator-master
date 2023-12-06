@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { pageLoad, editUser } from "../../adapters/Dashboard";
+import { pageLoad, editUser } from "../../adapters/Edit";
 
 export default function EditUserForm() {
   const [formData, setFormData] = useState({
@@ -44,107 +44,104 @@ export default function EditUserForm() {
         </div>
       </nav>
 
-      <div className="box">
-        <div className="row custom-row justify-content-center">
-          <div className="col-sm-12 col-md-8 col-lg-6">
-            <div className="container rounded my-2 px-0 insideContainer">
-              <div
-                id="messageBox"
-                className="message-box
-              py-3 mx-5 px-5 justify-content-center"
-              ></div>
-              <div className="py-1 header">
-                <h1 className="text-center">Edit User Details</h1>
+      <div className="container mt-5 pt-5">
+        <div className="row ">
+          <div className="col-12 col-sm-8 col-md-8 col-xl-12 m-auto">
+            <div className="card form-box shadow">
+              <div className="card-body">
+                <div className="py-1 header">
+                  <h1 className="text-center">Edit User Details</h1>
+                </div>
+                <form
+                  action=""
+                  method="post"
+                  className="form"
+                  encType="multipart/form-data"
+                >
+                  <div id="userId"></div>
+
+                  <div className="py-3 mx-5">
+                    <label htmlFor="email" className="form-label">
+                      Email:
+                    </label>
+                    <div id="emailData"></div>
+                  </div>
+
+                  <div className="py-3 mx-5">
+                    <label className="form-label">Verify User:</label>
+                    <div className="form-check">
+                      <input
+                        type="radio"
+                        name="verify"
+                        value="true"
+                        className="form-check-input"
+                        required
+                      />
+                      <label className="form-check-label">verify</label>
+                    </div>
+
+                    <div className="form-check">
+                      <input
+                        type="radio"
+                        name="verify"
+                        value="false"
+                        className="form-check-input"
+                        required
+                      />
+                      <label className="form-check-label">Unverify</label>
+                    </div>
+                  </div>
+
+                  <div className="py-3 mx-5">
+                    <label className="form-label"> User Role</label>
+                    <div className="form-check">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="admin"
+                        className="form-check-input"
+                        required
+                      />
+                      <label className="form-check-label">admin</label>
+                    </div>
+
+                    <div className="form-check">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="user"
+                        className="form-check-input"
+                        required
+                      />
+                      <label className="form-check-label">user</label>
+                    </div>
+                  </div>
+
+                  <div className="py-3 mx-5">
+                    <input
+                      type="file"
+                      name="image"
+                      className="form-control p-2"
+                      placeholder="Upload  Picture:"
+                      required
+                    />
+                  </div>
+
+                  <div className="py-3 mx-5 text-center text-white">
+                    <input
+                      type="Submit"
+                      className="btn button "
+                      value="Update User"
+                      id="addButton"
+                    />
+                  </div>
+                </form>
               </div>
-              <form
-                action=""
-                method="post"
-                className="form"
-                enctype="multipart/form-data"
-              >
-                <div id="userId"></div>
-
-                <div className="py-3 mx-5">
-                  <label htmlFor="email" className="form-label">
-                    Email:
-                  </label>
-                  <div id="emailData"></div>
-                </div>
-
-                <div className="py-3 mx-5">
-                  <label className="form-label">Verify User:</label>
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      name="verify"
-                      value="true"
-                      className="form-check-input"
-                      required
-                    />
-                    <label className="form-check-label">verify</label>
-                  </div>
-
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      name="verify"
-                      value="false"
-                      className="form-check-input"
-                      required
-                    />
-                    <label className="form-check-label">Unverify</label>
-                  </div>
-                </div>
-
-                <div className="py-3 mx-5">
-                  <label className="form-label"> User Role</label>
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      name="role"
-                      value="admin"
-                      className="form-check-input"
-                      required
-                    />
-                    <label className="form-check-label">admin</label>
-                  </div>
-
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      name="role"
-                      value="user"
-                      className="form-check-input"
-                      required
-                    />
-                    <label className="form-check-label">user</label>
-                  </div>
-                </div>
-
-                <div className="py-3 mx-5">
-                  <input
-                    type="file"
-                    name="image"
-                    className="form-control p-2"
-                    placeholder="Upload  Picture:"
-                    required
-                  />
-                </div>
-
-                <div className="py-3 mx-5 text-center text-white">
-                  <input
-                    type="Submit"
-                    className="btn text-white"
-                    value="Update User"
-                    id="addButton"
-                  />
-                </div>
-              </form>
             </div>
           </div>
         </div>
         <div className="py-3 mx-5 ">
-          <Link to="/users/dashboard" style={{ color: "azure" }}>
+          <Link to="/users/dashboard" style={{ color: "#ed5169" }}>
             Go Back
           </Link>
         </div>

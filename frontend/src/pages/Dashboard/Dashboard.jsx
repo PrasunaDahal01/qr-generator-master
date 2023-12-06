@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import { pageLoad, deleteUSers } from "../../adapters/Dashboard";
 export default function Dashboard() {
   const logOut = async (event) => {
@@ -9,14 +10,14 @@ export default function Dashboard() {
   };
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container-fluid">
-          <Link to="/qrs" class="navbar-brand">
-            <h2 class="logo">QRcode Generator</h2>
+      <nav className="navbar navbar-expand-lg navbar-light fixed-top">
+        <div className="container-fluid">
+          <Link to="/qrs" className="navbar-brand">
+            <h2 className="logo">QRcode Generator</h2>
           </Link>
 
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
@@ -24,13 +25,13 @@ export default function Dashboard() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <button class="nav-link" id="logOut" onclick={logOut}>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <button className="nav-link" id="logOut" onclick={logOut}>
                   LogOut
                 </button>
               </li>
@@ -39,12 +40,14 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      <div class="d-flex flex-column">
-        <div class="addUser">
-          <Link to="/users/add">Add New User</Link>
+      <div className="d-flex flex-column columnBox">
+        <div className="addUser">
+          <Link to="/users/add" style={{ color: "#ed5169", fontWeight: 900 }}>
+            Add New User
+          </Link>
         </div>
-        <h4 style={{ color: "coral" }}>Users List:</h4>
-        <table class="table w-50" style={{ color: "coral" }}>
+        <h4 style={{ color: "#ed5169 " }}>Users List:</h4>
+        <table className="table w-50" style={{ color: "coral" }}>
           <thead>
             <tr>
               <th>Email</th>

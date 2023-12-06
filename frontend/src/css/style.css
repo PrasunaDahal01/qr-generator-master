@@ -5,63 +5,6 @@
   font-family: "poppins";
 }
 
-.logo {
-  color: #102c57;
-  font-size: 35px;
-  padding-left: 10px;
-  font-weight: 700;
-}
-nav {
-  background-color: #f2e8c6;
-  padding: 15px 5%;
-  transition: 0.2s;
-}
-
-.navbar-collapse {
-  justify-content: flex-end;
-}
-
-nav i {
-  font-size: 25px;
-  color: #102c57;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-nav i:hover {
-  color: #e25e3e;
-}
-
-.navbar-nav .nav-item .nav-link {
-  color: #102c57;
-  font-weight: 900;
-  text-decoration: none;
-  margin-right: 15px;
-}
-
-.navbar-nav .nav-item .nav-link:hover {
-  color: #e25e3e;
-}
-
-.navbar-toggler {
-  background-color: #f2e8c6;
-  border-style: none;
-}
-
-.navbar-nav .nav-item .nav-link:hover {
-  color: #e25e3e;
-}
-
-body {
-  min-height: 100vh;
-  background-color: #102c57;
-  padding-top: 58px;
-}
-
-a {
-  text-decoration: none;
-}
-
 .box {
   background-color: #f2e8c6;
   padding: 25px;
