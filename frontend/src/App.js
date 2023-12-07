@@ -6,7 +6,7 @@ import NotFoundPage from "./Components/NotFoundPage";
 import UserDetails from "./pages/profile/UserDetails";
 import AddUserForm from "./pages/Dashboard/AddUserForm";
 import EditUserForm from "./pages/Dashboard/EditUserForm";
-import ResetPasswordForm from "./pages/Login/ResetPaswordForm";
+import ResetPasswordForm from "./pages/Login/ResetPasswordForm";
 import ForgetPasswordForm from "./pages/Login/ForgetPasswordForm";
 import ChangePasswordForm from "./pages/profile/ChangePasswordForm";
 import UserRegisterForm from "./pages/Registration/User/UserRegisterForm";
@@ -23,17 +23,20 @@ function App() {
           <Route index element={<LoginForm />} />
           <Route path="login" element={<LoginForm />} />
           <Route path="registers" element={<UserRegisterForm />} />
-          <Route path="forgetpassword" element={<ForgetPasswordForm />} />
-          <Route path="resetpassword" element={<ResetPasswordForm />} />
-          <Route path="changepassword" element={<ChangePasswordForm />} />
+          <Route path="forgetPassword" element={<ForgetPasswordForm />} />
+          <Route
+            path="resetpassword/:id/:token"
+            element={<ResetPasswordForm />}
+          />
+          <Route path="changePassword" element={<ChangePasswordForm />} />
           <Route path="profile" element={<UserDetails />} />
-          <Route path="updateprofile" element={<UpdateForm />} />
+          <Route path="updateProfile" element={<UpdateForm />} />
         </Route>
         <Route path="/users">
           <Route path="registers" element={<AdminRegisterForm />} />
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="adduser" element={<AddUserForm />} />
-          <Route path="edituser" element={<EditUserForm />} />
+          <Route path="addUser" element={<AddUserForm />} />
+          <Route path="editUser" element={<EditUserForm />} />
         </Route>
         <Route path="/qrs" element={<QrForm />} />
         <Route path="*" element={<NotFoundPage />} />

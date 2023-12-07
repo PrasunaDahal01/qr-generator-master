@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../../../css/RegisterStyle.css";
 import { Link } from "react-router-dom";
 import { handleRegistration } from "../../../adapters/UserRegistration";
 

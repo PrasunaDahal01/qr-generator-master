@@ -1,5 +1,6 @@
 import { post } from "../lib/requestManager";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const addUser = async (data) => {
   try {
     const response = await post({

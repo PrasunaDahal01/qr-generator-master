@@ -1,4 +1,6 @@
 import { deleteUser, get } from "../lib/requestManager";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 async function deleteUsers(event, id) {
   event.preventDefault();
   try {
@@ -14,10 +16,11 @@ async function deleteUsers(event, id) {
       error.response && error.response.data.message
         ? error.response.data.message
         : "An internal server error occurred.";
+    showToast(errorMessage, "error");
   }
 }
 
-const fetchUsers = async () => {
+const pageLoad = async () => {
   try {
     const response = await get({
       endpoint: "/api/v1/users/users",
@@ -29,41 +32,15 @@ const fetchUsers = async () => {
   }
 };
 
-const loadTable = (users) => {
-  const userTableBody = document.getElementById("user-table-body");
-  let htmlContent = "";
-
-  users.forEach((user) => {
-    htmlContent += `
-          <tr>
-            <td>${user.email}</td>
-            <td>${user.role}</td>
-            <td><img src="/public/userImages/${user.image}" alt="${user.image}" width="100px" height="100px"></td>
-            <td>${user.is_verified}</td>
-            <td >
-              <div class="d-flex gap-5">
-                <a href="/users/editUser?id=${user._id}" style="color:coral">Edit <i class="fa-solid fa-pen-to-square"></i></a>
-              <a href="#" 
-              onclick="deleteUsers(event, '${user._id}')"
-                dataId = "${user._id}"
-                style="color:coral"
-                class="archive-Link"><i class="fa-solid fa-box-archive"></i></a>
-                </td>            
-              </div>            
-          </tr>`;
-  });
-
-  if (!htmlContent) {
-    htmlContent = `<tr>
-        <td>Users not found</td>
-      </tr>`;
+function showToast(message, type) {
+  if (type === "success") {
+    toast.success(message, { position: "top-center" });
+  } else if (type === "error") {
+    toast.error(message, { position: "top-center" });
   }
-  userTableBody.innerHTML = htmlContent;
-};
-
-const pageLoad = async () => {
-  const users = await fetchUsers();
-  loadTable(users);
-};
+  setTimeout(() => {
+    toast.dismiss();
+  }, 3000);
+}
 
 export { pageLoad, deleteUsers };

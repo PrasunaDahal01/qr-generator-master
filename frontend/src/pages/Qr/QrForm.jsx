@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   pageLoad,
@@ -18,20 +18,31 @@ export default function QrForm() {
   const [sizeData, setsizeData] = useState({
     size: "",
   });
+  const [adminRole, setAdminRole] = useState(false);
+  const [mailButton, setMailButton] = useState(false);
+  const [mailInput, setMailInput] = useState(false);
+  const [qrImage, setQrImage] = useState(false);
 
-  window.addEventListener("load", () => {
-    pageLoad();
-  });
+  const qrImageRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    getQrData({ qrText: qrData.name, img: qrData.img });
+    getQrData(qrData, setMailButton, setMailInput, setQrImage);
   };
 
+  const logOut = async (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = "http://localhost:3000/auth/login";
+  };
   const handleEmailSubmit = (e) => {
     e.preventDefault();
-    getMailData(mailData);
+    getMailData(mailData, qrImage);
   };
+
+  useEffect(() => {
+    pageLoad(setAdminRole);
+  }, []); //put the props userdata or something here
 
   return (
     <div>
@@ -56,25 +67,28 @@ export default function QrForm() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button
-                  id="adminDashboard"
+                <Link
+                  to="/users/dashboard"
                   className="nav-link"
-                  onclick="getDashboard(event)"
+                  style={{ display: adminRole ? "block" : "none" }}
                 >
                   Dashboard
-                </button>
-              </li>
-              <li className="nav-item">
-                <Link to="/users/profile" className="nav-link">
-                  <i className="fa-solid fa-user"></i>
                 </Link>
               </li>
               <li className="nav-item">
-                <button
-                  id="logOut"
-                  className="nav-link"
-                  onclick="logOut(event)"
-                >
+                <Link to="/auth/profile" className="nav-link">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="16"
+                    width="14"
+                    viewBox="0 0 448 512"
+                  >
+                    <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
+                  </svg>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <button id="logOut" className="nav-link" onClick={logOut}>
                   LogOut
                 </button>
               </li>
@@ -117,7 +131,7 @@ export default function QrForm() {
                         onChange={(e) => {
                           const newSize = e.target.value;
                           setsizeData({ size: newSize });
-                          changeImageSize(newSize);
+                          changeImageSize(newSize, qrImageRef.current);
                         }}
                       >
                         <option value="100">100 x 100</option>
@@ -137,7 +151,7 @@ export default function QrForm() {
                         onChange={(e) => {
                           setmailData({ email: e.target.value });
                         }}
-                        style={{ display: " none" }}
+                        style={{ display: mailInput ? "display" : "none" }}
                       />
                     </div>
 
@@ -146,8 +160,8 @@ export default function QrForm() {
                         type="button"
                         className="btn button"
                         id="mailbtn"
-                        style={{ display: " none" }}
                         onSubmit={handleEmailSubmit}
+                        style={{ display: mailButton ? "display" : "none" }}
                       >
                         Send email
                       </button>
@@ -173,13 +187,10 @@ export default function QrForm() {
             <div className="qrBody">
               <img
                 id="base64image"
-                src=""
-                style={{ display: " none" }}
+                src={qrImage}
                 alt="qrImage"
-                value={qrData.img}
-                onChange={(e) => {
-                  setqrData({ ...qrData, img: e.target.value });
-                }}
+                ref={qrImageRef}
+                style={{ display: qrImage ? "block" : "none" }}
               />
             </div>
           </div>

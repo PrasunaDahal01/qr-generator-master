@@ -86,7 +86,7 @@ export default function AddUserForm() {
                       placeholder="Enter Your Picture:"
                       required
                       onChange={(e) => {
-                        setFormData({ image: e.target.value });
+                        setFormData({ ...formData, image: e.target.files[0] });
                       }}
                     />
                   </div>

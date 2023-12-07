@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import pageLoad from "../../adapters/Profile";
 
 export default function UserDetails() {
+  const [formData, setFormData] = useState({ image: "", email: "", role: "" });
+
+  const logOut = async (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = "http://localhost:3000/auth/login";
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const user = await pageLoad();
+        setFormData({ image: user.image, email: user.email, role: user.role });
+      } catch (error) {
+        console.error("Error fetching users:", error.message);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -25,11 +45,9 @@ export default function UserDetails() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button
-                  className="nav-link"
-                  id="logOut"
-                  onclick="logOut(event)"
-                ></button>
+                <button className="nav-link" id="logOut" onclick={logOut}>
+                  LogOut
+                </button>
               </li>
             </ul>
           </div>
@@ -44,14 +62,24 @@ export default function UserDetails() {
                 <div className="py-1 header">
                   <h1 className="text-center">My Profile</h1>
                 </div>
-                <div id="userId"></div>
-                <div className="py-3 mx-5" id="userDetails"></div>
+                <div>
+                  <p>
+                    <img
+                      src={`../../public/userImages/${formData.image}`}
+                      width="100px"
+                      height="100px"
+                      alt={formData.image}
+                    />
+                  </p>
+                  <p>Email:{formData.email}</p>
+                  <p>Role:{formData.role}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className="py-3 mx-5">
-          <Link to="/users/edit" style={{ color: "#ed5169" }}>
+          <Link to="/auth/updateProfile" style={{ color: "#ed5169" }}>
             <h5>Edit My Profile</h5>
           </Link>
           <Link to="/auth/changePassword" style={{ color: "#ed5169" }}>

@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { pageLoad, updateProfile } from "../../adapters/Update";
 
 export default function UpdateForm() {
+  const [formData, setFormData] = useState({ email: "", image: "" });
+  const [userId, setUserId] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    updateProfile(userId, formData);
+  };
+  const logOut = async (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = "http://localhost:3000/auth/login";
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const user = await pageLoad();
+        setFormData({ email: user.email, image: user.image });
+        setUserId(user._id);
+      } catch (error) {
+        console.error("Error fetching users:", error.message);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -25,11 +51,7 @@ export default function UpdateForm() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button
-                  className="nav-link"
-                  id="logOut"
-                  onclick="logOut(event)"
-                >
+                <button className="nav-link" id="logOut" onclick={logOut}>
                   LogOut
                 </button>
               </li>
@@ -46,31 +68,52 @@ export default function UpdateForm() {
                 <div className="py-1 header">
                   <h1 className="text-center">Edit Your Profile:</h1>
                 </div>
-                <div className="py-3 mx-5" id="userImage"></div>
+                <div className="py-3 mx-5" id="userImage">
+                  <img
+                    src={`../../public/userImages/${formData.image}`}
+                    width="100px"
+                    height="100px"
+                    alt={formData.image}
+                  />
+                </div>
 
                 <form
                   action=""
                   method="post"
                   className="form"
                   enctype="multipart/form-data"
+                  onSubmit={handleSubmit}
                 >
-                  <div id="userId"></div>
-
                   <div className="py-3 mx-5">
                     <label htmlFor="email" className="form-label">
                       Email:
                     </label>
-                    <div id="userEmail"></div>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      class="form-control p-2"
+                      onChange={(e) => {
+                        setFormData({ email: e.target.value });
+                      }}
+                      placeholder="example@gmail.com"
+                      required
+                    />
                   </div>
 
                   <div className="py-3 mx-5">
                     <input
                       type="file"
                       name="image"
+                      value={formData.image}
                       className="form-control p-2"
+                      onChange={(e) => {
+                        setFormData({ ...formData, image: e.target.files[0] });
+                      }}
                       placeholder="Upload picture"
                     />
                   </div>
+
                   <div className="py-3 mx-5 text-center ">
                     <input
                       type="Submit"
@@ -84,7 +127,7 @@ export default function UpdateForm() {
           </div>
         </div>
         <div className="py-3 mx-5">
-          <Link to="/users/profile" style={{ color: "#ed5169" }}>
+          <Link to="/auth/profile" style={{ color: "#ed5169" }}>
             Go Back
           </Link>
         </div>

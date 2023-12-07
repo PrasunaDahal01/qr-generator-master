@@ -47,7 +47,7 @@ const forgetPassword = async (email) => {
   const token = generateAccessToken(user._id);
   await userModel.updateOne({ email }, { $set: { token: token } });
 
-  sendPasswordMail(user.email, token);
+  sendPasswordMail(user.email, user._id, token);
 
   return {
     success: true,
@@ -68,15 +68,10 @@ const login = async (email, password) => {
   return { success: true, message: "Login Successful", token, refreshToken };
 };
 
-const resetPass = async (token) => {
+const resetPassword = async (password, userId, token) => {
   const tokenData = await userModel.findOne({ token });
-
   if (!tokenData) throw new Error("Token Not Found");
 
-  return tokenData;
-};
-
-const resetPassword = async (password, userId) => {
   const ePassword = await encryptPassword(password);
 
   const updatedData = await userModel.findByIdAndUpdate(
@@ -117,6 +112,5 @@ module.exports = {
   forgetPassword,
   resetPassword,
   changePassword,
-  resetPass,
   regenerateToken,
 };

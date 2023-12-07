@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { changePassword } from "../../adapters/Change";
+import { changePassword, pageLoad } from "../../adapters/Change";
 
 export default function ChangePasswordForm() {
   const [formData, setFormData] = useState({ password: "", newpassword: "" });
+  const [userId, setUserId] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    changePassword(formData);
+    changePassword(userId, formData);
   };
+
+  const logOut = async (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = "http://localhost:3000/auth/login";
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userId = await pageLoad();
+        setUserId(userId);
+      } catch (error) {
+        console.error("Error fetching users:", error.message);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -31,25 +51,7 @@ export default function ChangePasswordForm() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button
-                  id="adminDashboard"
-                  className="nav-link"
-                  onclick="getDashboard(event)"
-                >
-                  Dashboard
-                </button>
-              </li>
-              <li className="nav-item">
-                <Link to="/users/profile" className="nav-link">
-                  <i className="fa-solid fa-user"></i>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <button
-                  id="logOut"
-                  className="nav-link"
-                  onclick="logOut(event)"
-                >
+                <button id="logOut" className="nav-link" onclick={logOut}>
                   LogOut
                 </button>
               </li>
@@ -71,8 +73,6 @@ export default function ChangePasswordForm() {
                   className="form"
                   onSubmit={handleSubmit}
                 >
-                  <div id="userId"></div>
-
                   <div className="py-3 mx-5">
                     <label htmlFor="password" className="form-label">
                       Current Password:
@@ -120,7 +120,7 @@ export default function ChangePasswordForm() {
           </div>
         </div>
         <div className="py-3 mx-5">
-          <Link to="/users/profile" style={{ color: "#ed5169" }}>
+          <Link to="/auth/profile" style={{ color: "#ed5169" }}>
             Go Back
           </Link>
         </div>

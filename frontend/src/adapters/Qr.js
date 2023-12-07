@@ -1,5 +1,5 @@
 import { get, post } from "../lib/requestManager";
-const pageLoad = async () => {
+const pageLoad = async (setAdminRole) => {
   try {
     const response = await get({
       endpoint: "/api/v1/users/qrs",
@@ -7,12 +7,11 @@ const pageLoad = async () => {
     });
 
     const userRole = response.user.role;
-    const dashBoard = document.getElementById("adminDashboard");
 
     if (userRole === "admin") {
-      dashBoard.style.display = "block";
+      setAdminRole(true);
     } else {
-      dashBoard.style.display = "none";
+      setAdminRole(false);
     }
   } catch (error) {
     console.error("error", error);
@@ -20,9 +19,7 @@ const pageLoad = async () => {
   }
 };
 
-const getQrData = async (qrText, imageQr) => {
-  const emailbutton = document.getElementById("mailbtn");
-  const emailinput = document.getElementById("mail");
+const getQrData = async (qrText, setMailButton, setMailInput, setQrImage) => {
   if (!qrText.trim()) {
     alert("Please enter your Email ID.");
   } else {
@@ -35,27 +32,25 @@ const getQrData = async (qrText, imageQr) => {
 
       const data = await response;
 
-      document.getElementById("base64image").src = data.qr;
-      imageQr.style.display = "block";
-      emailbutton.style.display = "block";
-      emailinput.style.display = "block";
+      setQrImage(data.qr);
+
+      setMailInput(true);
+      setMailButton(true);
     } catch (error) {
       throw error;
     }
   }
 };
 
-const getMailData = async (email) => {
+const getMailData = async (email, qrImage) => {
   if (!email.trim()) {
     alert("Please enter your Email ID.");
   } else {
-    const qr = document.getElementById("base64image").src;
-    console.log("qr", qr);
     try {
       await post({
         endpoint: "/api/v1/mails",
         headers: { "Content-Type": "application/json" },
-        params: { qrCode: qr, email: email },
+        params: { qrCode: qrImage, email: email },
       });
     } catch (error) {
       throw error;
@@ -63,10 +58,9 @@ const getMailData = async (email) => {
   }
 };
 
-function changeImageSize(newSize) {
-  const image = document.getElementById("base64image");
-  image.width = newSize;
-  image.height = newSize;
+function changeImageSize(newSize, qrImage) {
+  qrImage.width = newSize;
+  qrImage.height = newSize;
 }
 
 export { pageLoad, getQrData, getMailData, changeImageSize };

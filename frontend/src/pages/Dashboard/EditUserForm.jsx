@@ -1,13 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { pageLoad, editUser } from "../../adapters/Edit";
 
 export default function EditUserForm() {
   const [formData, setFormData] = useState({
-    userId: "",
     email: "",
-    verifyUser: "",
+    verify: "",
+    role: "",
+    img: "",
   });
+  const [userId, setUserId] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    editUser(userId, formData);
+  };
+  const logOut = async (e) => {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = "http://localhost:3000/auth/login";
+  };
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get("id");
+    setUserId(userId);
+    pageLoad(userId, setFormData, setUserId);
+  }, []); //put the props userdata or something here
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -31,11 +50,7 @@ export default function EditUserForm() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button
-                  className="nav-link"
-                  id="logOut"
-                  onclick="logOut(event)"
-                >
+                <button className="nav-link" id="logOut" onclick={logOut}>
                   LogOut
                 </button>
               </li>
@@ -57,14 +72,23 @@ export default function EditUserForm() {
                   method="post"
                   className="form"
                   encType="multipart/form-data"
+                  onSubmit={handleSubmit}
                 >
-                  <div id="userId"></div>
-
                   <div className="py-3 mx-5">
                     <label htmlFor="email" className="form-label">
                       Email:
                     </label>
-                    <div id="emailData"></div>
+                    <input
+                      type="text"
+                      name="email"
+                      value={formData.email}
+                      onChange={(e) => {
+                        setFormData({ email: e.target.value });
+                      }}
+                      className="form-control"
+                      placeholder="Enter Email"
+                      required
+                    />
                   </div>
 
                   <div className="py-3 mx-5">
@@ -74,6 +98,9 @@ export default function EditUserForm() {
                         type="radio"
                         name="verify"
                         value="true"
+                        onChange={(e) => {
+                          setFormData({ ...formData, verify: e.target.value });
+                        }}
                         className="form-check-input"
                         required
                       />
@@ -86,6 +113,9 @@ export default function EditUserForm() {
                         name="verify"
                         value="false"
                         className="form-check-input"
+                        onChange={(e) => {
+                          setFormData({ ...formData, verify: e.target.value });
+                        }}
                         required
                       />
                       <label className="form-check-label">Unverify</label>
@@ -100,6 +130,9 @@ export default function EditUserForm() {
                         name="role"
                         value="admin"
                         className="form-check-input"
+                        onChange={(e) => {
+                          setFormData({ ...formData, role: e.target.value });
+                        }}
                         required
                       />
                       <label className="form-check-label">admin</label>
@@ -111,6 +144,9 @@ export default function EditUserForm() {
                         name="role"
                         value="user"
                         className="form-check-input"
+                        onChange={(e) => {
+                          setFormData({ ...formData, role: e.target.value });
+                        }}
                         required
                       />
                       <label className="form-check-label">user</label>
@@ -121,8 +157,12 @@ export default function EditUserForm() {
                     <input
                       type="file"
                       name="image"
+                      value={formData.img}
                       className="form-control p-2"
                       placeholder="Upload  Picture:"
+                      onChange={(e) => {
+                        setFormData({ ...formData, img: e.target.files[0] });
+                      }}
                       required
                     />
                   </div>

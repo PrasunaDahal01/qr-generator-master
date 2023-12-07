@@ -26,12 +26,12 @@ async function sendEmail(email, title, body) {
   }
 }
 
-const sendPasswordMail = async (email, token) => {
+const sendPasswordMail = async (email, userId, token) => {
   const mailOptions = {
     from: "your-email@gmail.com",
     to: email,
     subject: "For Reset Password:",
-    html: `<p>Hello!! Please click  <a href = "http://localhost:3000/api/v1/auth/resetPassword?token=${token}">here </a>to reset your password.</p> `,
+    html: `<p>Hello!! Please click  <a href = "http://localhost:3000/api/v1/auth/resetPassword/${userId}/${token}">here </a>to reset your password.</p> `,
   };
   try {
     const mailResponse = transporter.sendMail(mailOptions);

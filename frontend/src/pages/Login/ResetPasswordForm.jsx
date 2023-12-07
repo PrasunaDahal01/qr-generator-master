@@ -1,7 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { resetPassword } from "../../adapters/Reset";
 
 export default function ResetPasswordForm() {
+  const [formData, setFormData] = useState({ password: "" });
+  const { id, token } = useParams();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    resetPassword(formData, id, token);
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -17,7 +25,12 @@ export default function ResetPasswordForm() {
                 <div className="py-1 header">
                   <h1 className="text-center">Reset Your Password:</h1>
                 </div>
-                <form action="" method="post" className="form">
+                <form
+                  action=""
+                  method="post"
+                  className="form"
+                  onSubmit={handleSubmit}
+                >
                   <input type="hidden" name="userId" value="<%= userId %>" />
 
                   <div className="py-3 mx-5">
@@ -28,6 +41,10 @@ export default function ResetPasswordForm() {
                       type="password"
                       name="password"
                       className="form-control p-2"
+                      value={formData.password}
+                      onChange={(e) => {
+                        setFormData({ password: e.target.value });
+                      }}
                       placeholder="Enter Your Password"
                       required
                     />

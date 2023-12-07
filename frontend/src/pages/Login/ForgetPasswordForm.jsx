@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { forgetPassword } from "../../adapters/Forget";
 
 export default function ForgetPasswordForm() {
+  const [formData, setFormData] = useState({ email: " " });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    forgetPassword(formData);
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -16,7 +22,12 @@ export default function ForgetPasswordForm() {
                 <div className="py-1 header">
                   <h1 className="text-center">Forgot Your Password?</h1>
                 </div>
-                <form action="" method="post" className="form">
+                <form
+                  action=""
+                  method="post"
+                  className="form"
+                  onSubmit={handleSubmit}
+                >
                   <div className="py-3 mx-5">
                     <label htmlFor="email" className="form-label">
                       Email:
@@ -25,9 +36,13 @@ export default function ForgetPasswordForm() {
                     <input
                       type="email"
                       name="email"
+                      value={formData.email}
                       className="form-control p-2"
                       placeholder="example@gmail.com"
                       required
+                      onChange={(e) => {
+                        setFormData({ email: e.target.value });
+                      }}
                     />
                   </div>
                   <div className="py-3 mx-5 text-center text-white">
