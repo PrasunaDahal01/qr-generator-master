@@ -51,7 +51,7 @@ export default function ChangePasswordForm() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button id="logOut" className="nav-link" onclick={logOut}>
+                <button id="logOut" className="nav-link" onClick={logOut}>
                   LogOut
                 </button>
               </li>

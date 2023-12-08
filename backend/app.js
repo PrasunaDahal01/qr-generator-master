@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-const port = 3000;
+const port = 3001;
 const bp = require("body-parser"); //for getting data //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 const cookieParser = require("cookie-parser");
 require("dotenv").config();

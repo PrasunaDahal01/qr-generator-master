@@ -30,6 +30,13 @@ h1 {
   color: #a8a196;
 }
 
+.imgBox .qrBody {
+  position: absolute;
+  border: 2px solid #ee4e66;
+  border-radius: 18px;
+  padding: 10px;
+}
+
 .button {
   background-color: #ce5a67;
   color: aliceblue;
@@ -45,6 +52,7 @@ h1 {
 }
 .form-control {
   border-color: #b0a695;
+  width: 100%;
 }
 
 .form-label {

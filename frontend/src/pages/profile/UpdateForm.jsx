@@ -51,7 +51,7 @@ export default function UpdateForm() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button className="nav-link" id="logOut" onclick={logOut}>
+                <button className="nav-link" id="logOut" onClick={logOut}>
                   LogOut
                 </button>
               </li>
@@ -70,7 +70,7 @@ export default function UpdateForm() {
                 </div>
                 <div className="py-3 mx-5" id="userImage">
                   <img
-                    src={`../../public/userImages/${formData.image}`}
+                    src={`../../userImages/${formData.image}`}
                     width="100px"
                     height="100px"
                     alt={formData.image}
@@ -81,7 +81,7 @@ export default function UpdateForm() {
                   action=""
                   method="post"
                   className="form"
-                  enctype="multipart/form-data"
+                  encType="multipart/form-data"
                   onSubmit={handleSubmit}
                 >
                   <div className="py-3 mx-5">
@@ -92,7 +92,7 @@ export default function UpdateForm() {
                       type="email"
                       name="email"
                       value={formData.email}
-                      class="form-control p-2"
+                      className="form-control p-2"
                       onChange={(e) => {
                         setFormData({ email: e.target.value });
                       }}
@@ -108,7 +108,11 @@ export default function UpdateForm() {
                       value={formData.image}
                       className="form-control p-2"
                       onChange={(e) => {
-                        setFormData({ ...formData, image: e.target.files[0] });
+                        const selectedFile = e.target.files;
+                        setFormData({
+                          ...formData,
+                          image: selectedFile || "",
+                        });
                       }}
                       placeholder="Upload picture"
                     />

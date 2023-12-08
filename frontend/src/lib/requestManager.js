@@ -1,12 +1,12 @@
 import { setAccessToken, getRefreshToken, getAccessToken } from "./storage";
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3000/";
+const API_BASE_URL = "http://localhost:3001/";
 
 const refreshTokens = async (refreshToken) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/api/v1/auth/regenerate",
+      "http://localhost:3001/api/v1/auth/regenerate",
       {
         refreshToken,
       }
@@ -14,7 +14,7 @@ const refreshTokens = async (refreshToken) => {
 
     setAccessToken(response.data.token);
   } catch (error) {
-    window.location.href = "http://localhost:3000/auth/login";
+    window.location.href = "http://localhost:3001/auth/login";
     throw error;
   }
 };
@@ -29,7 +29,7 @@ const errorInterceptor = async (error) => {
 
       return axios.request(error.config);
     } catch (error) {
-      window.location.href = "http://localhost:3000/auth/login";
+      window.location.href = "http://localhost:3001/auth/login";
 
       return Promise.reject(error);
     }

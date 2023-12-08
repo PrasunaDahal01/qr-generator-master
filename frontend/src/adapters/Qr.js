@@ -19,10 +19,11 @@ const pageLoad = async (setAdminRole) => {
   }
 };
 
-const getQrData = async (qrText, setMailButton, setMailInput, setQrImage) => {
-  if (!qrText.trim()) {
-    alert("Please enter your Email ID.");
+const getQrData = async (qrData, setMailButton, setMailInput, setQrImage) => {
+  if (!qrData.name.trim()) {
+    alert("Please enter your QrText");
   } else {
+    const qrText = qrData.name;
     try {
       const response = await post({
         endpoint: "/api/v1/qrs",
@@ -42,11 +43,12 @@ const getQrData = async (qrText, setMailButton, setMailInput, setQrImage) => {
   }
 };
 
-const getMailData = async (email, qrImage) => {
-  if (!email.trim()) {
+const getMailData = async (mailData, qrImage) => {
+  if (!mailData.email.trim()) {
     alert("Please enter your Email ID.");
   } else {
     try {
+      const email = mailData.email;
       await post({
         endpoint: "/api/v1/mails",
         headers: { "Content-Type": "application/json" },

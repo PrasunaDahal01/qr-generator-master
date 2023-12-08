@@ -45,7 +45,7 @@ export default function UserDetails() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button className="nav-link" id="logOut" onclick={logOut}>
+                <button id="logOut" className="nav-link" onClick={logOut}>
                   LogOut
                 </button>
               </li>
@@ -65,7 +65,7 @@ export default function UserDetails() {
                 <div>
                   <p>
                     <img
-                      src={`../../public/userImages/${formData.image}`}
+                      src={`../../userImages/${formData.image}`}
                       width="100px"
                       height="100px"
                       alt={formData.image}
