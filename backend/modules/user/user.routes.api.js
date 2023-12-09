@@ -1,11 +1,11 @@
-const userModel = require('./user.model');
-const router = require('express').Router();
-const userController = require('./user.controller');
-const otpController = require('../otp/otp.controller');
-const { auth } = require('../middlewares/authorization');
-const upload = require('../../services/multer/multer.service');
+const userModel = require("./user.model");
+const router = require("express").Router();
+const userController = require("./user.controller");
+const otpController = require("../otp/otp.controller");
+const { auth } = require("../middlewares/authorization");
+const upload = require("../../services/multer/multer.service");
 
-router.post('/sendOtp', async (req, res, next) => {
+router.post("/sendOtp", async (req, res, next) => {
   const email = req.body.email;
   try {
     const mailResult = await userController.sendOTP(email);
@@ -19,20 +19,20 @@ router.post('/sendOtp', async (req, res, next) => {
   }
 });
 
-router.post('/registers', upload.single('image'), async (req, res, next) => {
+router.post("/registers", upload.single("image"), async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const otp = req.body.otp;
-  const role = 'admin';
+  const role = "admin";
   const image = req.file.filename;
 
   try {
     const otpVerification = await otpController.verifyadminOTP(email, otp);
     if (!otpVerification || !otpVerification.success)
-      throw new Error('Invalid OTP');
+      throw new Error("Invalid OTP");
 
     if (!req.file) {
-      throw new Error('No file uploaded');
+      throw new Error("No file uploaded");
     }
 
     const registerResult = await userController.register(
@@ -52,22 +52,22 @@ router.post('/registers', upload.single('image'), async (req, res, next) => {
   }
 });
 
-router.get('/qrs', auth(), async (req, res, next) => {
+router.get("/qrs", auth(), async (req, res, next) => {
   res.status(200).json({ user: req.user });
 });
 
-router.get('/me', auth(), async (req, res, next) => {
+router.get("/me", auth(), async (req, res, next) => {
   res.status(200).json({ user: req.user });
 });
 
-router.get('/update', auth(), async (req, res, next) => {
+router.get("/update", auth(), async (req, res, next) => {
   try {
     res.status(200).json({ user: req.user });
   } catch (err) {
     next(err);
   }
 });
-router.get('/edit/:userId', auth('admin'), async (req, res, next) => {
+router.get("/edit/:userId", auth("admin"), async (req, res, next) => {
   try {
     const userId = req.params.userId;
     const user = await userController.editUserById(userId);
@@ -77,12 +77,12 @@ router.get('/edit/:userId', auth('admin'), async (req, res, next) => {
   }
 });
 
-router.put('/edit/:id', upload.single('image'), async (req, res, next) => {
+router.put("/edit/:id", upload.single("image"), async (req, res, next) => {
   try {
     const email = req.body.email;
     const user_id = req.params.id;
     const image = req.file ? req.file.filename : undefined;
-    console.log('image', image);
+
     const updateResult = await userController.updateProfile(
       email,
       user_id,
@@ -98,9 +98,9 @@ router.put('/edit/:id', upload.single('image'), async (req, res, next) => {
   }
 });
 
-router.get('/users', auth('admin'), async (req, res, next) => {
+router.get("/users", auth("admin"), async (req, res, next) => {
   try {
-    const userData = await userModel.find({ role: 'user', archived: false });
+    const userData = await userModel.find({ role: "user", archived: false });
 
     res.status(200).json({ user: userData });
   } catch (err) {
@@ -108,7 +108,7 @@ router.get('/users', auth('admin'), async (req, res, next) => {
   }
 });
 
-router.post('/add', upload.single('image'), async (req, res, next) => {
+router.post("/add", upload.single("image"), async (req, res, next) => {
   try {
     const email = req.body.email;
     const image = req.file.filename;
@@ -123,7 +123,7 @@ router.post('/add', upload.single('image'), async (req, res, next) => {
   }
 });
 
-router.put('/editUser/:id', upload.single('image'), async (req, res, next) => {
+router.put("/editUser/:id", upload.single("image"), async (req, res, next) => {
   try {
     const id = req.params.id;
     const email = req.body.email;
@@ -145,7 +145,7 @@ router.put('/editUser/:id', upload.single('image'), async (req, res, next) => {
   }
 });
 
-router.delete('/archive/:id', async (req, res, next) => {
+router.delete("/archive/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
 
@@ -157,11 +157,11 @@ router.delete('/archive/:id', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   const userId = req.params.id;
   const user = await userController.getUser(userId);
   if (!user) {
-    return res.status(404).json({ message: 'User not found' });
+    return res.status(404).json({ message: "User not found" });
   }
 
   res.json(user);

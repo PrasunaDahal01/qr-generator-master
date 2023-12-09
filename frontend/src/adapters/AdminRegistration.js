@@ -2,12 +2,19 @@ import { post } from "../lib/requestManager";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 async function handleRegistration(
-  data,
+  formData,
+  imageData,
   setFormData,
   setOtpBoxVisible,
   setOtpButton,
   setRegisterButton
 ) {
+  const data = {
+    email: formData.email,
+    password: formData.password,
+    image: imageData.image,
+    otp: formData.otp,
+  };
   if (!data.otp) {
     console.log("sendotp", data);
     await sendOtp(
@@ -39,13 +46,13 @@ async function sendOtp(
     const checkEmailResult = await response;
 
     if (checkEmailResult.success) {
+      showToast(checkEmailResult.message, "success");
       const receivedOtp = checkEmailResult.otp;
       setFormData((prevData) => ({ ...prevData, otp: receivedOtp }));
 
       setOtpBoxVisible(true);
       setOtpButton(true);
       setRegisterButton(false);
-      showToast(checkEmailResult.message, "success");
     } else {
       showToast(checkEmailResult.message, "error");
     }

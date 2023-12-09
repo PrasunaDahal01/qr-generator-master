@@ -21,7 +21,7 @@ export default function ChangePasswordForm() {
     const fetchData = async () => {
       try {
         const userId = await pageLoad();
-        setUserId(userId);
+        setUserId(userId._id);
       } catch (error) {
         console.error("Error fetching users:", error.message);
       }
@@ -101,7 +101,10 @@ export default function ChangePasswordForm() {
                       placeholder="Enter Your Password"
                       value={formData.newpassword}
                       onChange={(e) => {
-                        setFormData({ newpassword: e.target.value });
+                        setFormData({
+                          ...formData,
+                          newpassword: e.target.value,
+                        });
                       }}
                       required
                     />

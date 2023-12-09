@@ -1,14 +1,18 @@
 import { deleteUser, get } from "../lib/requestManager";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-async function deleteUsers(event, id) {
-  event.preventDefault();
+async function deleteUsers(id) {
   try {
-    await deleteUser({
+    const response = await deleteUser({
       endpoint: `/api/v1/users/archive/${id}`,
       headers: { "Content-Type": "application/json" },
       params: "data",
     });
+    if (response.success) {
+      showToast(response.message, "success");
+    } else {
+      showToast(response.message, "error");
+    }
 
     pageLoad();
   } catch (error) {

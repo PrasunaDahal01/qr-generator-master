@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { handleRegistration } from "../../../adapters/UserRegistration";
 
 export default function UserRegisterForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    image: "",
     otp: null,
   });
+  const [imageData, setImageData] = useState({ image: "" });
   const [otpBoxVisible, setOtpBoxVisible] = useState(false);
   const [otpButton, setOtpButton] = useState(false);
   const [registerButton, setRegisterButton] = useState(true);
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    console.log("formdata", formData);
-    handleRegistration(
+    await handleRegistration(
       formData,
+      imageData,
       setFormData,
       setOtpBoxVisible,
       setOtpButton,
@@ -44,7 +45,7 @@ export default function UserRegisterForm() {
                   action=""
                   method="post"
                   className="form"
-                  enctype="multipart/form-data"
+                  encType="multipart/form-data"
                   onSubmit={handleRegisterSubmit}
                 >
                   <div className="py-3 mx-5">
@@ -85,12 +86,11 @@ export default function UserRegisterForm() {
                     <input
                       type="file"
                       name="image"
-                      value={formData.image}
                       className="form-control p-2"
                       placeholder="Upload  Picture:"
                       required
                       onChange={(e) => {
-                        setFormData({ ...formData, image: e.target.value });
+                        setImageData({ image: e.target.files[0] });
                       }}
                     />
                   </div>
@@ -122,7 +122,7 @@ export default function UserRegisterForm() {
                   >
                     <input
                       type="Submit"
-                      className="btn text-white"
+                      className="btn button"
                       value="Submit"
                       id="registerOtpButton"
                     />

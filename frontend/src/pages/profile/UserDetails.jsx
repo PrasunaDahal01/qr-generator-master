@@ -65,7 +65,7 @@ export default function UserDetails() {
                 <div>
                   <p>
                     <img
-                      src={`../../userImages/${formData.image}`}
+                      src={`http://localhost:3001/public/userImages/${formData.image}`}
                       width="100px"
                       height="100px"
                       alt={formData.image}

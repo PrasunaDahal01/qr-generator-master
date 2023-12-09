@@ -22,6 +22,7 @@ router.post("/registers", upload.single("image"), async (req, res, next) => {
   const password = req.body.password;
   const otp = req.body.otp;
   const image = req.file.filename;
+
   try {
     const otpVerification = await otpController.verifyOTP(email, otp);
     if (!otpVerification || !otpVerification.success)
@@ -114,7 +115,8 @@ router.put("/changePassword/:id", async (req, res, next) => {
   try {
     const password = req.body.password;
     const newpassword = req.body.newpassword;
-    const user_id = req.params;
+    const user_id = req.params.id;
+
     const changeResult = await authController.changePassword(
       password,
       newpassword,

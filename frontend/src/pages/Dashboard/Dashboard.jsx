@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 
 import { pageLoad, deleteUsers } from "../../adapters/Dashboard";
 
@@ -23,7 +22,7 @@ export default function Dashboard() {
       }
     };
     getUsers();
-  }, []); //put the props userdata or something here
+  }, []);
 
   return (
     <div>
@@ -59,7 +58,10 @@ export default function Dashboard() {
 
       <div className="d-flex flex-column columnBox">
         <div className="addUser">
-          <Link to="/users/add" style={{ color: "#ed5169", fontWeight: 900 }}>
+          <Link
+            to="/users/addUser"
+            style={{ color: "#ed5169", fontWeight: 900 }}
+          >
             Add New User
           </Link>
         </div>
@@ -70,7 +72,7 @@ export default function Dashboard() {
               <th>Email</th>
               <th>Role</th>
               <th>Image</th>
-              <th>Verifed</th>
+              <th>Verified</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -81,7 +83,7 @@ export default function Dashboard() {
                 <td>{user.role}</td>
                 <td>
                   <img
-                    src={`/public/userImages/${user.image}`}
+                    src={`http://localhost:3001/public/userImages/${user.image}`}
                     alt={user.image}
                     width="100px"
                     height="100px"
@@ -105,7 +107,7 @@ export default function Dashboard() {
                       </svg>
                     </Link>
                     <button
-                      onclick={() => deleteUsers(user._id)}
+                      onClick={() => deleteUsers(user._id)}
                       style={{ color: "#ed5169" }}
                       class="archive-Link"
                     >

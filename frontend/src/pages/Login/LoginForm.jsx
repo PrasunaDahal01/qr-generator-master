@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 export default function LoginForm() {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login(formData);
+    await login(formData);
   };
 
   return (
@@ -57,7 +57,7 @@ export default function LoginForm() {
                       placeholder="example@gmail.com"
                       value={formData.email}
                       onChange={(e) => {
-                        setFormData({ email: e.target.value });
+                        setFormData({ ...formData, email: e.target.value });
                       }}
                       required
                     />

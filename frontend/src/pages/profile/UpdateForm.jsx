@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { pageLoad, updateProfile } from "../../adapters/Update";
 
 export default function UpdateForm() {
-  const [formData, setFormData] = useState({ email: "", image: "" });
+  const [emailData, setEmailData] = useState({ email: " " });
+  const [imageData, setImageData] = useState({ image: "" });
   const [userId, setUserId] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateProfile(userId, formData);
+    updateProfile(userId, emailData, imageData);
   };
   const logOut = async (e) => {
     e.preventDefault();
@@ -20,7 +21,8 @@ export default function UpdateForm() {
     const fetchData = async () => {
       try {
         const user = await pageLoad();
-        setFormData({ email: user.email, image: user.image });
+        setEmailData({ email: user.email });
+        setImageData({ image: user.image });
         setUserId(user._id);
       } catch (error) {
         console.error("Error fetching users:", error.message);
@@ -70,10 +72,10 @@ export default function UpdateForm() {
                 </div>
                 <div className="py-3 mx-5" id="userImage">
                   <img
-                    src={`../../userImages/${formData.image}`}
+                    src={`http://localhost:3001/public/userImages/${imageData.image}`}
                     width="100px"
                     height="100px"
-                    alt={formData.image}
+                    alt={imageData.image}
                   />
                 </div>
 
@@ -91,10 +93,13 @@ export default function UpdateForm() {
                     <input
                       type="email"
                       name="email"
-                      value={formData.email}
+                      value={emailData.email}
                       className="form-control p-2"
                       onChange={(e) => {
-                        setFormData({ email: e.target.value });
+                        setEmailData((prevFormData) => ({
+                          ...prevFormData,
+                          email: e.target.value,
+                        }));
                       }}
                       placeholder="example@gmail.com"
                       required
@@ -105,14 +110,12 @@ export default function UpdateForm() {
                     <input
                       type="file"
                       name="image"
-                      value={formData.image}
                       className="form-control p-2"
                       onChange={(e) => {
-                        const selectedFile = e.target.files;
-                        setFormData({
-                          ...formData,
-                          image: selectedFile || "",
-                        });
+                        setImageData((prevFormData) => ({
+                          ...prevFormData,
+                          image: e.target.files[0],
+                        }));
                       }}
                       placeholder="Upload picture"
                     />

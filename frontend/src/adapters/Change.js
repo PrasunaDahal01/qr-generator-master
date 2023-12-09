@@ -16,11 +16,16 @@ const pageLoad = async () => {
 
 const changePassword = async (userId, data) => {
   try {
-    await put({
+    const response = await put({
       endpoint: `/api/v1/auth/changePassword/${userId}`,
       headers: { "Content-Type": "application/json" },
       params: data,
     });
+    if (response.success) {
+      showToast(response.message, "success");
+    } else {
+      showToast(response.message, "error");
+    }
   } catch (error) {
     const errorMessage =
       error.response && error.response.data.message

@@ -6,17 +6,19 @@ export default function AdminRegisterForm() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    image: "",
     otp: null,
   });
+  const [imageData, setImageData] = useState({ image: "" });
   const [otpBoxVisible, setOtpBoxVisible] = useState(false);
   const [otpButton, setOtpButton] = useState(false);
   const [registerButton, setRegisterButton] = useState(true);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("register", formData);
     handleRegistration(
       formData,
+      imageData,
       setFormData,
       setOtpBoxVisible,
       setOtpButton,
@@ -84,12 +86,11 @@ export default function AdminRegisterForm() {
                     <input
                       type="file"
                       name="image"
-                      value={formData.image}
                       className="form-control p-2"
                       placeholder="Upload  Picture:"
                       required
                       onChange={(e) => {
-                        setFormData({ ...formData, image: e.target.value });
+                        setImageData({ image: e.target.files[0] });
                       }}
                     />
                   </div>
@@ -121,7 +122,7 @@ export default function AdminRegisterForm() {
                   >
                     <input
                       type="Submit"
-                      className="btn text-white"
+                      className="btn button"
                       value="Submit"
                       id="registerOtpButton"
                     />

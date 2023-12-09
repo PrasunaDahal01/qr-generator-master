@@ -14,13 +14,19 @@ const pageLoad = async () => {
   }
 };
 
-const updateProfile = async (userId, data) => {
+const updateProfile = async (userId, emailData, imageData) => {
+  const data = { email: emailData.email, image: imageData.image };
   try {
-    await put({
+    const response = await put({
       endpoint: `/api/v1/users/edit/${userId}`,
       headers: { "Content-Type": "multipart/form-data" },
       params: data,
     });
+    if (response.success) {
+      showToast(response.message, "success");
+    } else {
+      showToast(response.message, "error");
+    }
   } catch (error) {
     const errorMessage =
       error.response && error.response.data.message
