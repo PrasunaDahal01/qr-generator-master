@@ -1,26 +1,25 @@
 import { get, put } from "../lib/requestManager";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const pageLoad = async (userId, setFormData, setUserId) => {
+const pageLoad = async (userId) => {
   try {
     const response = await get({
       endpoint: `/api/v1/users/edit/${userId}`,
       headers: { "Content-Type": "application/json" },
     });
-    const user = response.user;
-    setFormData({
-      email: user.email,
-      verify: user.verify,
-      role: user.role,
-      img: user.img,
-    });
-    setUserId({ userId: user._id });
+    return response.user;
   } catch (error) {
     throw error;
   }
 };
 
-const editUser = async (userId, data) => {
+const editUser = async (userId, formData, imageData) => {
+  const data = {
+    email: formData.email,
+    verify: formData.verify,
+    role: formData.role,
+    image: imageData.image,
+  };
   try {
     const response = await put({
       endpoint: `/api/v1/users/editUser/${userId}`,

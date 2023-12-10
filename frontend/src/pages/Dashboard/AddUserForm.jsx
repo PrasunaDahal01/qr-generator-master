@@ -4,15 +4,18 @@ import { addUser } from "../../adapters/Add";
 
 export default function AddUserForm() {
   const [formData, setFormData] = useState({ email: "", image: "" });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     addUser(formData);
   };
+
   const logOut = async (e) => {
     e.preventDefault();
     localStorage.clear();
     window.location.href = "http://localhost:3000/auth/login";
   };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">

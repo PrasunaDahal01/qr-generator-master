@@ -7,9 +7,12 @@ export default function UpdateForm() {
   const [imageData, setImageData] = useState({ image: "" });
   const [userId, setUserId] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     updateProfile(userId, emailData, imageData);
+    const user = await pageLoad();
+    setEmailData({ email: user.email });
+    setImageData({ image: user.image });
   };
   const logOut = async (e) => {
     e.preventDefault();

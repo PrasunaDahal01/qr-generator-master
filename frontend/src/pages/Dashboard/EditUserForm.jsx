@@ -5,15 +5,15 @@ import { pageLoad, editUser } from "../../adapters/Edit";
 export default function EditUserForm() {
   const [formData, setFormData] = useState({
     email: "",
-    verify: "",
+    verify: false,
     role: "",
-    img: "",
   });
+  const [imageData, setImageData] = useState({ image: "" });
   const [userId, setUserId] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    editUser(userId, formData);
+    editUser(userId, formData, imageData);
   };
   const logOut = async (e) => {
     e.preventDefault();
@@ -21,11 +21,21 @@ export default function EditUserForm() {
     window.location.href = "http://localhost:3000/auth/login";
   };
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get("id");
-    setUserId(userId);
-    pageLoad(userId, setFormData, setUserId);
-  }, []); //put the props userdata or something here
+    const fetchData = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get("id");
+      setUserId(userId);
+      const userData = await pageLoad(userId);
+
+      setFormData({
+        email: userData.email,
+        verify: userData.is_verified,
+        role: userData.role,
+      });
+      setImageData({ image: userData.image });
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -50,7 +60,7 @@ export default function EditUserForm() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <button className="nav-link" id="logOut" onclick={logOut}>
+                <button className="nav-link" id="logOut" onClick={logOut}>
                   LogOut
                 </button>
               </li>
@@ -83,7 +93,10 @@ export default function EditUserForm() {
                       name="email"
                       value={formData.email}
                       onChange={(e) => {
-                        setFormData({ email: e.target.value });
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          email: e.target.value,
+                        }));
                       }}
                       className="form-control"
                       placeholder="Enter Email"
@@ -98,8 +111,12 @@ export default function EditUserForm() {
                         type="radio"
                         name="verify"
                         value="true"
+                        checked={formData.verify === true}
                         onChange={(e) => {
-                          setFormData({ ...formData, verify: e.target.value });
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            verify: e.target.value === "true",
+                          }));
                         }}
                         className="form-check-input"
                         required
@@ -112,9 +129,13 @@ export default function EditUserForm() {
                         type="radio"
                         name="verify"
                         value="false"
+                        checked={formData.verify === false}
                         className="form-check-input"
                         onChange={(e) => {
-                          setFormData({ ...formData, verify: e.target.value });
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            verify: e.target.value === "true",
+                          }));
                         }}
                         required
                       />
@@ -129,9 +150,13 @@ export default function EditUserForm() {
                         type="radio"
                         name="role"
                         value="admin"
+                        checked={formData.role === "admin"}
                         className="form-check-input"
                         onChange={(e) => {
-                          setFormData({ ...formData, role: e.target.value });
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            role: e.target.value,
+                          }));
                         }}
                         required
                       />
@@ -144,11 +169,16 @@ export default function EditUserForm() {
                         name="role"
                         value="user"
                         className="form-check-input"
+                        checked={formData.role === "user"}
                         onChange={(e) => {
-                          setFormData({ ...formData, role: e.target.value });
+                          setFormData((prevData) => ({
+                            ...prevData,
+                            role: e.target.value,
+                          }));
                         }}
                         required
                       />
+
                       <label className="form-check-label">user</label>
                     </div>
                   </div>
@@ -157,11 +187,13 @@ export default function EditUserForm() {
                     <input
                       type="file"
                       name="image"
-                      value={formData.img}
                       className="form-control p-2"
                       placeholder="Upload  Picture:"
                       onChange={(e) => {
-                        setFormData({ ...formData, img: e.target.files[0] });
+                        setImageData((prevData) => ({
+                          ...prevData,
+                          image: e.target.files[0],
+                        }));
                       }}
                       required
                     />
