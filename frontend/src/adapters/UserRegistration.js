@@ -1,12 +1,20 @@
 import { post } from "../lib/requestManager";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+async function regenerateOtp(data) {
+  await post({
+    endpoint: "/api/v1/otp/generate",
+    headers: { "Content-Type": "application/json" },
+    params: data,
+  });
+}
+
 async function handleRegistration(
   formData,
   imageData,
   setFormData,
   setOtpBoxVisible,
-  setOtpButton,
   setRegisterButton
 ) {
   const data = {
@@ -17,25 +25,13 @@ async function handleRegistration(
   };
   if (!data.otp) {
     console.log("sendotp", data);
-    await sendOtp(
-      data,
-      setFormData,
-      setOtpBoxVisible,
-      setOtpButton,
-      setRegisterButton
-    );
+    await sendOtp(data, setFormData, setOtpBoxVisible, setRegisterButton);
   } else {
     await registerUser(data);
   }
 }
 
-async function sendOtp(
-  data,
-  setFormData,
-  setOtpBoxVisible,
-  setOtpButton,
-  setRegisterButton
-) {
+async function sendOtp(data, setFormData, setOtpBoxVisible, setRegisterButton) {
   try {
     const response = await post({
       endpoint: "/api/v1/auth/sendOtp",
@@ -50,7 +46,6 @@ async function sendOtp(
       const receivedOtp = checkEmailResult.otp;
       setFormData((prevData) => ({ ...prevData, otp: receivedOtp }));
       setOtpBoxVisible(true);
-      setOtpButton(true);
       setRegisterButton(false);
     } else {
       showToast(response.message, "error");
@@ -94,4 +89,4 @@ function showToast(message, type) {
     toast.dismiss();
   }, 3000);
 }
-export { handleRegistration };
+export { handleRegistration, regenerateOtp };

@@ -1,0 +1,78 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "poppins";
+}
+
+.navbar {
+  background-color: #f9f9e0;
+  border-bottom: 2px solid #ef7b8d;
+}
+
+.logo {
+  color: rgb(68, 68, 68);
+}
+
+.navbar-toggler {
+  background-color: #f9f9e0;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: rgb(68, 68, 68);
+  font-weight: 900;
+  text-decoration: none;
+  margin-right: 15px;
+}
+
+.navbar-collapse {
+  justify-content: flex-end;
+}
+
+nav i {
+  font-size: 25px;
+  color: rgb(68, 68, 68);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+nav i:hover {
+  color: #ef7b8d;
+}
+.form-box {
+  background-color: #f3eeea;
+}
+.navbar-nav .nav-item .nav-link:hover {
+  color: #ef7b8d;
+}
+
+body {
+  background-color: #ebe3d5;
+}
+
+h1 {
+  color: #ed5169;
+  font-weight: 600;
+}
+.button {
+  background-color: #ce5a67;
+  color: aliceblue;
+  font-weight: 600;
+  border-radius: 15px;
+  padding: 10px 30px;
+}
+
+.button:hover {
+  color: #ee4e66;
+  background-color: aliceblue;
+  border-color: #ed5169;
+}
+
+.form-control {
+  border-color: #b0a695;
+}
+
+.form-label {
+  color: #ee4e66;
+  font-weight: 600;
+}

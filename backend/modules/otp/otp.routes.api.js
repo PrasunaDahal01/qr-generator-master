@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const otpController = require("./otp.controller");
 
-router.post("/", async (req, res, next) => {
-  const { email } = req.body;
+router.post("/generate", async (req, res, next) => {
+  const email = req.body.email;
+  console.log(email);
   try {
     const result = await otpController.sendOtp(email);
     res.json({

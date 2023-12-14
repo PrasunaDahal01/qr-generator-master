@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { handleRegistration } from "../../../adapters/UserRegistration";
+import {
+  handleRegistration,
+  regenerateOtp,
+} from "../../../adapters/UserRegistration";
 
 export default function UserRegisterForm() {
   const [formData, setFormData] = useState({
@@ -10,8 +13,9 @@ export default function UserRegisterForm() {
     otp: null,
   });
   const [imageData, setImageData] = useState({ image: "" });
+  const [minutes, setMinutes] = useState(5);
+  const [seconds, setSeconds] = useState(15);
   const [otpBoxVisible, setOtpBoxVisible] = useState(false);
-  const [otpButton, setOtpButton] = useState(false);
   const [registerButton, setRegisterButton] = useState(true);
 
   const handleRegisterSubmit = async (e) => {
@@ -21,10 +25,35 @@ export default function UserRegisterForm() {
       imageData,
       setFormData,
       setOtpBoxVisible,
-      setOtpButton,
       setRegisterButton
     );
   };
+
+  const resendOTP = async () => {
+    setMinutes(5);
+    setSeconds(5);
+    await regenerateOtp({ email: formData.email });
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+      }
+
+      if (seconds === 0) {
+        if (minutes === 0) {
+          clearInterval(interval);
+        } else {
+          setSeconds(59);
+          setMinutes(minutes - 1);
+        }
+      }
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  });
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
@@ -114,11 +143,38 @@ export default function UserRegisterForm() {
                       }}
                     />
                   </div>
+                  <div
+                    className="py-3 mx-5 countdown-text"
+                    style={{ display: otpBoxVisible ? "block" : "none" }}
+                  >
+                    {seconds > 0 || minutes > 0 ? (
+                      <p style={{ color: "grey" }}>
+                        Time Remaining:
+                        <span style={{ color: "#ed5169" }}>
+                          {minutes < 10 ? `0${minutes}` : minutes}:
+                          {seconds < 10 ? `0${seconds}` : seconds}
+                        </span>
+                      </p>
+                    ) : (
+                      <p style={{ color: "grey" }}>Didn't receive code?</p>
+                    )}
+                    <button
+                      className="btn button text-white"
+                      disabled={seconds > 0 || minutes > 0}
+                      style={{
+                        color:
+                          seconds > 0 || minutes > 0 ? "#dfe3e8" : "#ff5630",
+                      }}
+                      onClick={resendOTP}
+                    >
+                      resend OTP
+                    </button>
+                  </div>
 
                   <div
                     className="py-3 mx-5 text-center text-white"
                     id="submitOtpButton"
-                    style={{ display: otpButton ? "block" : "none" }}
+                    style={{ display: otpBoxVisible ? "block" : "none" }}
                   >
                     <input
                       type="Submit"

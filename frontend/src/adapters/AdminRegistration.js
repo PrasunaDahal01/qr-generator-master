@@ -6,7 +6,6 @@ async function handleRegistration(
   imageData,
   setFormData,
   setOtpBoxVisible,
-  setOtpButton,
   setRegisterButton
 ) {
   const data = {
@@ -16,26 +15,13 @@ async function handleRegistration(
     otp: formData.otp,
   };
   if (!data.otp) {
-    console.log("sendotp", data);
-    await sendOtp(
-      data,
-      setFormData,
-      setOtpBoxVisible,
-      setOtpButton,
-      setRegisterButton
-    );
+    await sendOtp(data, setFormData, setOtpBoxVisible, setRegisterButton);
   } else {
     await registerUser(data);
   }
 }
 
-async function sendOtp(
-  data,
-  setFormData,
-  setOtpBoxVisible,
-  setOtpButton,
-  setRegisterButton
-) {
+async function sendOtp(data, setFormData, setOtpBoxVisible, setRegisterButton) {
   try {
     const response = await post({
       endpoint: "/api/v1/users/sendOtp",
@@ -51,7 +37,6 @@ async function sendOtp(
       setFormData((prevData) => ({ ...prevData, otp: receivedOtp }));
 
       setOtpBoxVisible(true);
-      setOtpButton(true);
       setRegisterButton(false);
     } else {
       showToast(checkEmailResult.message, "error");

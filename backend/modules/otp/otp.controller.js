@@ -21,7 +21,13 @@ async function sendOtp(email) {
     result = await otpModel.findOne({ otp: otp });
   }
 
-  const otpPayload = { email, otp };
+  const expirationTime = 3 * 60 * 1000;
+
+  const otpPayload = {
+    email,
+    otp,
+    expiresAt: new Date(Date.now() + expirationTime),
+  };
   await otpModel.create(otpPayload);
   return {
     success: true,
@@ -57,12 +63,18 @@ async function sendadminOtp(email) {
 
 async function verifyOTP(email, otp) {
   const otpRecord = await otpModel.findOne({ email: email, otp: otp });
-  if (otpRecord) {
-    await otpModel.deleteOne({ email, otp });
-    return {
-      success: true,
-    };
+  if (!otpRecord) {
+    throw new Error("Invalid OTP");
   }
+  const currentTime = new Date.now();
+  if (currentTime > otpRecord.expiresAt) {
+    throw new Error("OTP has expired");
+  }
+
+  await otpModel.deleteOne({ email, otp });
+  return {
+    success: true,
+  };
 }
 
 async function verifyadminOTP(email, otp) {

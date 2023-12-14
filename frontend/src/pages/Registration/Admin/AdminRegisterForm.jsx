@@ -10,18 +10,16 @@ export default function AdminRegisterForm() {
   });
   const [imageData, setImageData] = useState({ image: "" });
   const [otpBoxVisible, setOtpBoxVisible] = useState(false);
-  const [otpButton, setOtpButton] = useState(false);
   const [registerButton, setRegisterButton] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("register", formData);
+
     handleRegistration(
       formData,
       imageData,
       setFormData,
       setOtpBoxVisible,
-      setOtpButton,
       setRegisterButton
     );
   };
@@ -118,7 +116,7 @@ export default function AdminRegisterForm() {
                   <div
                     className="py-3 mx-5 text-center text-white"
                     id="submitOtpButton"
-                    style={{ display: otpButton ? "block" : "none" }}
+                    style={{ display: otpBoxVisible ? "block" : "none" }}
                   >
                     <input
                       type="Submit"
