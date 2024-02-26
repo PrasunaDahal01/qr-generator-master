@@ -1,0 +1,45 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "poppins";
+}
+body {
+  background-color: hsl(216, 69%, 20%);
+}
+.box {
+  margin-top: 120px;
+}
+
+.Container {
+  background-color: #f1e6be;
+  border-radius: 20px;
+  padding: 30px;
+}
+
+.custom-row {
+  padding: 10px;
+}
+
+.header {
+  background-color: #f1e6be;
+}
+
+h1 {
+  color: #102c57;
+  font-weight: 600;
+}
+.btn {
+  background-color: #e25e3e;
+  font-weight: 600;
+  border-radius: 15px;
+  padding: 10px 30px;
+}
+.form-control {
+  border-color: #e25e3e;
+}
+
+.form-label {
+  color: #102c57;
+  font-weight: 600;
+}

@@ -1,0 +1,40 @@
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+const userSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+
+  password: {
+    type: String,
+    select: false,
+    required: true,
+  },
+
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
+
+  is_verified: {
+    type: Boolean,
+    default: false, //for email verification
+  },
+
+  token: {
+    type: String,
+    default: "",
+  },
+
+  status: {
+    type: String,
+    enum: ["active", "archived"],
+    default: "active",
+  },
+});
+
+module.exports = mongoose.model("userRegisters", userSchema);
