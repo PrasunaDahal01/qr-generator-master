@@ -1,0 +1,98 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "poppins";
+}
+body {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  background-color: #ebe3d5;
+}
+
+.form-box {
+  background-color: #f3eeea;
+  width: 500px;
+}
+.user-icon {
+  color: #ef7b8d;
+}
+
+h1 {
+  color: #ed5169;
+  font-weight: 600;
+}
+
+.form-control::placeholder {
+  color: #a8a196;
+}
+
+.imgBox .qrBody {
+  position: absolute;
+  border: 2px solid #ee4e66;
+  border-radius: 18px;
+  padding: 10px;
+}
+
+.button {
+  background-color: #ce5a67;
+  color: aliceblue;
+  font-weight: 600;
+  border-radius: 15px;
+  padding: 10px 30px;
+}
+
+.button:hover {
+  color: #ee4e66;
+  background-color: aliceblue;
+  border-color: #ed5169;
+}
+.form-control {
+  border-color: #b0a695;
+  width: 100%;
+}
+
+.form-label {
+  color: #ee4e66;
+  font-weight: 600;
+}
+
+.addUser {
+  margin-bottom: 30px;
+}
+.addUser a {
+  color: #f1e6be;
+}
+
+/*navbar*/
+.navbar {
+  background-color: #f9f9e0;
+  border-bottom: 2px solid #ef7b8d;
+}
+
+nav i {
+  font-size: 25px;
+  color: rgb(68, 68, 68);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+nav i:hover {
+  color: #ef7b8d;
+}
+
+.logo {
+  color: rgb(68, 68, 68);
+}
+
+.navbar-toggler {
+  background-color: #f9f9e0;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: rgb(68, 68, 68);
+  font-weight: 900;
+}
