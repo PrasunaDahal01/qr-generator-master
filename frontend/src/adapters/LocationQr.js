@@ -28,9 +28,9 @@ const getQrData = async (qrData, setMailButton, setMailInput, setQrImage) => {
     const qrText = qrData.name;
     try {
       const response = await post({
-        endpoint: "/api/v1/qrs",
+        endpoint: "/api/v1/qrs/location",
         headers: { "Content-Type": "application/json" },
-        params: { name: qrText },
+        params: { location: qrText },
       });
 
       const data = await response;

@@ -96,3 +96,16 @@ nav i:hover {
   color: rgb(68, 68, 68);
   font-weight: 900;
 }
+.top-buttons {
+  border-radius: 0;
+  background-color: #ee4e66;
+}
+.button-text {
+  color: #f3eeea;
+  font-weight: 600;
+}
+
+.active {
+  background-color: #ee4e66 !important;
+  color: #fff !important;
+}

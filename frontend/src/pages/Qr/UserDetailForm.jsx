@@ -5,7 +5,7 @@ import {
   getQrData,
   getMailData,
   changeImageSize,
-} from "../../adapters/Qr";
+} from "../../adapters/UserQr";
 
 export default function QrForm() {
   const [activeButton, setActiveButton] = useState(null);
@@ -15,7 +15,9 @@ export default function QrForm() {
   };
   const [qrData, setqrData] = useState({
     name: "",
-    img: "",
+    contact: "",
+    profession: "",
+    email: "",
   });
   const [mailData, setmailData] = useState({
     email: "",
@@ -106,7 +108,7 @@ export default function QrForm() {
       </nav>
       <div
         className="container pt-5 "
-        style={{ width: "800px", marginTop: "30px" }}
+        style={{ width: "800px", marginTop: "5px" }}
       >
         <div className="row mt-3">
           <div className="col-md-8 mx-auto d-flex">
@@ -180,17 +182,60 @@ export default function QrForm() {
                 <div className="py-1 header text-center">
                   <h1>QR Code Generator</h1>
                 </div>
-                <form className="form">
+                <form className="form" encType="multipart/form-data">
                   <div className="py-3 mx-5">
-                    <textarea
+                    <input
+                      type="text"
                       name="name"
-                      placeholder="Type your text here."
-                      id="qrText"
-                      required
-                      className="form-control p-2"
+                      placeholder="Your Name"
+                      className="form-control p-2 my-3"
                       value={qrData.name}
                       onChange={(e) => {
-                        setqrData({ name: e.target.value });
+                        setqrData((prevData) => ({
+                          ...prevData,
+                          name: e.target.value,
+                        }));
+                      }}
+                    />
+                    <input
+                      type="text"
+                      name="contact"
+                      placeholder="Your Contact Number"
+                      className="form-control p-2 my-3"
+                      value={qrData.contact}
+                      onChange={(e) => {
+                        setqrData((prevData) => ({
+                          ...prevData,
+                          contact: e.target.value,
+                        }));
+                      }}
+                    />
+
+                    <input
+                      type="text"
+                      name="profession"
+                      placeholder="Your Profession"
+                      className="form-control p-2 my-3"
+                      value={qrData.profession}
+                      onChange={(e) => {
+                        setqrData((prevData) => ({
+                          ...prevData,
+                          profession: e.target.value,
+                        }));
+                      }}
+                    />
+
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Your Email"
+                      className="form-control p-2 my-3"
+                      value={qrData.email}
+                      onChange={(e) => {
+                        setqrData((prevData) => ({
+                          ...prevData,
+                          email: e.target.value,
+                        }));
                       }}
                     />
                   </div>

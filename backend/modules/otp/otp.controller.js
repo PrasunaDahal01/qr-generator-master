@@ -66,7 +66,7 @@ async function verifyOTP(email, otp) {
   if (!otpRecord) {
     throw new Error("Invalid OTP");
   }
-  const currentTime = new Date.now();
+  const currentTime = Date.now();
   if (currentTime > otpRecord.expiresAt) {
     throw new Error("OTP has expired");
   }

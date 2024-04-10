@@ -89,7 +89,8 @@ router.post("/forgetPassword", async (req, res, next) => {
 
 router.post("/resetPassword/:id/:token", async (req, res, next) => {
   try {
-    const { userId, token } = req.params;
+    const userId = req.params.id;
+    const token = req.params.token;
     const password = req.body.password;
 
     const resetPass = await authController.resetPassword(
