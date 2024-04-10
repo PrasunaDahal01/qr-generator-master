@@ -22,29 +22,29 @@ const pageLoad = async (setAdminRole) => {
 };
 
 const getQrData = async (qrData, setMailButton, setMailInput, setQrImage) => {
-  if (!qrData.name.trim()) {
-    alert("Please enter your QrText");
-  } else {
-    const qrText = qrData.name;
-    try {
-      const response = await post({
-        endpoint: "/api/v1/qrs",
-        headers: { "Content-Type": "application/json" },
-        params: { name: qrText },
-      });
+  try {
+    const formData = new FormData();
+    formData.append("name", qrData.name);
+    formData.append("contact", qrData.contact);
+    formData.append("profession", qrData.profession);
+    formData.append("email", qrData.email);
 
-      const data = await response;
+    const response = await post({
+      endpoint: "/api/v1/qrs/userDetails",
+      headers: { "Content-Type": "application/json" },
+      params: formData,
+    });
 
-      setQrImage(data.qr);
+    const data = await response;
 
-      setMailInput(true);
-      setMailButton(true);
-    } catch (error) {
-      throw error;
-    }
+    setQrImage(data.qr);
+
+    setMailInput(true);
+    setMailButton(true);
+  } catch (error) {
+    throw error;
   }
 };
-
 const getMailData = async (mailData, qrImage) => {
   if (!mailData.email.trim()) {
     alert("Please enter your Email ID.");

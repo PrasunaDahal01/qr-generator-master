@@ -182,9 +182,10 @@ export default function QrForm() {
                 </div>
                 <form className="form">
                   <div className="py-3 mx-5">
-                    <textarea
+                    <input
+                      type="text"
                       name="name"
-                      placeholder="Type your text here."
+                      placeholder="Type your URL here."
                       id="qrText"
                       required
                       className="form-control p-2"

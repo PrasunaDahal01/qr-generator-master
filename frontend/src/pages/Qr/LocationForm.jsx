@@ -5,7 +5,7 @@ import {
   getQrData,
   getMailData,
   changeImageSize,
-} from "../../adapters/Qr";
+} from "../../adapters/LocationQr";
 
 export default function QrForm() {
   const [activeButton, setActiveButton] = useState(null);
@@ -184,7 +184,7 @@ export default function QrForm() {
                   <div className="py-3 mx-5">
                     <textarea
                       name="name"
-                      placeholder="Type your text here."
+                      placeholder="Type your location"
                       id="qrText"
                       required
                       className="form-control p-2"

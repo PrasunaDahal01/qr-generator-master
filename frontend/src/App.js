@@ -1,9 +1,13 @@
 import QrForm from "./pages/Qr/QrForm";
+import URLForm from "./pages/Qr/URLForm";
+import SocialMediaForm from "./pages/Qr/SociaQRForm";
+import LocationForm from "./pages/Qr/LocationForm";
 import LoginForm from "./pages/Login/LoginForm";
 import UpdateForm from "./pages/profile/UpdateForm";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import NotFoundPage from "./Components/NotFoundPage";
 import UserDetails from "./pages/profile/UserDetails";
+import UserDetailForm from "./pages/Qr/UserDetailForm";
 import AddUserForm from "./pages/Dashboard/AddUserForm";
 import EditUserForm from "./pages/Dashboard/EditUserForm";
 import ResetPasswordForm from "./pages/Login/ResetPasswordForm";
@@ -39,6 +43,11 @@ function App() {
           <Route path="editUser" element={<EditUserForm />} />
         </Route>
         <Route path="/qrs" element={<QrForm />} />
+        <Route path="/urls" element={<URLForm />} />
+        <Route path="/user-details" element={<UserDetailForm />} />
+        <Route path="/location" element={<LocationForm />} />
+        <Route path="/socialmedia" element={<SocialMediaForm />} />
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
